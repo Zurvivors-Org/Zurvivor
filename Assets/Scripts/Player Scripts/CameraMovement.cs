@@ -14,7 +14,7 @@ public class CameraMovement : MonoBehaviour{
         yOffset = transform.position.y - playerModel.transform.position.y;
     }
     void Update(){
-        rotation.y += Mathf.Clamp(Input.GetAxis(yMouseAxis) * cameraSensitivity, -yCameraLimit, yCameraLimit);
+        rotation.y = Mathf.Clamp(Input.GetAxis(yMouseAxis) * cameraSensitivity + rotation.y, -yCameraLimit, yCameraLimit);
         rotation.x += Input.GetAxis(xMouseAxis) * cameraSensitivity;
         transform.localRotation = Quaternion.AngleAxis(rotation.x, Vector3.up) * Quaternion.AngleAxis(rotation.y, Vector3.left);
 
