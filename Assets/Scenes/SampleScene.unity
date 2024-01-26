@@ -518,7 +518,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedModifier: 5
   topVelocity: {x: 3, y: 0, z: 3}
-  deceleration: {x: 1, y: 0, z: 1}
+  topAcceleration: {x: 5, y: 0, z: 5}
   fpCamera: {fileID: 963194228}
 --- !u!54 &1068159866
 Rigidbody:
