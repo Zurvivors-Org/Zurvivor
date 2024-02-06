@@ -3,22 +3,99 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour{
-    private Vector2 movementVector;
-    private Rigidbody rigidBody;
-    [SerializeField] private float speedModifier = 1f;
-    [SerializeField] private Vector3 topVelocity = new Vector3(3f, 0f, 3f);
-    [SerializeField] private Transform fpCamera;
+    const string xAxis = "Horizontal";
+    const string yAxis = "Vertical";
+
+    [Header("Movement")]
+    public float moveSpeed = 1f;
+
+    public float groundDrag;
+
+    public float jumpForce;
+    public float jumpCooldown;
+    public float airMultiplier;
+    private bool readyToJump;
+
+    [Header("Keybinds")]
+    public KeyCode jumpKey;
+
+    [Header("Ground Check")]
+    public float playerHeight;
+    public LayerMask whatIsGround;
+    private bool grounded;
+
+    private float horizontalInput;
+    private float verticalInput;
+
+    private Vector3 moveDirection;
+
+    private Rigidbody rb;
+
+    [SerializeField] private Transform orientation;
     void Start(){
-        rigidBody = GetComponent<Rigidbody>();
-        movementVector = Vector2.zero;
+        rb = GetComponent<Rigidbody>();
+        rb.freezeRotation = true;
+
+        readyToJump = true;
+    }
+
+    void Update() {
+        grounded = Physics.Raycast(transform.position + new Vector3(0f, 0.05f, 0f), Vector3.down, playerHeight * .5f + .2f, whatIsGround);
+
+        UpdateInput();
+        SpeedControl();
+
+        if (grounded) {
+            rb.drag = groundDrag;
+        }
+        else {
+            rb.drag = 0f;
+        }
     }
 
     void FixedUpdate(){
-        //transform.rotation = new Quaternion(0f, fpCamera.rotation.y, 0f, fpCamera.rotation.w);
-        movementVector.x = Input.GetAxis("Horizontal") * speedModifier;
-        movementVector.x = Mathf.Clamp(movementVector.x + rigidBody.velocity.x, -topVelocity.x, topVelocity.x) - rigidBody.velocity.x;
-        movementVector.y = Input.GetAxis("Vertical") * speedModifier;
-        movementVector.y = Mathf.Clamp(movementVector.y + rigidBody.velocity.z, -topVelocity.z, topVelocity.z) - rigidBody.velocity.z;
-        rigidBody.AddForce(movementVector.x * transform.right + movementVector.y * transform.forward, ForceMode.VelocityChange);
+        MovePlayer();
+    }
+
+    private void UpdateInput() {
+        horizontalInput = Input.GetAxisRaw(xAxis);
+        verticalInput = Input.GetAxisRaw(yAxis);
+        if(Input.GetKeyDown(jumpKey) && readyToJump && grounded) {
+            readyToJump = false;
+
+            Jump();
+
+            Invoke(nameof(ResetJump), jumpCooldown);
+        }
+    }
+
+    private void MovePlayer() {
+        moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
+
+        if (grounded) {
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+        }
+        else {
+            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+        }
+    }
+
+    private void SpeedControl() {
+        Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+        if(flatVel.magnitude > moveSpeed) {
+            Vector3 limitedVel = flatVel.normalized * moveSpeed;
+            rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
+        }
+    }
+
+    private void Jump() {
+        rb.velocity = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
+
+        rb.AddForce(transform.up * jumpForce, ForceMode.Impulse);
+    }
+
+    private void ResetJump() {
+        readyToJump = true;
     }
 }

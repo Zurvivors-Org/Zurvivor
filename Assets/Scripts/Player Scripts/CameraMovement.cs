@@ -5,19 +5,25 @@ using UnityEngine;
 public class CameraMovement : MonoBehaviour{
     const string xMouseAxis = "Mouse X";
     const string yMouseAxis = "Mouse Y";
-    private Vector2 rotation = Vector2.zero;
-    private float yOffset;
-    private float yCameraLimit = 88;
-    [SerializeField] private GameObject playerModel;
+    private float xCameraLimit = 88;
+    private float xRotation = 0f;
+    private float yRotation = 0f;
+    [SerializeField] private Transform orientation;
     [SerializeField] private float cameraSensitivity = 1f;
     void Start(){
-        yOffset = transform.position.y - playerModel.transform.position.y;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
     void Update(){
-        rotation.y = Mathf.Clamp(Input.GetAxis(yMouseAxis) * cameraSensitivity + rotation.y, -yCameraLimit, yCameraLimit);
-        rotation.x += Input.GetAxis(xMouseAxis) * cameraSensitivity;
-        transform.localRotation = Quaternion.AngleAxis(rotation.x, Vector3.up) * Quaternion.AngleAxis(rotation.y, Vector3.left);
+        float mouseX = Input.GetAxisRaw(xMouseAxis) * Time.deltaTime * cameraSensitivity;
+        float mouseY = Input.GetAxisRaw(yMouseAxis) * Time.deltaTime * cameraSensitivity;
 
-        transform.position = new Vector3(playerModel.transform.position.x, playerModel.transform.position.y + yOffset, playerModel.transform.position.z);
+        yRotation += mouseX;
+        xRotation -= mouseY;
+
+        xRotation = Mathf.Clamp(xRotation, -xCameraLimit, xCameraLimit);
+
+        transform.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
+        orientation.rotation = Quaternion.Euler(0f, yRotation, 0f);
     }
 }
