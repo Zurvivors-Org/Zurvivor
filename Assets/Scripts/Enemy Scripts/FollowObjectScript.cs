@@ -18,11 +18,10 @@ public class FollowObjectScript : MonoBehaviour{
     }
 
     private void Update() {
-    }
-
-    private void FixedUpdate() {
         Vector3 objectFlatPos = new Vector3(objectTransform.position.x, transform.position.y, objectTransform.position.z);
         transform.LookAt(objectFlatPos);
-        rb.AddForce(transform.forward * movementSpeed, ForceMode.Impulse);
+    }
+    private void FixedUpdate() {
+        rb.AddForce(transform.forward * movementSpeed * Time.deltaTime, ForceMode.Impulse);
     }
 }
