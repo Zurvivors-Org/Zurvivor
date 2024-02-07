@@ -22,7 +22,7 @@ public class FollowObjectScript : MonoBehaviour{
     private void FixedUpdate() {
         Vector3 objectFlatPos = new Vector3(objectTransform.position.x, transform.position.y, objectTransform.position.z);
         transform.LookAt(objectFlatPos);
-        if (Mathf.Abs(Vector3.Magnitude(transform.position - objectTransform.position)) > 2) {
+        if(Mathf.Abs(Vector3.Magnitude(transform.position - objectTransform.position)) > 2) {
             rb.AddForce(transform.forward * moveSpeed * 10f, ForceMode.Force);
         }
     }
