@@ -41,15 +41,23 @@ public class PlayerWeapon : MonoBehaviour {
             }
             readyToFire = false;
             Invoke(nameof(ResetFire), fireRate);
+            magazine--;
+            if (magazine == 0) {
+                Invoke(nameof(ResetMagazine), reloadTime);
+            }
         }
     }
 
     private void FixedUpdate() {
-        weapon.transform.position = cameraOrientation.position + cameraOrientation.forward;
+        weapon.transform.position = cameraOrientation.position`;
         weapon.transform.rotation = Quaternion.Euler(cameraOrientation.transform.rotation.eulerAngles.x, cameraOrientation.transform.transform.rotation.eulerAngles.y, 0f);
     }
 
     private void ResetFire() {
         readyToFire = true;
+    }
+
+    private void ResetMagazine() {
+        magazine = weaponProperties.magazine;
     }
 }
