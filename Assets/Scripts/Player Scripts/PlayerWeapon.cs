@@ -17,6 +17,8 @@ public class PlayerWeapon : MonoBehaviour {
     public float fireRate;
     public float reloadTime;
 
+    private bool readyToFire = true;
+
     private void Start() {
         weaponProperties = weapon.GetComponent<WeaponProperties>();
         weaponSFX = weaponProperties.weaponSFX;
@@ -26,21 +28,28 @@ public class PlayerWeapon : MonoBehaviour {
         reloadTime = weaponProperties.reloadTime;
     }
     private void Update(){
-        if (Input.GetKeyDown(fireButton) && magazine > 0) {
+        Debug.DrawRay(weapon.transform.position, weapon.transform.forward);
+        if (Input.GetKey(fireButton) && magazine > 0 && readyToFire) {
             weaponSFX.Play();
             fireRayCast = new Ray(weapon.transform.position, weapon.transform.forward);
             RaycastHit hitData;
             if(Physics.Raycast(fireRayCast, out hitData)) {
                 EnemyContainer hitContainer;
-                if (hitData.collider.gameObject.transform.parent.gameObject.TryGetComponent<EnemyContainer>(out hitContainer)) {
+                if (hitData.collider.CompareTag("Enemy")  && hitData.collider.gameObject.transform.parent.gameObject.TryGetComponent<EnemyContainer>(out hitContainer)) {
                     hitContainer.health -= damage;
                 }
             }
+            readyToFire = false;
+            Invoke(nameof(ResetFire), fireRate);
         }
     }
 
     private void FixedUpdate() {
         weapon.transform.position = cameraOrientation.position + cameraOrientation.forward;
         weapon.transform.rotation = Quaternion.Euler(cameraOrientation.transform.rotation.eulerAngles.x, cameraOrientation.transform.transform.rotation.eulerAngles.y, 0f);
+    }
+
+    private void ResetFire() {
+        readyToFire = true;
     }
 }
