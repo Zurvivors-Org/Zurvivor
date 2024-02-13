@@ -9,6 +9,7 @@ public class EnemyContainer : MonoBehaviour {
     [Header("Enemy Properties")]
     public float health;
     public float damage;
+    public float moveSpeed;
 
     [SerializeField] private GameObject player;
     private NavMeshAgent agent;
@@ -16,14 +17,18 @@ public class EnemyContainer : MonoBehaviour {
     void Start(){
         health = enemyProperties.health;
         damage = enemyProperties.damage;
+        moveSpeed = enemyProperties.moveSpeed;
+
         agent = GetComponent<NavMeshAgent>();
+        agent.speed = moveSpeed;
     }
 
     private void Update() {
         if(health <= 0) {
             Destroy(this.gameObject);
         }
-
-        agent.SetDestination(player.transform.position);
+        else {
+            agent.SetDestination(player.transform.position);
+        }
     }
 }

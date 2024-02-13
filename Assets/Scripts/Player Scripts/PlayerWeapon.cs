@@ -6,7 +6,9 @@ public class PlayerWeapon : MonoBehaviour {
     [SerializeField] private Transform cameraOrientation;
     public GameObject weaponContainer;
     private GameObject weapon;
-    public KeyCode fireButton = KeyCode.Mouse0;
+    [Header("Key Binds")]
+    public KeyCode fireKey = KeyCode.Mouse0;
+    public KeyCode reloadKey = KeyCode.R;
 
     private Ray fireRayCast;
 
@@ -31,7 +33,7 @@ public class PlayerWeapon : MonoBehaviour {
     }
     private void Update(){
         Debug.DrawRay(weapon.transform.position, weapon.transform.forward);
-        if (Input.GetKey(fireButton) && magazine > 0 && readyToFire) {
+        if (Input.GetKey(fireKey) && magazine > 0 && readyToFire) {
             weaponSFX.Play();
             fireRayCast = new Ray(weapon.transform.position, weapon.transform.forward);
             RaycastHit hitData;
@@ -47,6 +49,10 @@ public class PlayerWeapon : MonoBehaviour {
             if (magazine == 0) {
                 Invoke(nameof(ResetMagazine), reloadTime);
             }
+        }
+        if(Input.GetKeyDown(reloadKey) && magazine < weaponProperties.magazine && magazine > 0) {
+            magazine = 0;
+            Invoke(nameof(ResetMagazine), reloadTime);
         }
 
 		weapon.transform.rotation = Quaternion.Euler(cameraOrientation.transform.rotation.eulerAngles.x, cameraOrientation.transform.transform.rotation.eulerAngles.y, 0f);
