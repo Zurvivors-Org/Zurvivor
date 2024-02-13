@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour {
     [SerializeField] private Transform cameraOrientation;
-    public GameObject weapon;
+    public GameObject weaponContainer;
+    private GameObject weapon;
     public KeyCode fireButton = KeyCode.Mouse0;
 
     private Ray fireRayCast;
@@ -20,6 +21,7 @@ public class PlayerWeapon : MonoBehaviour {
     private bool readyToFire = true;
 
     private void Start() {
+        weapon = weaponContainer.transform.GetChild(0).gameObject.gameObject;
         weaponProperties = weapon.GetComponent<WeaponProperties>();
         weaponSFX = weaponProperties.weaponSFX;
         magazine = weaponProperties.magazine;
@@ -48,14 +50,7 @@ public class PlayerWeapon : MonoBehaviour {
         }
 
 		weapon.transform.rotation = Quaternion.Euler(cameraOrientation.transform.rotation.eulerAngles.x, cameraOrientation.transform.transform.rotation.eulerAngles.y, 0f);
-		weapon.transform.position = cameraOrientation.position;
-
-
 	}
-
-	private void FixedUpdate() {
-    }
-
     private void ResetFire() {
         readyToFire = true;
     }
