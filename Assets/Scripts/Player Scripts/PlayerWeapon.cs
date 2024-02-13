@@ -46,11 +46,14 @@ public class PlayerWeapon : MonoBehaviour {
                 Invoke(nameof(ResetMagazine), reloadTime);
             }
         }
-    }
 
-    private void FixedUpdate() {
-        weapon.transform.position = cameraOrientation.position`;
-        weapon.transform.rotation = Quaternion.Euler(cameraOrientation.transform.rotation.eulerAngles.x, cameraOrientation.transform.transform.rotation.eulerAngles.y, 0f);
+		weapon.transform.rotation = Quaternion.Euler(cameraOrientation.transform.rotation.eulerAngles.x, cameraOrientation.transform.transform.rotation.eulerAngles.y, 0f);
+		weapon.transform.position = cameraOrientation.position;
+
+
+	}
+
+	private void FixedUpdate() {
     }
 
     private void ResetFire() {
