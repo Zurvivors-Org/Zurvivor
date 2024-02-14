@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour {
     [SerializeField] private Transform cameraOrientation;
+    private Rigidbody playerRb;
     public GameObject weaponContainer;
     private GameObject weapon;
+    [SerializeField] Rigidbody cameraRb;
     [Header("Key Binds")]
     public KeyCode fireKey = KeyCode.Mouse0;
     public KeyCode reloadKey = KeyCode.R;
@@ -21,6 +23,7 @@ public class PlayerWeapon : MonoBehaviour {
     public float reloadTime;
     public float spreadCount;
     public float spreadRadius;
+    public float recoilMod;
 
     private bool readyToFire = true;
 
@@ -34,6 +37,9 @@ public class PlayerWeapon : MonoBehaviour {
         reloadTime = weaponProperties.reloadTime;
         spreadCount = weaponProperties.spreadCount;
         spreadRadius = weaponProperties.spreadRadius;
+        recoilMod = weaponProperties.recoilMod;
+
+        playerRb = GetComponent<Rigidbody>();
     }
     private void Update(){
         Debug.DrawRay(weapon.transform.position, weapon.transform.forward);
@@ -43,7 +49,8 @@ public class PlayerWeapon : MonoBehaviour {
             {
                 Vector3 horizontalSpread = weapon.transform.right.normalized * spreadRadius * Random.Range(-1, 1);
                 Vector3 verticalSpread = weapon.transform.up.normalized * spreadRadius * Random.Range(-1, 1);
-                Vector3 fireDirection = weapon.transform.forward + horizontalSpread + verticalSpread;
+                Vector3 finalSpread = (horizontalSpread + verticalSpread) * Mathf.Clamp(playerRb.velocity.magnitude / 10 ,.1f, 2f);
+                Vector3 fireDirection = weapon.transform.forward + finalSpread;
                 fireRayCast = new Ray(weapon.transform.position, fireDirection);
                 RaycastHit hitData;
                 if (Physics.Raycast(fireRayCast, out hitData)) {
@@ -52,9 +59,9 @@ public class PlayerWeapon : MonoBehaviour {
                         hitContainer.health -= damage;
                     }
                 }
-                Debug.Log("fired");
                 Debug.DrawRay(weapon.transform.position, fireDirection * 20, Color.red, 10f);
             }
+            cameraRb.gameObject.transform.Rotate(new Vector3(0, 0, recoilMod));
             readyToFire = false;
             Invoke(nameof(ResetFire), fireRate);
             magazine--;

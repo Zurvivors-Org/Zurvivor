@@ -12,4 +12,5 @@ public class WeaponProperties : MonoBehaviour{
     public float reloadTime;
     public float spreadCount;
     public float spreadRadius;
+    public float recoilMod;
 }
