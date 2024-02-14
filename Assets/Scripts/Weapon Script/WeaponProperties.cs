@@ -10,4 +10,6 @@ public class WeaponProperties : MonoBehaviour{
     public float damage;
     public float fireRate;
     public float reloadTime;
+    public float spreadCount;
+    public float spreadRadius;
 }

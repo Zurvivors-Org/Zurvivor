@@ -19,6 +19,8 @@ public class PlayerWeapon : MonoBehaviour {
     public float damage;
     public float fireRate;
     public float reloadTime;
+    public float spreadCount;
+    public float spreadRadius;
 
     private bool readyToFire = true;
 
@@ -30,18 +32,28 @@ public class PlayerWeapon : MonoBehaviour {
         damage = weaponProperties.damage;
         fireRate = weaponProperties.fireRate;
         reloadTime = weaponProperties.reloadTime;
+        spreadCount = weaponProperties.spreadCount;
+        spreadRadius = weaponProperties.spreadRadius;
     }
     private void Update(){
         Debug.DrawRay(weapon.transform.position, weapon.transform.forward);
         if (Input.GetKey(fireKey) && magazine > 0 && readyToFire) {
             weaponSFX.Play();
-            fireRayCast = new Ray(weapon.transform.position, weapon.transform.forward);
-            RaycastHit hitData;
-            if(Physics.Raycast(fireRayCast, out hitData)) {
-                EnemyContainer hitContainer;
-                if (hitData.collider.CompareTag("Enemy")  && hitData.collider.gameObject.transform.parent.gameObject.TryGetComponent<EnemyContainer>(out hitContainer)) {
-                    hitContainer.health -= damage;
+            for (int i = 0; i < spreadCount; i++)
+            {
+                Vector3 horizontalSpread = weapon.transform.right.normalized * spreadRadius * Random.Range(-1, 1);
+                Vector3 verticalSpread = weapon.transform.up.normalized * spreadRadius * Random.Range(-1, 1);
+                Vector3 fireDirection = weapon.transform.forward + horizontalSpread + verticalSpread;
+                fireRayCast = new Ray(weapon.transform.position, fireDirection);
+                RaycastHit hitData;
+                if (Physics.Raycast(fireRayCast, out hitData)) {
+                    EnemyContainer hitContainer;
+                    if (hitData.collider.CompareTag("Enemy") && hitData.collider.gameObject.transform.parent.gameObject.TryGetComponent<EnemyContainer>(out hitContainer)) {
+                        hitContainer.health -= damage;
+                    }
                 }
+                Debug.Log("fired");
+                Debug.DrawRay(weapon.transform.position, fireDirection * 20, Color.red, 10f);
             }
             readyToFire = false;
             Invoke(nameof(ResetFire), fireRate);
