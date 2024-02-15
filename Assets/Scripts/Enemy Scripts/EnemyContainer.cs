@@ -5,6 +5,7 @@ using UnityEngine.AI;
 
 public class EnemyContainer : MonoBehaviour {
     public EnemyProperties enemyProperties;
+    public NavMeshAgent agent;
 
     [Header("Enemy Properties")]
     public float health;
@@ -12,7 +13,6 @@ public class EnemyContainer : MonoBehaviour {
     public float moveSpeed;
 
     [SerializeField] private GameObject player;
-    private NavMeshAgent agent;
     
     void Start(){
         health = enemyProperties.health;

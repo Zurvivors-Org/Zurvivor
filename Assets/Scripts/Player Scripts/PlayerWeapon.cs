@@ -80,14 +80,11 @@ public class PlayerWeapon : MonoBehaviour {
 		weapon.transform.rotation = Quaternion.Euler(cameraOrientation.transform.rotation.eulerAngles.x, cameraOrientation.transform.transform.rotation.eulerAngles.y, 0f);
 	}
 
-    private void FixedUpdate()
-    {
-        if (recoil > 0.15)
-        {
+    private void FixedUpdate(){
+        if (recoil > 0.15){
             recoil -= 0.15f;
         }
-        else
-        {
+        else{
             recoil = 0;
         }
     }
