@@ -7,7 +7,6 @@ public class PlayerWeapon : MonoBehaviour {
     private Rigidbody playerRb;
     public GameObject weaponContainer;
     private GameObject weapon;
-    [SerializeField] Rigidbody cameraRb;
     [Header("Key Binds")]
     public KeyCode fireKey = KeyCode.Mouse0;
     public KeyCode reloadKey = KeyCode.R;
@@ -64,7 +63,6 @@ public class PlayerWeapon : MonoBehaviour {
                 }
                 Debug.DrawRay(weapon.transform.position, fireDirection * 20, Color.red, 10f);
             }
-            cameraRb.gameObject.transform.Rotate(new Vector3(0, 0, recoilMod));
             readyToFire = false;
             Invoke(nameof(ResetFire), fireRate);
             magazine--;
@@ -76,8 +74,6 @@ public class PlayerWeapon : MonoBehaviour {
             magazine = 0;
             Invoke(nameof(ResetMagazine), reloadTime);
         }
-
-		weapon.transform.rotation = Quaternion.Euler(cameraOrientation.transform.rotation.eulerAngles.x, cameraOrientation.transform.transform.rotation.eulerAngles.y, 0f);
 	}
 
     private void FixedUpdate(){
