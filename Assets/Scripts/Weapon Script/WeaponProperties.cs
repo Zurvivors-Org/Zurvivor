@@ -5,7 +5,7 @@ using UnityEngine;
 public class WeaponProperties : MonoBehaviour{
     [Header("Stats")]
     //public MeshRenderer weaponModel;
-    public AudioSource weaponSFX;
+    public AudioClip weaponSFX;
     public float magazine;
     public float damage;
     public float fireRate;

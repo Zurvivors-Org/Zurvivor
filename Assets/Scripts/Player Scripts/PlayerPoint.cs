@@ -1,0 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+
+public class PlayerPoint : MonoBehaviour{
+    [SerializeField] private long points = 0;
+    [SerializeField] private TMP_Text pointText;
+
+    public void AddPoints(long points) {
+        this.points += points;
+        pointText.SetText(this.points + "");
+    }
+}

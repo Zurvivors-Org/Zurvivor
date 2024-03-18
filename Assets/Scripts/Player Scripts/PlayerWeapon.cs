@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour {
-    [SerializeField] private Transform cameraOrientation;
     private Rigidbody playerRb;
     public GameObject weaponContainer;
-    private GameObject weapon;
+    private GameObject weaponModel;
+    private PlayerPoint playerPoints;
+    private AudioSource playerAudio;
+
     [Header("Key Binds")]
     public KeyCode fireKey = KeyCode.Mouse0;
     public KeyCode reloadKey = KeyCode.R;
@@ -15,7 +17,7 @@ public class PlayerWeapon : MonoBehaviour {
 
     [Header("Weapon Properties")]
     public WeaponProperties weaponProperties;
-    public AudioSource weaponSFX;
+    public AudioClip weaponSFX;
     public float magazine;
     public float damage;
     public float fireRate;
@@ -28,8 +30,8 @@ public class PlayerWeapon : MonoBehaviour {
     private bool readyToFire = true;
 
     private void Start() {
-        weapon = weaponContainer.transform.GetChild(0).gameObject.gameObject;
-        weaponProperties = weapon.GetComponent<WeaponProperties>();
+        weaponModel = weaponContainer.transform.GetChild(0).gameObject.gameObject;
+        weaponProperties = weaponModel.GetComponent<WeaponProperties>();
         weaponSFX = weaponProperties.weaponSFX;
         magazine = weaponProperties.magazine;
         damage = weaponProperties.damage;
@@ -41,27 +43,32 @@ public class PlayerWeapon : MonoBehaviour {
         recoil = 0;
 
         playerRb = GetComponent<Rigidbody>();
+        playerPoints = GetComponent<PlayerPoint>();
+        playerAudio = GetComponent<AudioSource>();
     }
     private void Update(){
-        Debug.DrawRay(weapon.transform.position, weapon.transform.forward);
+        Debug.DrawRay(weaponModel.transform.position, weaponModel.transform.forward);
         if (Input.GetKey(fireKey) && magazine > 0 && readyToFire) {
-            weaponSFX.Play();
+            playerAudio.PlayOneShot(weaponSFX);
             recoil += recoilMod;
-            for (int i = 0; i < spreadCount; i++)
-            {
-                Vector3 horizontalSpread = weapon.transform.right.normalized * spreadRadius * Random.Range(-1, 1);
-                Vector3 verticalSpread = weapon.transform.up.normalized * spreadRadius * Random.Range(-1, 1);
-                Vector3 finalSpread = ((horizontalSpread + verticalSpread) * Mathf.Clamp(playerRb.velocity.magnitude ,.3f, 2f)) * Mathf.Clamp(recoil / 3, 0, 2f) + new Vector3(0,recoil * .025f,0);
-                Vector3 fireDirection = weapon.transform.forward + finalSpread;
-                fireRayCast = new Ray(weapon.transform.position, fireDirection);
+            for (int i = 0; i < spreadCount; i++){
+                //Vector3 horizontalSpread = weapon.transform.right.normalized * spreadRadius * Random.Range(-1, 1);
+                //Vector3 verticalSpread = weapon.transform.up.normalized * spreadRadius * Random.Range(-1, 1);
+                //Vector3 finalSpread = ((horizontalSpread + verticalSpread) * Mathf.Clamp(playerRb.velocity.magnitude ,.3f, 2f)) * Mathf.Clamp(recoil / 3, 0, 2f) + new Vector3(0,recoil * .025f,0);
+                Vector3 fireDirection = weaponModel.transform.forward; //+ finalSpread;
+                fireRayCast = new Ray(weaponModel.transform.position, fireDirection);
                 RaycastHit hitData;
                 if (Physics.Raycast(fireRayCast, out hitData)) {
                     EnemyContainer hitContainer;
                     if (hitData.collider.CompareTag("Enemy") && hitData.collider.gameObject.transform.parent.gameObject.TryGetComponent<EnemyContainer>(out hitContainer)) {
                         hitContainer.health -= damage;
+                        if(hitContainer.health <= 0) {
+                            playerPoints.AddPoints(hitContainer.points);
+                            Destroy(hitContainer.gameObject);
+                        }
                     }
                 }
-                Debug.DrawRay(weapon.transform.position, fireDirection * 20, Color.red, 10f);
+                //Debug.DrawRay(weapon.transform.position, fireDirection * 20, Color.red, 10f);
             }
             readyToFire = false;
             Invoke(nameof(ResetFire), fireRate);
