@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028334, g: 0.2257134, b: 0.30692226, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -189,7 +189,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &67077979
 GameObject:
@@ -228,7 +228,7 @@ Transform:
   - {fileID: 1578337603}
   - {fileID: 1873520088}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!54 &67077981
 Rigidbody:
@@ -571,7 +571,7 @@ Transform:
   - {fileID: 467221683}
   - {fileID: 466791715}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &386660748
 GameObject:
@@ -764,7 +764,7 @@ RectTransform:
   m_Children:
   - {fileID: 936797090}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -802,7 +802,7 @@ Transform:
   - {fileID: 386660752}
   - {fileID: 739277853}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &466791714
 GameObject:
@@ -873,10 +873,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fee31d6588debd84eb77f3c508450210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 50
-  damage: 5
-  moveSpeed: 2.5
-  points: 100
+  type: 0
+  propertiesDeclared: 0
 --- !u!114 &466791719
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -943,10 +941,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fee31d6588debd84eb77f3c508450210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 25
-  damage: 3
-  moveSpeed: 7
-  points: 75
+  type: 0
+  propertiesDeclared: 0
 --- !u!114 &467221687
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1035,10 +1031,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fee31d6588debd84eb77f3c508450210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 25
-  damage: 3
-  moveSpeed: 4
-  points: 50
+  type: 0
+  propertiesDeclared: 0
 --- !u!114 &640913396
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1718,7 +1712,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1023033549
 MonoBehaviour:
@@ -2062,7 +2056,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1330766039
 GameObject:
@@ -2271,6 +2265,71 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1606598047}
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1613347728
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2050167714, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 67077979}
+    - target: {fileID: 5343409388804964622, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5343409388804964622, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 101.763214
+      objectReference: {fileID: 0}
+    - target: {fileID: 5343409388804964622, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.39
+      objectReference: {fileID: 0}
+    - target: {fileID: 5343409388804964622, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 37.46
+      objectReference: {fileID: 0}
+    - target: {fileID: 5343409388804964622, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5343409388804964622, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5343409388804964622, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5343409388804964622, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5343409388804964622, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5343409388804964622, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5343409388804964622, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5343409388804964625, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
+      propertyPath: m_Name
+      value: Basic Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 5343409388804964625, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
+      propertyPath: m_TagString
+      value: Enemy
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
 --- !u!1 &1828086970
 GameObject:
   m_ObjectHideFlags: 3
@@ -2481,8 +2540,8 @@ MonoBehaviour:
   weaponSFX: {fileID: 8300000, guid: ae583988519a1bc418dd4162b2ca2c72, type: 3}
   magazine: 25
   damage: 5
-  fireRate: 0.1
+  fireRate: 0.05
   reloadTime: 2
   spreadCount: 1
-  spreadRadius: 0.1
+  spreadRadius: 0.2
   recoilMod: 1

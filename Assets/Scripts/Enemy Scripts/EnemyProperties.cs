@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 public class EnemyProperties : MonoBehaviour{
-    [SerializeField] private float health;
-    [SerializeField] private float damage;
-    [SerializeField] private float moveSpeed;
-    [SerializeField] private long points;
+    private float health;
+    private float damage;
+    private float moveSpeed;
+    private long points;
 
     public EnemyType type = EnemyType.NORMAL;
     public bool propertiesDeclared = false;
