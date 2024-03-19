@@ -16,10 +16,15 @@ public class EnemyContainer : MonoBehaviour {
     [SerializeField] private GameObject player;
 
     void Start() {
-        health = enemyProperties.health;
-        damage = enemyProperties.damage;
-        moveSpeed = enemyProperties.moveSpeed;
-        points = enemyProperties.points;
+        enemyProperties = GetComponent<EnemyProperties>();
+
+        while (!enemyProperties.propertiesDeclared) { }
+
+        float[] temp = enemyProperties.getProperties();
+        health = temp[0];
+        damage = temp[1];
+        moveSpeed = temp[2];
+        points = (long)temp[3];
 
         agent = GetComponent<NavMeshAgent>();
         agent.speed = moveSpeed;
