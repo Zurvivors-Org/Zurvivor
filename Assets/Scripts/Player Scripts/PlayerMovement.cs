@@ -6,8 +6,11 @@ public class PlayerMovement : MonoBehaviour{
     const string xAxis = "Horizontal";
     const string yAxis = "Vertical";
 
+    [SerializeField] private Transform orientation;
+
     [Header("Movement")]
-    public float moveSpeed = 1f;
+    public float normalMoveSpeed = 1f;
+    public float sprintMoveSpeed = 1.6f;
 
     public float groundDrag;
 
@@ -18,6 +21,7 @@ public class PlayerMovement : MonoBehaviour{
 
     [Header("Keybinds")]
     public KeyCode jumpKey;
+    public KeyCode sprintKey;
 
     [Header("Ground Check")]
     public float playerHeight;
@@ -31,7 +35,9 @@ public class PlayerMovement : MonoBehaviour{
 
     private Rigidbody rb;
 
-    [SerializeField] private Transform orientation;
+    [Header("Active Values")]
+    [SerializeField] private bool isSprinting;
+    [SerializeField] private float activeMoveSpeed;
     void Start(){
         rb = GetComponent<Rigidbody>();
         rb.freezeRotation = true;
@@ -41,6 +47,15 @@ public class PlayerMovement : MonoBehaviour{
 
     void Update() {
         grounded = Physics.Raycast(transform.position + new Vector3(0f, 0.05f, 0f), Vector3.down, playerHeight * .5f + .2f, ground);
+
+        isSprinting = Input.GetKey(sprintKey);
+
+        if (isSprinting){
+            activeMoveSpeed = sprintMoveSpeed;
+        }
+        else {
+            activeMoveSpeed = normalMoveSpeed;
+        }
 
         UpdateInput();
         SpeedControl();
@@ -72,19 +87,21 @@ public class PlayerMovement : MonoBehaviour{
     private void MovePlayer() {
         moveDirection = orientation.forward * verticalInput + orientation.right * horizontalInput;
 
-        if (grounded) {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f, ForceMode.Force);
+        if (grounded){
+            rb.AddForce(moveDirection.normalized * activeMoveSpeed * 10f, ForceMode.Force);
+
+            Debug.Log(moveDirection.normalized * activeMoveSpeed * 10f);
         }
         else {
-            rb.AddForce(moveDirection.normalized * moveSpeed * 10f * airMultiplier, ForceMode.Force);
+            rb.AddForce(moveDirection.normalized * activeMoveSpeed * 10f * airMultiplier, ForceMode.Force);
         }
     }
 
     private void SpeedControl() {
         Vector3 flatVel = new Vector3(rb.velocity.x, 0f, rb.velocity.z);
 
-        if(flatVel.magnitude > moveSpeed) {
-            Vector3 limitedVel = flatVel.normalized * moveSpeed;
+        if(flatVel.magnitude > activeMoveSpeed) {
+            Vector3 limitedVel = flatVel.normalized * activeMoveSpeed;
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
         }
     }
