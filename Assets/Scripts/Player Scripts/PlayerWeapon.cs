@@ -52,9 +52,9 @@ public class PlayerWeapon : MonoBehaviour {
             playerAudio.PlayOneShot(weaponSFX);
             recoil += recoilMod;
             for (int i = 0; i < spreadCount; i++){
-                //Vector3 horizontalSpread = weapon.transform.right.normalized * spreadRadius * Random.Range(-1, 1);
-                //Vector3 verticalSpread = weapon.transform.up.normalized * spreadRadius * Random.Range(-1, 1);
-                //Vector3 finalSpread = ((horizontalSpread + verticalSpread) * Mathf.Clamp(playerRb.velocity.magnitude ,.3f, 2f)) * Mathf.Clamp(recoil / 3, 0, 2f) + new Vector3(0,recoil * .025f,0);
+                Vector3 horizontalSpread = weaponModel.transform.right.normalized * spreadRadius * Random.Range(-1, 1);
+                Vector3 verticalSpread = weaponModel.transform.up.normalized * spreadRadius * Random.Range(-1, 1);
+                Vector3 finalSpread = ((horizontalSpread + verticalSpread) * Mathf.Clamp(playerRb.velocity.magnitude ,.3f, 2f)) * Mathf.Clamp(recoil / 3, 0, 2f) + new Vector3(0,recoil * .025f,0);
                 Vector3 fireDirection = weaponModel.transform.forward; //+ finalSpread;
                 fireRayCast = new Ray(weaponModel.transform.position, fireDirection);
                 RaycastHit hitData;
@@ -68,7 +68,7 @@ public class PlayerWeapon : MonoBehaviour {
                         }
                     }
                 }
-                //Debug.DrawRay(weapon.transform.position, fireDirection * 20, Color.red, 10f);
+                Debug.DrawRay(weaponModel.transform.position, fireDirection * 20, Color.red, 10f);
             }
             readyToFire = false;
             Invoke(nameof(ResetFire), fireRate);
