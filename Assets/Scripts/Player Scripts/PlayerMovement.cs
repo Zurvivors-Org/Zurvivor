@@ -17,16 +17,23 @@ public class PlayerMovement : MonoBehaviour{
     public float jumpForce;
     public float jumpCooldown;
     public float airMultiplier;
-    private bool readyToJump;
+    public bool readyToJump;
 
     [Header("Keybinds")]
     public KeyCode jumpKey;
     public KeyCode sprintKey;
+    public KeyCode dashKey;
 
     [Header("Ground Check")]
     public float playerHeight;
     public LayerMask ground;
-    private bool grounded;
+    public bool grounded;
+
+    [Header("Dash Check")]
+    public float dashCooldown;
+    public float dashForce;
+    public bool readyToDash;
+    public Vector3 dashDirection;
 
     private float horizontalInput;
     private float verticalInput;
@@ -43,6 +50,7 @@ public class PlayerMovement : MonoBehaviour{
         rb.freezeRotation = true;
 
         readyToJump = true;
+        readyToDash = true;
     }
 
     void Update() {
@@ -82,6 +90,16 @@ public class PlayerMovement : MonoBehaviour{
 
             Invoke(nameof(ResetJump), jumpCooldown);
         }
+
+        if(Input.GetKeyDown(dashKey) && readyToDash && readyToJump && grounded) {
+            readyToDash = false;
+            readyToJump = false;
+
+            Dash();
+
+            Invoke(nameof(ResetDash), dashCooldown);
+            Invoke(nameof(ResetJump), jumpCooldown);
+        }
     }
 
     private void MovePlayer() {
@@ -89,8 +107,6 @@ public class PlayerMovement : MonoBehaviour{
 
         if (grounded){
             rb.AddForce(moveDirection.normalized * activeMoveSpeed * 10f, ForceMode.Force);
-
-            Debug.Log(moveDirection.normalized * activeMoveSpeed * 10f);
         }
         else {
             rb.AddForce(moveDirection.normalized * activeMoveSpeed * 10f * airMultiplier, ForceMode.Force);
@@ -104,6 +120,8 @@ public class PlayerMovement : MonoBehaviour{
             Vector3 limitedVel = flatVel.normalized * activeMoveSpeed;
             rb.velocity = new Vector3(limitedVel.x, rb.velocity.y, limitedVel.z);
         }
+
+        dashDirection = flatVel.normalized;
     }
 
     private void Jump() {
@@ -112,7 +130,15 @@ public class PlayerMovement : MonoBehaviour{
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
     }
 
+    private void Dash() {
+        rb.AddForce(dashDirection * dashForce, ForceMode.Impulse);
+    }
+
     private void ResetJump() {
         readyToJump = true;
+    }
+
+    private void ResetDash() {
+        readyToDash = true;
     }
 }

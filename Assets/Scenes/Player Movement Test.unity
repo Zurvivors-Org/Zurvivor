@@ -259,18 +259,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orientation: {fileID: 1068159860}
-  normalMoveSpeed: 1
-  sprintMoveSpeed: 1.6
+  normalMoveSpeed: 7
+  sprintMoveSpeed: 10
   groundDrag: 5
   jumpForce: 8
   jumpCooldown: 0.25
   airMultiplier: 0.4
+  readyToJump: 0
   jumpKey: 32
   sprintKey: 304
+  dashKey: 101
   playerHeight: 2
   ground:
     serializedVersion: 2
     m_Bits: 1024
+  grounded: 0
+  dashCooldown: 2
+  dashForce: 400
+  readyToDash: 0
+  dashDirection: {x: 0, y: 0, z: 0}
   isSprinting: 0
   activeMoveSpeed: 0
 --- !u!114 &67077983
@@ -1821,10 +1828,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowDebugText: 0
-  m_ShowCameraFrustum: 1
+  m_ShowCameraFrustum: 0
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
+  m_UpdateMethod: 1
   m_BlendUpdateMethod: 1
   m_DefaultBlend:
     m_Style: 1
