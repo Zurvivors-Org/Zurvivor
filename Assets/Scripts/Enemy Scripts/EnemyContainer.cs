@@ -8,30 +8,51 @@ public class EnemyContainer : MonoBehaviour {
     public NavMeshAgent agent;
 
     [Header("Enemy Properties")]
-    public float health;
-    public float damage;
-    public float moveSpeed;
-    public long points;
+    private float health;
+    private float damage;
+    private float moveSpeed;
+    private long points;
 
     [SerializeField] private GameObject player;
 
     void Start() {
         enemyProperties = GetComponent<EnemyProperties>();
+        agent = GetComponent<NavMeshAgent>();
 
-        while (!enemyProperties.propertiesDeclared) { }
+        //while (!enemyProperties.propertiesDeclared) { }
 
+        StartCoroutine(waitUpdateProperties());
+    }
+
+    private void Update() {
+        agent.SetDestination(player.transform.position);
+    }
+
+    public void decrementHealth(float dmg)
+    {
+        this.health -= dmg;
+    }
+
+    public float getHealth()
+    {
+        return health;
+    }
+
+    public long getPoints()
+    {
+        return points;
+    }
+    
+    private IEnumerator waitUpdateProperties()
+    {
+        yield return new WaitForSeconds(1);
         float[] temp = enemyProperties.getProperties();
         health = temp[0];
         damage = temp[1];
         moveSpeed = temp[2];
         points = (long)temp[3];
 
-        agent = GetComponent<NavMeshAgent>();
         agent.speed = moveSpeed;
-    }
-
-    private void Update() {
-        agent.SetDestination(player.transform.position);
     }
 }
 

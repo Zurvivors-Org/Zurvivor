@@ -30,6 +30,12 @@ public class CameraMovement : MonoBehaviour{
         weaponOrientation.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
     }
 
+    public void addRecoil(float recoilAmount)
+    {
+        transform.Rotate(new Vector3(recoilAmount, 0, 0));
+        weaponOrientation.Rotate(new Vector3(recoilAmount, 0, 0));
+    }
+
     private float wrapNum(float num) {
         if(num > 360) {
             num = num - 360;

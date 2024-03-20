@@ -889,10 +889,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyProperties: {fileID: 466791718}
   agent: {fileID: 466791716}
-  health: 0
-  damage: 0
-  moveSpeed: 0
-  points: 0
   player: {fileID: 67077979}
 --- !u!1 &467221682
 GameObject:
@@ -957,10 +953,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyProperties: {fileID: 467221686}
   agent: {fileID: 467221688}
-  health: 0
-  damage: 0
-  moveSpeed: 0
-  points: 0
   player: {fileID: 67077979}
 --- !u!195 &467221688
 NavMeshAgent:
@@ -1047,10 +1039,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyProperties: {fileID: 640913395}
   agent: {fileID: 640913397}
-  health: 0
-  damage: 0
-  moveSpeed: 0
-  points: 0
   player: {fileID: 67077979}
 --- !u!195 &640913397
 NavMeshAgent:
@@ -2272,6 +2260,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2050167713, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
+      propertyPath: type
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2050167714, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
       propertyPath: player
       value: 
@@ -2540,8 +2532,8 @@ MonoBehaviour:
   weaponSFX: {fileID: 8300000, guid: ae583988519a1bc418dd4162b2ca2c72, type: 3}
   magazine: 25
   damage: 5
-  fireRate: 0.05
+  fireRate: 25
   reloadTime: 2
   spreadCount: 1
   spreadRadius: 0.2
-  recoilMod: 1
+  recoilMod: 0.2
