@@ -17,10 +17,11 @@ public class CameraMovement : MonoBehaviour{
     }
 
     private void Update(){
-        float mouseX = Input.GetAxisRaw(xMouseAxis) * Time.deltaTime * cameraSensitivity;
-        float mouseY = Input.GetAxisRaw(yMouseAxis) * Time.deltaTime * cameraSensitivity;
+        float mouseX = Input.GetAxisRaw(xMouseAxis) * cameraSensitivity;
+        float mouseY = Input.GetAxisRaw(yMouseAxis) * cameraSensitivity;
 
-        yRotation = wrapNum(yRotation + mouseX);
+
+        yRotation = WrapNum(yRotation + mouseX);
         xRotation -= mouseY;
 
         xRotation = Mathf.Clamp(xRotation, -xCameraLimit, xCameraLimit);
@@ -30,7 +31,7 @@ public class CameraMovement : MonoBehaviour{
         weaponOrientation.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
     }
 
-    private float wrapNum(float num) {
+    private float WrapNum(float num) {
         if(num > 360) {
             num = num - 360;
         }

@@ -11,25 +11,25 @@ public class PlayerMovement : MonoBehaviour{
     [Header("Movement")]
     public float normalMoveSpeed = 1f;
     public float sprintMoveSpeed = 1.6f;
-
     public float groundDrag;
-
-    public float jumpForce;
-    public float jumpCooldown;
-    public float airMultiplier;
-    public bool readyToJump;
 
     [Header("Keybinds")]
     public KeyCode jumpKey;
     public KeyCode sprintKey;
     public KeyCode dashKey;
 
-    [Header("Ground Check")]
+    [Header("Ground Check")] 
     public float playerHeight;
     public LayerMask ground;
     public bool grounded;
 
-    [Header("Dash Check")]
+    [Header("Jump")]
+    public float jumpCooldown;
+    public float jumpForce;
+    public bool readyToJump;
+    public float airMultiplier;
+
+    [Header("Dash")]
     public float dashCooldown;
     public float dashForce;
     public bool readyToDash;
