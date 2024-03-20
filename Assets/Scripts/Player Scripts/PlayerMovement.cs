@@ -91,14 +91,12 @@ public class PlayerMovement : MonoBehaviour{
             Invoke(nameof(ResetJump), jumpCooldown);
         }
 
-        if(Input.GetKeyDown(dashKey) && readyToDash && readyToJump && grounded) {
+        if(Input.GetKeyDown(dashKey) && readyToDash) {
             readyToDash = false;
-            readyToJump = false;
 
             Dash();
 
             Invoke(nameof(ResetDash), dashCooldown);
-            Invoke(nameof(ResetJump), jumpCooldown);
         }
     }
 
