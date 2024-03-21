@@ -20,7 +20,7 @@ public class CameraMovement : MonoBehaviour{
         float mouseX = Input.GetAxisRaw(xMouseAxis) * Time.deltaTime * cameraSensitivity;
         float mouseY = Input.GetAxisRaw(yMouseAxis) * Time.deltaTime * cameraSensitivity;
 
-        yRotation = wrapNum(yRotation + mouseX);
+        yRotation = WrapNum(yRotation + mouseX);
         xRotation -= mouseY;
 
         xRotation = Mathf.Clamp(xRotation, -xCameraLimit, xCameraLimit);
@@ -30,13 +30,13 @@ public class CameraMovement : MonoBehaviour{
         weaponOrientation.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
     }
 
-    public void addRecoil(float recoilAmount)
+    public void AddRecoil(float recoilAmount)
     {
         transform.Rotate(new Vector3(recoilAmount, 0, 0));
         weaponOrientation.Rotate(new Vector3(recoilAmount, 0, 0));
     }
 
-    private float wrapNum(float num) {
+    private float WrapNum(float num) {
         if(num > 360) {
             num = num - 360;
         }

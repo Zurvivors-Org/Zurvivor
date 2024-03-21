@@ -6,6 +6,7 @@ public class EnemyProperties : MonoBehaviour{
     private float damage;
     private float moveSpeed;
     private long points;
+    public List<SpecialType> specialTypes = new List<SpecialType>();
 
     public EnemyType type = EnemyType.NORMAL;
     public bool propertiesDeclared = false;
@@ -17,19 +18,19 @@ public class EnemyProperties : MonoBehaviour{
             case EnemyType.NORMAL: 
                 health = 100;
                 damage = 10;
-                moveSpeed = 1;
+                moveSpeed = 3;
                 points = 5;
                 break;
             case EnemyType.FAST:
                 health = 75;
                 damage = 10;
-                moveSpeed = 2;
+                moveSpeed = 9;
                 points = 10;
                 break;
             case EnemyType.TANK:
                 health = 150;
                 damage = 20;
-                moveSpeed = .75f;
+                moveSpeed = 1.5f;
                 points = 10;
                 break;
         }
@@ -42,10 +43,22 @@ public class EnemyProperties : MonoBehaviour{
         return new float[] { health, damage, moveSpeed, points };
     }
 
+    public HashSet<SpecialType> GetSpecialTypes()
+    {
+        return new HashSet<SpecialType>(specialTypes);
+    }
+
     public enum EnemyType
     {
         NORMAL,
         FAST,
         TANK
+    }
+
+    public enum SpecialType
+    {
+        CAPTAIN,
+        WORM,
+        TROJAN
     }
 }

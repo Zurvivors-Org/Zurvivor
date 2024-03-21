@@ -53,11 +53,11 @@ public class PlayerWeapon : MonoBehaviour {
         if (Input.GetKey(fireKey) && magazine > 0 && readyToFire) {
             playerAudio.PlayOneShot(weaponSFX);
             recoil += recoilMod;
-            camMove.addRecoil(0.1f);
+            camMove.AddRecoil(0.1f);
             for (int i = 0; i < spreadCount; i++){
                 Vector3 horizontalSpread = weaponModel.transform.right.normalized * spreadRadius * Random.Range(-1, 1);
                 Vector3 verticalSpread = weaponModel.transform.up.normalized * spreadRadius * Random.Range(-1, 1);
-                Vector3 finalSpread = ((horizontalSpread + verticalSpread) * Mathf.Clamp(playerRb.velocity.magnitude ,.3f, 4f)) * Mathf.Clamp(recoil / 3f, 0, 2f) + new Vector3(0,recoil * .025f,0);
+                Vector3 finalSpread = ((horizontalSpread + verticalSpread) * Mathf.Clamp(playerRb.velocity.magnitude ,.3f, 4f)) * Mathf.Clamp(recoil / 3f, 0, 1f) + new Vector3(0,recoil * .05f,0);
                 Vector3 fireDirection = weaponModel.transform.forward + finalSpread;
                 fireRayCast = new Ray(weaponModel.transform.position, fireDirection);
                 RaycastHit hitData;
@@ -66,9 +66,9 @@ public class PlayerWeapon : MonoBehaviour {
                     Debug.Log(hitData.collider.gameObject.transform.parent.gameObject.CompareTag("Enemy"));
                     Debug.Log(hitData.collider.gameObject.transform.parent.gameObject.GetComponent<EnemyContainer>());
                     if (hitData.collider.gameObject.transform.parent.gameObject.CompareTag("Enemy") && hitData.collider.gameObject.transform.parent.gameObject.TryGetComponent<EnemyContainer>(out hitContainer)) {
-                        hitContainer.decrementHealth(damage);
-                        if(hitContainer.getHealth() <= 0) {
-                            playerPoints.AddPoints(hitContainer.getPoints());
+                        hitContainer.DecrementHealth(damage);
+                        if(hitContainer.GetHealth() <= 0) {
+                            playerPoints.AddPoints(hitContainer.GetPoints());
                             Destroy(hitContainer.gameObject);
                         }
                     }
