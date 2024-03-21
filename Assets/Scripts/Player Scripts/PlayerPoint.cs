@@ -11,4 +11,13 @@ public class PlayerPoint : MonoBehaviour{
         this.points += points;
         pointText.SetText(this.points + "");
     }
+
+    public void SubPoints(long points) {
+        this.points -= points;
+        pointText.SetText(this.points + "");
+    }
+
+    public long GetPoints() {
+        return points;
+    }
 }

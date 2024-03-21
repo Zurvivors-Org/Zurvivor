@@ -30,8 +30,8 @@ public class PlayerWeapon : MonoBehaviour {
     private bool readyToFire = true;
 
     private void Start() {
-        weaponModel = weaponContainer.transform.GetChild(0).gameObject.gameObject;
-        weaponProperties = weaponModel.GetComponent<WeaponProperties>();
+        weaponModel = weaponContainer.transform.GetChild(0).gameObject;
+        weaponProperties = weaponContainer.GetComponent<WeaponProperties>();
         weaponSFX = weaponProperties.weaponSFX;
         magazine = weaponProperties.magazine;
         damage = weaponProperties.damage;
@@ -47,7 +47,7 @@ public class PlayerWeapon : MonoBehaviour {
         playerAudio = GetComponent<AudioSource>();
     }
     private void Update(){
-        Debug.DrawRay(weaponModel.transform.position, weaponModel.transform.forward);
+        Debug.DrawRay(transform.position, weaponModel.transform.forward);
         if (Input.GetKey(fireKey) && magazine > 0 && readyToFire) {
             playerAudio.PlayOneShot(weaponSFX);
             recoil += recoilMod;
@@ -56,7 +56,7 @@ public class PlayerWeapon : MonoBehaviour {
                 //Vector3 verticalSpread = weapon.transform.up.normalized * spreadRadius * Random.Range(-1, 1);
                 //Vector3 finalSpread = ((horizontalSpread + verticalSpread) * Mathf.Clamp(playerRb.velocity.magnitude ,.3f, 2f)) * Mathf.Clamp(recoil / 3, 0, 2f) + new Vector3(0,recoil * .025f,0);
                 Vector3 fireDirection = weaponModel.transform.forward; //+ finalSpread;
-                fireRayCast = new Ray(weaponModel.transform.position, fireDirection);
+                fireRayCast = new Ray(transform.position, fireDirection);
                 RaycastHit hitData;
                 if (Physics.Raycast(fireRayCast, out hitData)) {
                     EnemyContainer hitContainer;
@@ -68,7 +68,7 @@ public class PlayerWeapon : MonoBehaviour {
                         }
                     }
                 }
-                //Debug.DrawRay(weapon.transform.position, fireDirection * 20, Color.red, 10f);
+                Debug.DrawRay(transform.position, fireDirection * 20, Color.red, 10f);
             }
             readyToFire = false;
             Invoke(nameof(ResetFire), fireRate);
