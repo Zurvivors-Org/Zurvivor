@@ -12,12 +12,12 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadSettingsScene()
     {
-       // SceneManager.LoadScene("Blank");
+        SceneManager.LoadScene("Settings");
     }
 
     public void LoadInstructionsScene()
     {
-        //SceneManager.LoadScene("Blank");
+        SceneManager.LoadScene("Instructions");
     }
 
     public void LoadGameScene()
@@ -27,6 +27,6 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadEndScene()
     {
-       // SceneManager.LoadScene("Blank");
+        SceneManager.LoadScene("End");
     }
 }
