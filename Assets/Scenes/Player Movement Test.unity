@@ -292,18 +292,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbee41c0722602d45837523b96698a26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponContainer: {fileID: 1355302098}
+  cameraMovement: {fileID: 1873520089}
   fireKey: 323
   reloadKey: 114
-  weaponProperties: {fileID: 0}
+  firstWeapon: {fileID: 0}
+  weaponProperties: {fileID: 1355302101}
   weaponSFX: {fileID: 0}
   magazine: 0
   damage: 0
   fireRate: 0
+  automatic: 0
   reloadTime: 0
   spreadCount: 0
   spreadRadius: 0
   recoilMod: 0
+  switchTime: 0
   recoil: 0
 --- !u!82 &67077984
 AudioSource:
@@ -695,6 +698,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cost: 200
+  weapon: {fileID: 7611605714999138920, guid: 3ce24fbd0f0cfb2438d915d711d14fc2, type: 3}
   shopText: {fileID: 1895413639}
   interactKey: 102
 --- !u!1 &386660748
@@ -2169,16 +2173,22 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1330766039}
   m_CullTransparentMesh: 1
---- !u!1 &1355302098 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8580327368837348945, guid: d9ac87431b9c9b8459fe9edbaf2e9507, type: 3}
-  m_PrefabInstance: {fileID: 1919349446}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1355302100 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8580327368837348944, guid: d9ac87431b9c9b8459fe9edbaf2e9507, type: 3}
   m_PrefabInstance: {fileID: 1919349446}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1355302101 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7811105983604114611, guid: d9ac87431b9c9b8459fe9edbaf2e9507, type: 3}
+  m_PrefabInstance: {fileID: 1919349446}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9a82463b12d3f246a1d8b5fdbbe16e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1606598047
 GameObject:
   m_ObjectHideFlags: 0
@@ -2366,6 +2376,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b4c71dfd3751e10488827b9ccdf0fe25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  xRotation: 0
+  yRotation: 0
   playerOrientation: {fileID: 1068159860}
   weaponOrientation: {fileID: 1355302100}
   cameraSensitivity: 2
@@ -2511,6 +2523,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 67077980}
     m_Modifications:
+    - target: {fileID: 7811105983604114611, guid: d9ac87431b9c9b8459fe9edbaf2e9507, type: 3}
+      propertyPath: automatic
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8580327368837348944, guid: d9ac87431b9c9b8459fe9edbaf2e9507, type: 3}
       propertyPath: m_RootOrder
       value: 2

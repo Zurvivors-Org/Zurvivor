@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class PlayerWeapon : MonoBehaviour {
     private Rigidbody playerRb;
-    public GameObject weaponContainer;
-    private GameObject weaponModel;
     private PlayerPoint playerPoints;
     private AudioSource playerAudio;
+
+    [SerializeField] private CameraMovement cameraMovement;
 
     [Header("Key Binds")]
     public KeyCode fireKey = KeyCode.Mouse0;
@@ -15,47 +15,42 @@ public class PlayerWeapon : MonoBehaviour {
 
     private Ray fireRayCast;
 
-    [Header("Weapon Properties")]
+    [Header("First Weapon Properties")]
+    public GameObject firstWeapon;
     public WeaponProperties weaponProperties;
     public AudioClip weaponSFX;
     public float magazine;
     public float damage;
     public float fireRate;
+    public bool automatic;
     public float reloadTime;
     public float spreadCount;
     public float spreadRadius;
     public float recoilMod;
+    public float switchTime;
     [SerializeField] private float recoil;
 
     private bool readyToFire = true;
 
     private void Start() {
-        weaponModel = weaponContainer.transform.GetChild(0).gameObject;
-        weaponProperties = weaponContainer.GetComponent<WeaponProperties>();
-        weaponSFX = weaponProperties.weaponSFX;
-        magazine = weaponProperties.magazine;
-        damage = weaponProperties.damage;
-        fireRate = weaponProperties.fireRate;
-        reloadTime = weaponProperties.reloadTime;
-        spreadCount = weaponProperties.spreadCount;
-        spreadRadius = weaponProperties.spreadRadius;
-        recoilMod = weaponProperties.recoilMod;
-        recoil = 0;
+        updateWeaponProperties();
+
+        firstWeapon = weaponProperties.gameObject;
 
         playerRb = GetComponent<Rigidbody>();
         playerPoints = GetComponent<PlayerPoint>();
         playerAudio = GetComponent<AudioSource>();
     }
     private void Update(){
-        Debug.DrawRay(transform.position, weaponModel.transform.forward);
-        if (Input.GetKey(fireKey) && magazine > 0 && readyToFire) {
+        Debug.DrawRay(transform.position, firstWeapon.transform.forward);
+        if ((automatic && Input.GetKey(fireKey) || (!automatic && Input.GetKeyDown(fireKey))) && magazine > 0 && readyToFire) {
             playerAudio.PlayOneShot(weaponSFX);
             recoil += recoilMod;
             for (int i = 0; i < spreadCount; i++){
-                //Vector3 horizontalSpread = weapon.transform.right.normalized * spreadRadius * Random.Range(-1, 1);
-                //Vector3 verticalSpread = weapon.transform.up.normalized * spreadRadius * Random.Range(-1, 1);
+                //Vector3 horizontalSpread = firstWeapon.transform.right.normalized * spreadRadius * Random.Range(-1, 1);
+                //Vector3 verticalSpread = firstWeapon.transform.up.normalized * spreadRadius * Random.Range(-1, 1);
                 //Vector3 finalSpread = ((horizontalSpread + verticalSpread) * Mathf.Clamp(playerRb.velocity.magnitude ,.3f, 2f)) * Mathf.Clamp(recoil / 3, 0, 2f) + new Vector3(0,recoil * .025f,0);
-                Vector3 fireDirection = weaponModel.transform.forward; //+ finalSpread;
+                Vector3 fireDirection = firstWeapon.transform.forward; //+ finalSpread;
                 fireRayCast = new Ray(transform.position, fireDirection);
                 RaycastHit hitData;
                 if (Physics.Raycast(fireRayCast, out hitData)) {
@@ -73,15 +68,34 @@ public class PlayerWeapon : MonoBehaviour {
             readyToFire = false;
             Invoke(nameof(ResetFire), fireRate);
             magazine--;
-            if (magazine == 0) {
-                Invoke(nameof(ResetMagazine), reloadTime);
-            }
         }
-        if(Input.GetKeyDown(reloadKey) && magazine < weaponProperties.magazine && magazine > 0) {
+        if (magazine == 0) {
+            Invoke(nameof(ResetMagazine), reloadTime);
+        }
+        if (Input.GetKeyDown(reloadKey) && magazine < weaponProperties.magazine && magazine > 0) {
             magazine = 0;
             Invoke(nameof(ResetMagazine), reloadTime);
         }
 	}
+
+    public void changeWeapon(GameObject newWeapon) {
+        cameraMovement.updateWeaponOrientation(newWeapon.transform);
+
+        firstWeapon = newWeapon;
+        Transform oldWeapon = transform.GetChild(2);
+
+        Quaternion oldWeaponRotation = oldWeapon.rotation;
+        Vector3 oldWeaponPosition = oldWeapon.position;
+
+        Destroy(oldWeapon.gameObject);
+        Instantiate(newWeapon, oldWeaponPosition, oldWeaponRotation, transform);
+
+        weaponProperties = newWeapon.GetComponent<WeaponProperties>();
+        updateWeaponProperties();
+
+        readyToFire = false;
+        Invoke(nameof(ResetFire), switchTime);
+    }
 
     private void FixedUpdate(){
         if (recoil > 0.15){
@@ -98,5 +112,19 @@ public class PlayerWeapon : MonoBehaviour {
 
     private void ResetMagazine() {
         magazine = weaponProperties.magazine;
+    }
+
+    private void updateWeaponProperties() {
+        weaponSFX = weaponProperties.weaponSFX;
+        magazine = weaponProperties.magazine;
+        damage = weaponProperties.damage;
+        fireRate = weaponProperties.fireRate;
+        automatic = weaponProperties.automatic;
+        reloadTime = weaponProperties.reloadTime;
+        spreadCount = weaponProperties.spreadCount;
+        spreadRadius = weaponProperties.spreadRadius;
+        recoilMod = weaponProperties.recoilMod;
+        recoil = 0;
+        switchTime = weaponProperties.switchTime;
     }
 }
