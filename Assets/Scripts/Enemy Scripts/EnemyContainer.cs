@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 using static EnemyProperties;
@@ -9,6 +10,10 @@ public class EnemyContainer : MonoBehaviour {
     public EnemyProperties enemyProperties;
     public NavMeshAgent agent;
 
+    [SerializeField] private readonly EnemyBuffs captainSelfMod = EnemyBuffs.Of(1.5f, 2, 2, 2);
+    [SerializeField] private readonly EnemyBuffs captainOtherMod = EnemyBuffs.Of(1.5f, 1.5f, 2, 2);
+    
+
     [Header("Enemy Properties")]
     [SerializeField] private float health;
     [SerializeField] private float damage;
@@ -17,12 +22,11 @@ public class EnemyContainer : MonoBehaviour {
 
     [SerializeField] private GameObject player;
 
-    [SerializeField] private SerializableDictionary<SpecialType, bool> specialTypes = new SerializableDictionary<SpecialType, bool>() 
-    {
-        { SpecialType.CAPTAIN, false },
-        { SpecialType.WORM, false },
-        { SpecialType.TROJAN, false }
-    };
+    [SerializeField] private List<SpecialType> specialTypes = new List<SpecialType>();
+
+    [Header("Worm Properties")]
+    [SerializeField] private List<GameObject> wormPrefabs = new List<GameObject>();
+    [SerializeField] private bool canSpawn = true;
 
     void Start() {
         enemyProperties = GetComponent<EnemyProperties>();
@@ -65,7 +69,29 @@ public class EnemyContainer : MonoBehaviour {
 
         foreach (SpecialType sType in enemyProperties.GetSpecialTypes())
         {
-            specialTypes[sType] = true;
+            specialTypes.Add(sType);
+        }
+
+        if (specialTypes.Contains(SpecialType.CAPTAIN))
+        {
+            AddBuffsMult(captainSelfMod);
+            GetComponent<SphereCollider>().enabled = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            AddBuffsMult(captainOtherMod);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.CompareTag("Enemy"))
+        {
+            RemoveBuffsMult(captainOtherMod);
         }
     }
 
@@ -87,6 +113,31 @@ public class EnemyContainer : MonoBehaviour {
         points -= buffs.pointsMod;
 
         agent.speed = moveSpeed;
+    }
+
+    public void AddBuffsMult(EnemyBuffs buff)
+    {
+        health *= buff.healthMod;
+        damage *= buff.dmgMod;
+        moveSpeed *= buff.speedMod;
+        points *= buff.pointsMod;
+
+        agent.speed = moveSpeed;
+    }
+
+    public void RemoveBuffsMult(EnemyBuffs buffs)
+    {
+        health /= buffs.healthMod;
+        damage /= buffs.dmgMod;
+        moveSpeed /= buffs.speedMod;
+        points /= buffs.pointsMod;
+
+        agent.speed = moveSpeed;
+    }
+
+    IEnumerator WaitSecondsThenAction(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
     }
 }
 

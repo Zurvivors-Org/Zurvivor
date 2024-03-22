@@ -172,4 +172,4 @@ public abstract class DictionaryDrawer<TK, TV> : PropertyDrawer
 }
 
 [CustomPropertyDrawer(typeof(EnemyContainer.SpecialtypeDict))]
-public class MyDictionaryDrawer2 : DictionaryDrawer<EnemyProperties.SpecialType, bool> { }
+public class CustomDict : DictionaryDrawer<EnemyProperties.SpecialType, bool> { }

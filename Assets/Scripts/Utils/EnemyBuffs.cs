@@ -17,8 +17,8 @@ public class EnemyBuffs
         pointsMod = p;
     }
 
-    public static EnemyBuffs Of(float h, float s, float d, long p)
+    public static EnemyBuffs Of(float healthMod, float speedMod, float damageMod, long pointsMod)
     {
-        return new EnemyBuffs(h, s, d, p);
+        return new EnemyBuffs(healthMod, speedMod, damageMod, pointsMod);
     }
 }

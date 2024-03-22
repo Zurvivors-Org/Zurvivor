@@ -10,6 +10,7 @@ public class EnemyProperties : MonoBehaviour{
 
     public EnemyType type = EnemyType.NORMAL;
     public bool propertiesDeclared = false;
+    public bool noPoints = false;
 
     private void Start()
     {
@@ -34,6 +35,8 @@ public class EnemyProperties : MonoBehaviour{
                 points = 10;
                 break;
         }
+
+        if (noPoints) { points = 0; }
 
         propertiesDeclared = true;
     }

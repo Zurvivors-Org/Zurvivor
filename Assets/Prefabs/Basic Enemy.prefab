@@ -111,9 +111,10 @@ GameObject:
   - component: {fileID: 2050167713}
   - component: {fileID: 2050167714}
   - component: {fileID: 2050167715}
+  - component: {fileID: 1195174202273548953}
   m_Layer: 0
   m_Name: Basic Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -162,12 +163,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fee31d6588debd84eb77f3c508450210, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
-  damage: 0
-  moveSpeed: 0
-  points: 0
+  specialTypes: 
   type: 0
   propertiesDeclared: 0
+  noPoints: 0
 --- !u!114 &2050167714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,11 +181,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyProperties: {fileID: 0}
   agent: {fileID: 0}
+  wormPrefabs:
+  - {fileID: 5154679567702076247, guid: 99b191cbae7acab4cbab157cdff8816e, type: 3}
+  - {fileID: 1084342243858080919, guid: ce3b54201eeb7db4e8209f8759d21ee1, type: 3}
+  - {fileID: 2302713227231205682, guid: df1aae827a591e3439484838cf168a3e, type: 3}
   health: 0
   damage: 0
   moveSpeed: 0
   points: 0
   player: {fileID: 0}
+  specialTypes: 
 --- !u!195 &2050167715
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -209,3 +213,16 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!135 &1195174202273548953
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5343409388804964625}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Radius: 9
+  m_Center: {x: 0, y: 0, z: 0}
