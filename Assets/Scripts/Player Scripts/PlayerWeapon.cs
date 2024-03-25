@@ -50,7 +50,7 @@ public class PlayerWeapon : MonoBehaviour {
                 //Vector3 horizontalSpread = firstWeapon.transform.right.normalized * spreadRadius * Random.Range(-1, 1);
                 //Vector3 verticalSpread = firstWeapon.transform.up.normalized * spreadRadius * Random.Range(-1, 1);
                 //Vector3 finalSpread = ((horizontalSpread + verticalSpread) * Mathf.Clamp(playerRb.velocity.magnitude ,.3f, 2f)) * Mathf.Clamp(recoil / 3, 0, 2f) + new Vector3(0,recoil * .025f,0);
-                Vector3 fireDirection = firstWeapon.transform.forward; //+ finalSpread;
+                Vector3 fireDirection = firstWeapon.transform.forward;// finalSpread;
                 fireRayCast = new Ray(transform.position, fireDirection);
                 RaycastHit hitData;
                 if (Physics.Raycast(fireRayCast, out hitData)) {
@@ -79,8 +79,6 @@ public class PlayerWeapon : MonoBehaviour {
 	}
 
     public void changeWeapon(GameObject newWeapon) {
-        cameraMovement.updateWeaponOrientation(newWeapon.transform);
-
         firstWeapon = newWeapon;
         Transform oldWeapon = transform.GetChild(2);
 
@@ -88,7 +86,11 @@ public class PlayerWeapon : MonoBehaviour {
         Vector3 oldWeaponPosition = oldWeapon.position;
 
         Destroy(oldWeapon.gameObject);
-        Instantiate(newWeapon, oldWeaponPosition, oldWeaponRotation, transform);
+
+        GameObject newGameObject = Instantiate(newWeapon, oldWeaponPosition, oldWeaponRotation, transform);
+
+        firstWeapon = newGameObject;
+        cameraMovement.updateWeaponOrientation(newGameObject.transform);
 
         weaponProperties = newWeapon.GetComponent<WeaponProperties>();
         updateWeaponProperties();
