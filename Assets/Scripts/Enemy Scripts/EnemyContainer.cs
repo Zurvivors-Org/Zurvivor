@@ -26,9 +26,10 @@ public class EnemyContainer : MonoBehaviour {
 
     [Header("Worm Properties")]
     [SerializeField] private List<GameObject> wormPrefabs = new List<GameObject>();
-    [SerializeField] private bool canSpawn = true;
+    
 
-    void Start() {
+    void Start()
+    {
         enemyProperties = GetComponent<EnemyProperties>();
         agent = GetComponent<NavMeshAgent>();
 
@@ -37,7 +38,11 @@ public class EnemyContainer : MonoBehaviour {
         StartCoroutine(WaitUpdateProperties());
     }
 
-    private void Update() {
+    public void setPlayer(GameObject player) { this.player = player; }
+    public GameObject getPlayer() { return player; }
+
+    private void Update() 
+    {
         agent.SetDestination(player.transform.position);
     }
 
@@ -76,6 +81,12 @@ public class EnemyContainer : MonoBehaviour {
         {
             AddBuffsMult(captainSelfMod);
             GetComponent<SphereCollider>().enabled = true;
+        } 
+        else if (specialTypes.Contains(SpecialType.WORM))
+        {
+            WormSpawnManager wScript = gameObject.AddComponent<WormSpawnManager>();
+            wScript.prefabsToChoose = wormPrefabs;
+            wScript.enableSpawn();
         }
     }
 
@@ -133,11 +144,6 @@ public class EnemyContainer : MonoBehaviour {
         points /= buffs.pointsMod;
 
         agent.speed = moveSpeed;
-    }
-
-    IEnumerator WaitSecondsThenAction(float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
     }
 }
 
