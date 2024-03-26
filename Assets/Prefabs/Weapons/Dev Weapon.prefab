@@ -53,8 +53,10 @@ MonoBehaviour:
   reloadTime: 2
   spreadCount: 1
   spreadRadius: 0.1
-  recoilMod: 1
-  switchTime: 0
+  verticalRecoil: 0.4
+  horiztontalRecoil: 0.4
+  recoilMod: 0.2
+  switchTime: 1
 --- !u!1 &8580327370362091087
 GameObject:
   m_ObjectHideFlags: 0

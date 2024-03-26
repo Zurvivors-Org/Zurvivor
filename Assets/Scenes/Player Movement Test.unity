@@ -305,9 +305,13 @@ MonoBehaviour:
   reloadTime: 0
   spreadCount: 0
   spreadRadius: 0
+  verticalRecoil: 0
+  horiztontalRecoil: 0
   recoilMod: 0
   switchTime: 0
   recoil: 0
+  recoilCooldown: 0
+  currentRecoilTime: 0
 --- !u!82 &67077984
 AudioSource:
   m_ObjectHideFlags: 0
@@ -568,7 +572,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &231389859
 Transform:
   m_ObjectHideFlags: 0

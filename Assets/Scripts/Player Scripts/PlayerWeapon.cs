@@ -26,14 +26,18 @@ public class PlayerWeapon : MonoBehaviour {
     public float reloadTime;
     public float spreadCount;
     public float spreadRadius;
+    public float verticalRecoil;
+    public float horiztontalRecoil;
     public float recoilMod;
     public float switchTime;
     [SerializeField] private float recoil;
+    [SerializeField] private float recoilCooldown;
+    [SerializeField] private float currentRecoilTime;
 
     private bool readyToFire = true;
 
     private void Start() {
-        updateWeaponProperties();
+        UpdateWeaponProperties();
 
         firstWeapon = weaponProperties.gameObject;
 
@@ -45,30 +49,16 @@ public class PlayerWeapon : MonoBehaviour {
         Debug.DrawRay(transform.position, firstWeapon.transform.forward);
         if ((automatic && Input.GetKey(fireKey) || (!automatic && Input.GetKeyDown(fireKey))) && magazine > 0 && readyToFire) {
             playerAudio.PlayOneShot(weaponSFX);
-            recoil += recoilMod;
             for (int i = 0; i < spreadCount; i++){
-                //Vector3 horizontalSpread = firstWeapon.transform.right.normalized * spreadRadius * Random.Range(-1, 1);
-                //Vector3 verticalSpread = firstWeapon.transform.up.normalized * spreadRadius * Random.Range(-1, 1);
-                //Vector3 finalSpread = ((horizontalSpread + verticalSpread) * Mathf.Clamp(playerRb.velocity.magnitude ,.3f, 2f)) * Mathf.Clamp(recoil / 3, 0, 2f) + new Vector3(0,recoil * .025f,0);
-                Vector3 fireDirection = firstWeapon.transform.forward;// finalSpread;
-                fireRayCast = new Ray(transform.position, fireDirection);
-                RaycastHit hitData;
-                if (Physics.Raycast(fireRayCast, out hitData)) {
-                    EnemyContainer hitContainer;
-                    if (hitData.collider.CompareTag("Enemy") && hitData.collider.gameObject.transform.parent.gameObject.TryGetComponent<EnemyContainer>(out hitContainer)) {
-                        hitContainer.health -= damage;
-                        if(hitContainer.health <= 0) {
-                            playerPoints.AddPoints(hitContainer.points);
-                            Destroy(hitContainer.gameObject);
-                        }
-                    }
-                }
-                Debug.DrawRay(transform.position, fireDirection * 20, Color.red, 10f);
+                ShootRay();
             }
             readyToFire = false;
             Invoke(nameof(ResetFire), fireRate);
             magazine--;
         }
+
+        UpdateRecoil();
+
         if (magazine == 0) {
             Invoke(nameof(ResetMagazine), reloadTime);
         }
@@ -93,19 +83,36 @@ public class PlayerWeapon : MonoBehaviour {
         cameraMovement.updateWeaponOrientation(newGameObject.transform);
 
         weaponProperties = newWeapon.GetComponent<WeaponProperties>();
-        updateWeaponProperties();
+        UpdateWeaponProperties();
 
         readyToFire = false;
         Invoke(nameof(ResetFire), switchTime);
     }
 
-    private void FixedUpdate(){
-        if (recoil > 0.15){
-            recoil -= 0.15f;
+    private void UpdateRecoil() {
+        if (readyToFire && recoil > 0) {
+            recoil = Mathf.Clamp(recoil - recoilMod * 3 * Time.deltaTime, 0f, 1f);
         }
-        else{
-            recoil = 0;
+    }
+
+    private void ShootRay() {
+        Vector3 horizontal = firstWeapon.transform.right.normalized * recoil * Random.Range(-horiztontalRecoil, horiztontalRecoil);
+        Vector3 vertical = firstWeapon.transform.up.normalized * recoil * Random.Range(0, verticalRecoil);
+        Vector3 fireDirection = firstWeapon.transform.forward + horizontal + vertical;
+        fireRayCast = new Ray(transform.position, fireDirection);
+        RaycastHit hitData;
+        if (Physics.Raycast(fireRayCast, out hitData)) {
+            EnemyContainer hitContainer;
+            if (hitData.collider.CompareTag("Enemy") && hitData.collider.gameObject.transform.parent.gameObject.TryGetComponent<EnemyContainer>(out hitContainer)) {
+                hitContainer.health -= damage;
+                if (hitContainer.health <= 0) {
+                    playerPoints.AddPoints(hitContainer.points);
+                    Destroy(hitContainer.gameObject);
+                }
+            }
         }
+        recoil = Mathf.Clamp(recoil + recoilMod, 0f, 1f);
+        Debug.DrawRay(transform.position, fireDirection * 20, Color.red, 10f);
     }
 
     private void ResetFire() {
@@ -116,7 +123,7 @@ public class PlayerWeapon : MonoBehaviour {
         magazine = weaponProperties.magazine;
     }
 
-    private void updateWeaponProperties() {
+    private void UpdateWeaponProperties() {
         weaponSFX = weaponProperties.weaponSFX;
         magazine = weaponProperties.magazine;
         damage = weaponProperties.damage;
@@ -125,6 +132,8 @@ public class PlayerWeapon : MonoBehaviour {
         reloadTime = weaponProperties.reloadTime;
         spreadCount = weaponProperties.spreadCount;
         spreadRadius = weaponProperties.spreadRadius;
+        verticalRecoil = 0;
+        horiztontalRecoil = 0;
         recoilMod = weaponProperties.recoilMod;
         recoil = 0;
         switchTime = weaponProperties.switchTime;
