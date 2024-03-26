@@ -120,7 +120,7 @@ public class EnemyContainer : MonoBehaviour {
             this.trojanChild = Instantiate(wormPrefabs[0], newPosition, Quaternion.identity);
             trojanChild.GetComponent<EnemyContainer>().setPlayer(player);
             trojanChild.GetComponent<EnemyContainer>().isTrojanChild = true;
-            AddBuffsMult(EnemyBuffs.Of(1f, 3f, 3f, 1));
+            AddBuffsMult(EnemyBuffs.Of(1f, 3f, 1.5f, 3));
         }
 
         if (isTrojanChild) AddBuffsMult(EnemyBuffs.Of(1f, 2.5f, 1f, 0));
