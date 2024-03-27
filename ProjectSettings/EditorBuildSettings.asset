@@ -9,7 +9,7 @@ EditorBuildSettings:
     path: Assets/Scenes/TitleScreen.unity
     guid: a94984705f4ce4448b242833aced41d6
   - enabled: 1
-    path: Assets/Scenes/Developer Scene.unity
+    path: Assets/Scenes/Player Movement Test.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
     path: Assets/Scenes/End.unity

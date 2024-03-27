@@ -14,6 +14,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private bool isNextStageReady = false;
 
     [Header("Spawn Properties")]
+    [SerializeField] private GameObject playerGO;
     [SerializeField] private GameObject[] spawnPrefabs = new GameObject[3];
     [SerializeField] private float tankProb = 0.2f;
     [SerializeField] private float fastProb = 0.2f;
@@ -32,6 +33,21 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (currentStageComplete)
+        {
+            StartCoroutine(WaitForSecondsThenAction(5, () =>
+            {
+                currentStage++;
+                stageEnemies += stageIncrement;
+                currentEnemies = stageEnemies;
+                currentStageComplete = false;
+                isNextStageReady = true;
+            }));
+        }
+
         if (isNextStageReady)
+        {
+
+        }
     }
 }
