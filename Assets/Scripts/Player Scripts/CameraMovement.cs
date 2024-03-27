@@ -6,8 +6,8 @@ public class CameraMovement : MonoBehaviour{
     const string xMouseAxis = "Mouse X";
     const string yMouseAxis = "Mouse Y";
     private float xCameraLimit = 88;
-    private float xRotation = 0f;
-    private float yRotation = 0f;
+    public float xRotation = 0f;
+    public float yRotation = 0f;
     [SerializeField] private Transform playerOrientation;
     [SerializeField] private Transform weaponOrientation;
     [SerializeField] private float cameraSensitivity = 1f;
@@ -17,10 +17,10 @@ public class CameraMovement : MonoBehaviour{
     }
 
     private void Update(){
-        float mouseX = Input.GetAxisRaw(xMouseAxis) * Time.deltaTime * cameraSensitivity;
-        float mouseY = Input.GetAxisRaw(yMouseAxis) * Time.deltaTime * cameraSensitivity;
+        float mouseX = Input.GetAxisRaw(xMouseAxis) * cameraSensitivity;
+        float mouseY = Input.GetAxisRaw(yMouseAxis) * cameraSensitivity;
 
-        yRotation = wrapNum(yRotation + mouseX);
+        yRotation = WrapNum(yRotation + mouseX);
         xRotation -= mouseY;
 
         xRotation = Mathf.Clamp(xRotation, -xCameraLimit, xCameraLimit);
@@ -30,7 +30,11 @@ public class CameraMovement : MonoBehaviour{
         weaponOrientation.rotation = Quaternion.Euler(xRotation, yRotation, 0f);
     }
 
-    private float wrapNum(float num) {
+    public void updateWeaponOrientation(Transform newWeapon) {
+        weaponOrientation = newWeapon;
+    }
+
+    private float WrapNum(float num) {
         if(num > 360) {
             num = num - 360;
         }
