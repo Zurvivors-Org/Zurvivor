@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using static BaseUtils;
 
 public class WormSpawnManager : MonoBehaviour
 {
@@ -22,17 +23,17 @@ public class WormSpawnManager : MonoBehaviour
         if (canSpawn)
         {
             int index = Random.Range(0, 3);
-            Vector3 newPosition = new Vector3(transform.position.x + enforceRadius(1f, 6f), transform.position.y, transform.position.z + enforceRadius(1f,6f));
+            Vector3 newPosition = new Vector3(transform.position.x + EnforceRadius(1f, 6f), transform.position.y, transform.position.z + EnforceRadius(1f,6f));
             GameObject childGO = Instantiate(prefabsToChoose[index]);
             childGO.transform.position = newPosition;
-            childGO.GetComponent<EnemyContainer>().setPlayer(GetComponent<EnemyContainer>().getPlayer());
+            childGO.GetComponent<EnemyContainer>().SetPlayer(GetComponent<EnemyContainer>().GetPlayer());
             children.Add(childGO);
             canSpawn = false;
             StartCoroutine(BaseUtils.WaitForSecondsThenAction(spawnDelay, () => { canSpawn = true; }));
         }
     }
 
-    public void enableSpawn()
+    public void EnableSpawn()
     {
         StartCoroutine(BaseUtils.WaitForSecondsThenAction(0.5f, () => { canSpawn = true; }));
     }
@@ -43,15 +44,5 @@ public class WormSpawnManager : MonoBehaviour
         {
             Destroy(child);
         }
-    }
-    private float enforceRadius(float min, float max)
-    {
-        float num = Random.Range(-max, max);
-        while (Mathf.Abs(num) <= min)
-        {
-            num = Random.Range(-max, max);
-        }
-
-        return num;
     }
 }

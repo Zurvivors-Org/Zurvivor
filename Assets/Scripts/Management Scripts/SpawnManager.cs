@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using static BaseUtils;
+using static EnemyProperties;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject[] spawnPrefabs = new GameObject[3];
     [SerializeField] private float tankProb = 0.2f;
     [SerializeField] private float fastProb = 0.2f;
+    [SerializeField] private Transform[] spawnAreas;
 
     [Header("Special Attribute Properties")]
     [SerializeField] private float captainProb = .2f;
@@ -35,7 +37,7 @@ public class SpawnManager : MonoBehaviour
     {
         if (currentStageComplete)
         {
-            StartCoroutine(WaitForSecondsThenAction(5, () =>
+            StartCoroutine(WaitForSecondsThenAction(.5f, () =>
             {
                 currentStage++;
                 stageEnemies += stageIncrement;
@@ -47,7 +49,76 @@ public class SpawnManager : MonoBehaviour
 
         if (isNextStageReady)
         {
+            int[] countPerArea = new int[spawnAreas.Length];
+            float tDist = 0;
 
+            // Get Total Dist from Player
+            foreach (Transform trans in spawnAreas)
+            {
+                tDist += Vector3.Distance(playerGO.transform.position, trans.position);
+            }
+
+            // Determine spawn proportions
+            for (int i = 0; i < spawnAreas.Length; i++)
+            {
+                float areaProportion = Vector3.Distance(spawnAreas[i].position, playerGO.transform.position);
+                countPerArea[i] = Mathf.RoundToInt(areaProportion * stageEnemies);
+
+                Transform thisArea = spawnAreas[i];
+
+                for (int j = 0; j < countPerArea[i]; j++)
+                {
+                    float typeDeterminant = Random.Range(0f, 1f);
+                    EnemyType baseType;
+
+                    if (typeDeterminant <= fastProb)
+                    {
+                        baseType = EnemyType.FAST;
+                    }
+                    else if (typeDeterminant <= fastProb + tankProb)
+                    {
+                        baseType = EnemyType.TANK;
+                    }
+                    else
+                    {
+                        baseType = EnemyType.NORMAL;
+                    }
+
+                    float captainDeterminant = Random.Range(0f, 1f);
+                    float wormDeterminant = Random.Range(0f, 1f);
+                    float trojanDeterminant = Random.Range(0f, 1f);
+
+                    List<SpecialType> specialTypes = new List<SpecialType>();
+
+                    if (captainDeterminant <= captainProb) specialTypes.Add(SpecialType.CAPTAIN);
+                    if (wormDeterminant <= wormProb) specialTypes.Add(SpecialType.WORM);
+                    if (trojanDeterminant <= trojanProb) specialTypes.Add(SpecialType.TROJAN);
+
+                    Vector3 spawnPose = new Vector3(thisArea.position.x + EnforceRadius(.1f, 6f), transform.position.y, transform.position.z + EnforceRadius(.1f, 6f));
+
+                    GameObject spawnedEnemy;
+
+                    switch (baseType)
+                    {
+                        case EnemyType.FAST:
+                            spawnedEnemy = Instantiate(spawnPrefabs[1], transform);
+                            break;
+                        case EnemyType.TANK:
+                            spawnedEnemy = Instantiate(spawnPrefabs[2], transform);
+                            break;
+                        case EnemyType.NORMAL:
+                        default:
+                            spawnedEnemy = Instantiate(spawnPrefabs[0], transform);
+                            break;
+                    }
+
+                    spawnedEnemy.transform.position = spawnPose;
+
+                    spawnedEnemy.GetComponent<EnemyProperties>().specialTypes = specialTypes;
+                    spawnedEnemy.GetComponent<EnemyContainer>().SetPlayer(playerGO);
+                    spawnedEnemy.GetComponent<EnemyContainer>().Initialize();
+                }
+            }
         }
     }
 }
