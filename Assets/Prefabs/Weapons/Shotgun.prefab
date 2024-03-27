@@ -150,7 +150,7 @@ MonoBehaviour:
   reloadTime: 2
   spreadCount: 10
   spreadRadius: 0.1
-  verticalRecoil: 1
-  horiztontalRecoil: 1
+  verticalRecoil: 0.1
+  horiztontalRecoil: 0.1
   recoilMod: 0.5
   switchTime: 2

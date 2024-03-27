@@ -572,7 +572,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &231389859
 Transform:
   m_ObjectHideFlags: 0
@@ -2530,6 +2530,18 @@ PrefabInstance:
     - target: {fileID: 7811105983604114611, guid: d9ac87431b9c9b8459fe9edbaf2e9507, type: 3}
       propertyPath: automatic
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7811105983604114611, guid: d9ac87431b9c9b8459fe9edbaf2e9507, type: 3}
+      propertyPath: recoilMod
+      value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7811105983604114611, guid: d9ac87431b9c9b8459fe9edbaf2e9507, type: 3}
+      propertyPath: verticalRecoil
+      value: 0.03
+      objectReference: {fileID: 0}
+    - target: {fileID: 7811105983604114611, guid: d9ac87431b9c9b8459fe9edbaf2e9507, type: 3}
+      propertyPath: horiztontalRecoil
+      value: 0.02
       objectReference: {fileID: 0}
     - target: {fileID: 8580327368837348944, guid: d9ac87431b9c9b8459fe9edbaf2e9507, type: 3}
       propertyPath: m_RootOrder

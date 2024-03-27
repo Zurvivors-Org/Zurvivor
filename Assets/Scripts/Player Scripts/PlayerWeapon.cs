@@ -33,6 +33,7 @@ public class PlayerWeapon : MonoBehaviour {
     [SerializeField] private float recoil;
     [SerializeField] private float recoilCooldown;
     [SerializeField] private float currentRecoilTime;
+    private Vector3 previousRecoil;
 
     private bool readyToFire = true;
 
@@ -44,6 +45,8 @@ public class PlayerWeapon : MonoBehaviour {
         playerRb = GetComponent<Rigidbody>();
         playerPoints = GetComponent<PlayerPoint>();
         playerAudio = GetComponent<AudioSource>();
+
+        previousRecoil = Vector3.zero;
     }
     private void Update(){
         Debug.DrawRay(transform.position, firstWeapon.transform.forward);
@@ -98,7 +101,9 @@ public class PlayerWeapon : MonoBehaviour {
     private void ShootRay() {
         Vector3 horizontal = firstWeapon.transform.right.normalized * recoil * Random.Range(-horiztontalRecoil, horiztontalRecoil);
         Vector3 vertical = firstWeapon.transform.up.normalized * recoil * Random.Range(0, verticalRecoil);
-        Vector3 fireDirection = firstWeapon.transform.forward + horizontal + vertical;
+        Vector3 newRecoil = horizontal + vertical;
+        Vector3 fireDirection = firstWeapon.transform.forward + newRecoil + previousRecoil;
+        previousRecoil = newRecoil;
         fireRayCast = new Ray(transform.position, fireDirection);
         RaycastHit hitData;
         if (Physics.Raycast(fireRayCast, out hitData)) {
@@ -132,8 +137,8 @@ public class PlayerWeapon : MonoBehaviour {
         reloadTime = weaponProperties.reloadTime;
         spreadCount = weaponProperties.spreadCount;
         spreadRadius = weaponProperties.spreadRadius;
-        verticalRecoil = 0;
-        horiztontalRecoil = 0;
+        verticalRecoil = weaponProperties.verticalRecoil;
+        horiztontalRecoil = weaponProperties.horiztontalRecoil;
         recoilMod = weaponProperties.recoilMod;
         recoil = 0;
         switchTime = weaponProperties.switchTime;
