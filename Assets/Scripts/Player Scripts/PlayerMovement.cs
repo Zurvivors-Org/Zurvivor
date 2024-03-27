@@ -76,6 +76,11 @@ public class PlayerMovement : MonoBehaviour{
         }
     }
 
+    public GameObject GetDirectionalTransform()
+    {
+        return orientation.gameObject;
+    }
+
     void FixedUpdate(){
         MovePlayer();
     }
