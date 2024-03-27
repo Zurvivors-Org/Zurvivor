@@ -16,10 +16,10 @@ public class EnemyContainer : MonoBehaviour {
     
 
     [Header("Enemy Properties")]
-    [SerializeField] private float health;
+    public float health;
     [SerializeField] private float damage;
     [SerializeField] private float moveSpeed;
-    [SerializeField] private long points;
+    public long points;
 
     [SerializeField] private GameObject player;
 
