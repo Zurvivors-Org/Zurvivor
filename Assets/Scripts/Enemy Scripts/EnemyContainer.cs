@@ -113,6 +113,7 @@ public class EnemyContainer : MonoBehaviour {
             WormSpawnManager wScript = gameObject.AddComponent<WormSpawnManager>();
             wScript.prefabsToChoose = wormPrefabs;
             wScript.enableSpawn();
+            AddBuffsMult(EnemyBuffs.Of(1f, 1f, 1.5f, 3));
         }
         else if (specialTypes.Contains(SpecialType.TROJAN))
         {
