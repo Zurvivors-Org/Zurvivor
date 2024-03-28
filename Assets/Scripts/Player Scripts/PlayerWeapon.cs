@@ -34,6 +34,7 @@ public class PlayerWeapon : MonoBehaviour {
     [SerializeField] private float recoilCooldown;
     [SerializeField] private float currentRecoilTime;
     private Vector3 previousRecoil;
+    private bool readyToReload = false;
 
     private bool readyToFire = true;
 
@@ -51,20 +52,23 @@ public class PlayerWeapon : MonoBehaviour {
     private void Update(){
         Debug.DrawRay(transform.position, firstWeapon.transform.forward);
         if ((automatic && Input.GetKey(fireKey) || (!automatic && Input.GetKeyDown(fireKey))) && magazine > 0 && readyToFire) {
+            magazine--;
             playerAudio.PlayOneShot(weaponSFX);
             for (int i = 0; i < spreadCount; i++){
                 ShootRay();
             }
             readyToFire = false;
             Invoke(nameof(ResetFire), fireRate);
-            magazine--;
+        }
+
+        Debug.Log(magazine);
+
+        if (magazine == 0) {
+            magazine = -1;
+            Invoke(nameof(ResetMagazine), reloadTime);
         }
 
         UpdateRecoil();
-
-        if (magazine == 0) {
-            Invoke(nameof(ResetMagazine), reloadTime);
-        }
         if (Input.GetKeyDown(reloadKey) && magazine < weaponProperties.magazine && magazine > 0) {
             magazine = 0;
             Invoke(nameof(ResetMagazine), reloadTime);
