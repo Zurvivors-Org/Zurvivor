@@ -181,16 +181,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyProperties: {fileID: 0}
   agent: {fileID: 0}
-  wormPrefabs:
-  - {fileID: 5154679567702076247, guid: 99b191cbae7acab4cbab157cdff8816e, type: 3}
-  - {fileID: 1084342243858080919, guid: ce3b54201eeb7db4e8209f8759d21ee1, type: 3}
-  - {fileID: 2302713227231205682, guid: df1aae827a591e3439484838cf168a3e, type: 3}
+  isReady: 0
   health: 0
   damage: 0
   moveSpeed: 0
   points: 0
   player: {fileID: 0}
   specialTypes: 
+  wormPrefabs:
+  - {fileID: 5154679567702076247, guid: 99b191cbae7acab4cbab157cdff8816e, type: 3}
+  - {fileID: 1084342243858080919, guid: ce3b54201eeb7db4e8209f8759d21ee1, type: 3}
+  - {fileID: 2302713227231205682, guid: df1aae827a591e3439484838cf168a3e, type: 3}
+  trojanChild: {fileID: 0}
+  isTrojanChild: 0
 --- !u!195 &2050167715
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -210,7 +213,7 @@ NavMeshAgent:
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 2
-  m_BaseOffset: 1
+  m_BaseOffset: 0.85
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
 --- !u!135 &1195174202273548953

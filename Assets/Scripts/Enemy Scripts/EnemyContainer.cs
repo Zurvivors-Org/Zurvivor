@@ -41,6 +41,7 @@ public class EnemyContainer : MonoBehaviour {
 
 
         //while (!enemyProperties.propertiesDeclared) { }sa
+        Initialize();
     }
 
     public void Initialize()

@@ -42,9 +42,10 @@ public class SpawnManager : MonoBehaviour
                 currentStage++;
                 stageEnemies += stageIncrement;
                 currentEnemies = stageEnemies;
-                currentStageComplete = false;
                 isNextStageReady = true;
             }));
+
+            currentStageComplete = false;
         }
 
         if (isNextStageReady)
@@ -55,13 +56,13 @@ public class SpawnManager : MonoBehaviour
             // Get Total Dist from Player
             foreach (Transform trans in spawnAreas)
             {
-                tDist += Vector3.Distance(playerGO.transform.position, trans.position);
+                tDist += Vector3.Distance(trans.position, playerGO.transform.position);
             }
 
             // Determine spawn proportions
             for (int i = 0; i < spawnAreas.Length; i++)
             {
-                float areaProportion = Vector3.Distance(spawnAreas[i].position, playerGO.transform.position);
+                float areaProportion = Vector3.Distance(spawnAreas[i].position, playerGO.transform.position) / tDist;
                 countPerArea[i] = Mathf.RoundToInt(areaProportion * stageEnemies);
 
                 Transform thisArea = spawnAreas[i];
@@ -94,7 +95,12 @@ public class SpawnManager : MonoBehaviour
                     if (wormDeterminant <= wormProb) specialTypes.Add(SpecialType.WORM);
                     if (trojanDeterminant <= trojanProb) specialTypes.Add(SpecialType.TROJAN);
 
-                    Vector3 spawnPose = new Vector3(thisArea.position.x + EnforceRadius(.1f, 6f), transform.position.y, transform.position.z + EnforceRadius(.1f, 6f));
+                    Vector3 spawnPose = new Vector3(thisArea.position.x + EnforceRadius(.1f, 6f), thisArea.position.y, thisArea.position.z + EnforceRadius(.1f, 6f));
+
+                    while (!thisArea.gameObject.GetComponent<BoxCollider>().bounds.Contains(spawnPose))
+                    {
+                        spawnPose = new Vector3(thisArea.position.x + EnforceRadius(.1f, 6f), thisArea.position.y, thisArea.position.z + EnforceRadius(.1f, 6f));
+                    }
 
                     GameObject spawnedEnemy;
 
@@ -112,6 +118,8 @@ public class SpawnManager : MonoBehaviour
                             break;
                     }
 
+                    spawnedEnemy = Instantiate(spawnPrefabs[0], transform);
+
                     spawnedEnemy.transform.position = spawnPose;
 
                     spawnedEnemy.GetComponent<EnemyProperties>().specialTypes = specialTypes;
@@ -119,6 +127,10 @@ public class SpawnManager : MonoBehaviour
                     spawnedEnemy.GetComponent<EnemyContainer>().Initialize();
                 }
             }
+
+            isNextStageReady = false;
+
+            Debug.Log(string.Join(", ", countPerArea));
         }
     }
 }
