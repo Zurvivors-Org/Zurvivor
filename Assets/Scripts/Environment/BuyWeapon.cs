@@ -22,7 +22,7 @@ public class BuyWeapon : MonoBehaviour{
         if (other.transform.parent.tag.Equals("Player")) {
             if (Input.GetKeyDown(interactKey) && playerPoints != null && playerPoints.GetPoints() >= cost) {
                 playerPoints.SubPoints(cost);
-                playerWeapon.changeWeapon(weapon);
+                playerWeapon.ChangeWeapon(weapon);
             }
         }
     }
