@@ -20,7 +20,7 @@ public class BuyWeapon : MonoBehaviour{
 
     private void OnTriggerStay(Collider other) {
         if (other.transform.parent.tag.Equals("Player")) {
-            if (Input.GetKeyDown(interactKey) && playerPoints != null && playerPoints.GetPoints() >= cost) {
+            if (Input.GetKeyDown(interactKey) && playerPoints != null && playerPoints.GetPoints() >= cost && !playerWeapon.ContainsWeapon(weapon.GetComponent<WeaponProperties>().name)) {
                 playerPoints.SubPoints(cost);
                 playerWeapon.ChangeWeapon(weapon);
             }

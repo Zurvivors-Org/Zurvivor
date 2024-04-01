@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 8274298717253738634}
   m_Layer: 0
   m_Name: Pistol
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -144,13 +144,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponSFX: {fileID: 8300000, guid: ae583988519a1bc418dd4162b2ca2c72, type: 3}
   magazine: 8
-  damage: 5
+  damage: 50
   fireRate: 0.1
   automatic: 0
   reloadTime: 0.7
   spreadCount: 1
   spreadRadius: 0
-  verticalRecoil: 0.2
-  horiztontalRecoil: 0.1
+  verticalRecoil: 0.1
+  horiztontalRecoil: 0.05
   recoilMod: 0.5
   switchTime: 0.6
+  weaponName: Pistol

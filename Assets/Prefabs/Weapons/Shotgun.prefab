@@ -109,7 +109,7 @@ GameObject:
   - component: {fileID: 8274298717253738634}
   m_Layer: 0
   m_Name: Shotgun
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -147,10 +147,11 @@ MonoBehaviour:
   damage: 20
   fireRate: 0.2
   automatic: 1
-  reloadTime: 2
+  reloadTime: 1.5
   spreadCount: 10
   spreadRadius: 0.1
   verticalRecoil: 0.1
   horiztontalRecoil: 0.1
   recoilMod: 0.5
-  switchTime: 2
+  switchTime: 0.7
+  weaponName: Shotgun

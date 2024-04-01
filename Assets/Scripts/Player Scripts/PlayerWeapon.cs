@@ -30,9 +30,10 @@ public class PlayerWeapon : MonoBehaviour {
     [Header("Current Weapon")]
     private GameObject currentWeapon;
     private WeaponProperties currentWeaponProperties;
-    private float currentMagazine;
+    [SerializeField] private float currentMagazine;
     private float currentRecoil;
     private Vector3 currentPreviousRecoil;
+    private bool currentlyReloading = false;
 
     private Ray fireRayCast;
     private bool isPrimaryEquip = true;
@@ -40,6 +41,9 @@ public class PlayerWeapon : MonoBehaviour {
     private bool readyToFire = true;
 
     private void Start() {
+        primaryWeapon = weaponHolder.transform.GetChild(0).gameObject;
+        secondaryWeapon = weaponHolder.transform.GetChild(1).gameObject;
+
         playerRb = GetComponent<Rigidbody>();
         playerPoints = GetComponent<PlayerPoint>();
         playerAudio = GetComponent<AudioSource>();
@@ -58,48 +62,68 @@ public class PlayerWeapon : MonoBehaviour {
             Invoke(nameof(ResetFire), currentWeaponProperties.fireRate);
         }
 
-        if (currentMagazine == 0) {
-            currentMagazine = -1;
+        if (currentMagazine == 0 && !currentlyReloading) {
+            currentlyReloading = true;
             Invoke(nameof(ResetMagazine), currentWeaponProperties.reloadTime);
         }
 
         UpdateRecoil();
         if (Input.GetKeyDown(reloadKey) && currentMagazine < currentWeaponProperties.magazine && currentMagazine > 0) {
-            currentMagazine = -1;
+            currentlyReloading = true;
+            currentMagazine = 0;
             Invoke(nameof(ResetMagazine), currentWeaponProperties.reloadTime);
+        }
+
+        if (Input.GetKeyDown(primaryKey)) {
+            isPrimaryEquip = true;
+            UpdateCurrentWeapon();
+        }
+        else if (Input.GetKeyDown(secondaryKey) && secondaryWeapon.tag.Equals("Weapon")) {
+            isPrimaryEquip = false;
+            UpdateCurrentWeapon();
         }
 	}
 
     public void ChangeWeapon(GameObject newWeapon) {
-        if (isPrimaryEquip) {
-            primaryWeapon = newWeapon;
-            primaryWeaponProperties = newWeapon.GetComponent<WeaponProperties>();
-            primaryMagazine = primaryWeaponProperties.magazine;
+        if (!isPrimaryEquip || (primaryWeapon.tag.Equals("Weapon") && !secondaryWeapon.tag.Equals("Weapon"))) {
+            if (!secondaryWeapon.tag.Equals("Weapon")) {
+                isPrimaryEquip = false;
+            }
+            Destroy(weaponHolder.transform.GetChild(1).gameObject);
 
-            Destroy(weaponHolder.transform.GetChild(0));
-            Instantiate(primaryWeapon, weaponHolder.transform);
-
-            isPrimaryEquip = false;
-        }
-        else {
-            secondaryWeapon = newWeapon;
+            secondaryWeapon = Instantiate(newWeapon, weaponHolder.transform);
             secondaryWeaponProperties = newWeapon.GetComponent<WeaponProperties>();
             secondaryMagazine = secondaryWeaponProperties.magazine;
 
-            Destroy(weaponHolder.transform.GetChild(1));
-            Instantiate(secondaryWeapon, weaponHolder.transform);
+            secondaryWeapon.transform.SetAsLastSibling();
+        }
+        else {
+            Destroy(weaponHolder.transform.GetChild(0).gameObject);
 
-            isPrimaryEquip = false;
+            primaryWeapon = Instantiate(newWeapon, weaponHolder.transform);
+            primaryWeaponProperties = newWeapon.GetComponent<WeaponProperties>();
+            primaryMagazine = primaryWeaponProperties.magazine;
+
+            primaryWeapon.transform.SetAsFirstSibling();
         }
 
         readyToFire = false;
-        Invoke(nameof(ResetFire), currentWeaponProperties.switchTime);
 
         UpdateCurrentWeapon();
+
+        Invoke(nameof(ResetFire), currentWeaponProperties.switchTime);
     }
 
-    public void UpdateCurrentWeapon() {
+    public bool ContainsWeapon(string weaponName) {
+        return primaryWeaponProperties.name.Equals(weaponName) || (secondaryWeapon.tag.Equals("Weapon") && secondaryWeaponProperties.name.Equals(weaponName));
+    }
+
+    private void UpdateCurrentWeapon() {
+        currentlyReloading = false;
+
         if (isPrimaryEquip) {
+            secondaryMagazine = currentMagazine;
+
             currentWeapon = primaryWeapon;
             currentWeaponProperties = primaryWeaponProperties;
             currentMagazine = primaryMagazine;
@@ -108,6 +132,8 @@ public class PlayerWeapon : MonoBehaviour {
             secondaryWeapon.SetActive(false);
         }
         else {
+            primaryMagazine = currentMagazine;
+
             currentWeapon = secondaryWeapon;
             currentWeaponProperties = secondaryWeaponProperties;
             currentMagazine = secondaryMagazine;
@@ -115,14 +141,16 @@ public class PlayerWeapon : MonoBehaviour {
             secondaryWeapon.SetActive(true);
             primaryWeapon.SetActive(false);
         }
+        readyToFire = false;
+        Invoke(nameof(ResetFire), currentWeaponProperties.switchTime);
 
         currentRecoil = 0;
         currentPreviousRecoil = Vector3.zero;
     }
 
     private void UpdateRecoil() {
-        if (readyToFire && currentMagazine > 0) {
-            currentMagazine = Mathf.Clamp(currentMagazine - currentWeaponProperties.recoilMod * 3 * Time.deltaTime, 0f, 1f);
+        if (readyToFire && currentRecoil > 0) {
+            currentRecoil = Mathf.Clamp(currentRecoil - currentWeaponProperties.recoilMod * 3 * Time.deltaTime, 0f, 1f);
         }
     }
 
@@ -140,13 +168,13 @@ public class PlayerWeapon : MonoBehaviour {
                 }
             }
         }
-        currentMagazine = Mathf.Clamp(currentMagazine + currentWeaponProperties.recoilMod, 0f, 1f);
-        Debug.DrawRay(transform.position, fireDirection * 20, Color.red, 10f);
+        currentRecoil = Mathf.Clamp(currentRecoil + currentWeaponProperties.recoilMod, 0f, 1f);
+        Debug.DrawRay(transform.position, fireDirection * 50, Color.red, 10f);
     }
 
     private Vector3 CalculateRecoil() {
-        Vector3 horizontal = currentWeapon.transform.right.normalized * currentMagazine * Random.Range(-currentWeaponProperties.horiztontalRecoil, currentWeaponProperties.horiztontalRecoil);
-        Vector3 vertical = currentWeapon.transform.up.normalized * currentMagazine * Random.Range(0, currentWeaponProperties.verticalRecoil);
+        Vector3 horizontal = currentWeapon.transform.right.normalized * currentRecoil * Random.Range(-currentWeaponProperties.horiztontalRecoil, currentWeaponProperties.horiztontalRecoil);
+        Vector3 vertical = currentWeapon.transform.up.normalized * currentRecoil * Random.Range(0, currentWeaponProperties.verticalRecoil);
         Vector3 newRecoil = horizontal + vertical;
         Vector3 fireDirection = currentWeapon.transform.forward + newRecoil + currentPreviousRecoil;
         currentPreviousRecoil = newRecoil;
@@ -159,5 +187,6 @@ public class PlayerWeapon : MonoBehaviour {
 
     private void ResetMagazine() {
         currentMagazine = currentWeaponProperties.magazine;
+        currentlyReloading = false;
     }
 }
