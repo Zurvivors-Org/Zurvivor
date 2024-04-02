@@ -26,6 +26,14 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float wormProb = .2f;
     [SerializeField] private float trojanProb = .1f;
 
+    [SerializeField] private float levelSpawnDelay = 1.5f;
+
+    private float baseTypeLevelMultiplier = 1.25f;
+    private int baseTypeIncrementLevels = 5;
+
+    private float specialTypeLevelMultiplier = 1.2f;
+    private int specialTypeIncrementLevels = 5;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,13 +45,23 @@ public class SpawnManager : MonoBehaviour
     {
         if (currentStageComplete)
         {
-            StartCoroutine(WaitForSecondsThenAction(.5f, () =>
+            StartCoroutine(WaitForSecondsThenAction(levelSpawnDelay, () =>
             {
                 currentStage++;
                 stageEnemies += stageIncrement;
                 currentEnemies = stageEnemies;
+
+                // Enemy Base Type Probability Increment
+                tankProb = MultiplyWithClamp(tankProb, baseTypeLevelMultiplier / Mathf.Round(currentStage / baseTypeIncrementLevels), 0, 0.5f);
+                fastProb = MultiplyWithClamp(fastProb, baseTypeLevelMultiplier / Mathf.Round(currentStage / baseTypeIncrementLevels), 0, 0.5f);
+
+                // Special Type Probability Increment
+                captainProb = MultiplyWithClamp(captainProb, specialTypeLevelMultiplier / Mathf.Round(currentStage / specialTypeIncrementLevels), 0, 1f);
+                wormProb = MultiplyWithClamp(wormProb, specialTypeLevelMultiplier / Mathf.Round(currentStage / specialTypeIncrementLevels), 0, 1f);
+                trojanProb = MultiplyWithClamp(trojanProb, specialTypeLevelMultiplier / Mathf.Round(currentStage / specialTypeIncrementLevels), 0, 1f);
+
                 isNextStageReady = true;
-            }));
+            })); ;
 
             currentStageComplete = false;
         }
@@ -96,10 +114,11 @@ public class SpawnManager : MonoBehaviour
                     if (trojanDeterminant <= trojanProb) specialTypes.Add(SpecialType.TROJAN);
 
                     Vector3 spawnPose = new Vector3(thisArea.position.x + EnforceRadius(.1f, 6f), thisArea.position.y, thisArea.position.z + EnforceRadius(.1f, 6f));
-
+                    Debug.DrawRay(spawnPose, transform.up * 3f, Color.cyan);
                     while (!thisArea.gameObject.GetComponent<BoxCollider>().bounds.Contains(spawnPose))
                     {
                         spawnPose = new Vector3(thisArea.position.x + EnforceRadius(.1f, 6f), thisArea.position.y, thisArea.position.z + EnforceRadius(.1f, 6f));
+                        Debug.DrawRay(spawnPose, transform.up * 3f, Color.cyan);
                     }
 
                     GameObject spawnedEnemy;
@@ -118,8 +137,6 @@ public class SpawnManager : MonoBehaviour
                             break;
                     }
 
-                    spawnedEnemy = Instantiate(spawnPrefabs[0], transform);
-
                     spawnedEnemy.transform.position = spawnPose;
 
                     spawnedEnemy.GetComponent<EnemyProperties>().specialTypes = specialTypes;
@@ -131,6 +148,16 @@ public class SpawnManager : MonoBehaviour
             isNextStageReady = false;
 
             Debug.Log(string.Join(", ", countPerArea));
+        }
+    }
+
+    public void DecrementEnemyCount()
+    {
+        currentEnemies--;
+
+        if (currentEnemies == 0)
+        {
+            currentStageComplete = true;
         }
     }
 }

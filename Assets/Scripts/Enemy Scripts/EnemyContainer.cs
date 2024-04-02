@@ -54,6 +54,14 @@ public class EnemyContainer : MonoBehaviour {
 
     private void Update() 
     {
+        if (!TryGetComponent<NavMeshAgent>(out NavMeshAgent agent))
+        {
+            Debug.Log("GAMEOBJECT: " + gameObject.name + " NO NAVMESH");
+            gameObject.AddComponent<NavMeshAgent>();
+            Initialize();
+            return;
+        }
+
         if (!isReady) return;
 
         if (specialTypes.Contains(SpecialType.TROJAN))
@@ -68,7 +76,7 @@ public class EnemyContainer : MonoBehaviour {
         {
             if (!isTrojanChild)
             { 
-                agent.SetDestination(player.transform.position); 
+                agent.SetDestination(player.transform.position + (transform.position - player.transform.position).normalized * 2f); 
             }
         }
         
@@ -157,6 +165,13 @@ public class EnemyContainer : MonoBehaviour {
         if (trojanChild != null)
         {
             Destroy(trojanChild);
+        }
+
+        // Debug.LogWarning("Parent: " + transform.parent.gameObject.name + " | " + transform.parent.gameObject.tag);
+
+        if (transform.parent.gameObject.CompareTag("EnemySpawn"))
+        {
+            transform.parent.gameObject.GetComponent<SpawnManager>().DecrementEnemyCount();
         }
     }
 

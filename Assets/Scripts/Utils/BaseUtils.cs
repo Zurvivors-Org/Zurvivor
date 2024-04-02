@@ -24,4 +24,9 @@ abstract class BaseUtils : MonoBehaviour
 
         return num;
     }
+
+    public static float MultiplyWithClamp(float num, float multiplier, float min, float max)
+    {
+        return Mathf.Clamp(num * multiplier, min, max);
+    }
 }
