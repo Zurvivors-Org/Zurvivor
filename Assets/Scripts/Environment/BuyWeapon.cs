@@ -14,6 +14,7 @@ public class BuyWeapon : MonoBehaviour{
         if (other.transform.parent.tag.Equals("Player")) {
             playerPoints = other.transform.parent.GetComponent<PlayerPoint>();
             playerWeapon = other.transform.parent.GetComponent<PlayerWeapon>();
+            shopText.SetText("'F' to buy " + weapon.GetComponent<WeaponProperties>().weaponName + " - " + cost);
             shopText.gameObject.SetActive(true);
         }
     }
