@@ -172,9 +172,8 @@ MonoBehaviour:
   reloadKey: 114
   primaryKey: 49
   secondaryKey: 50
-  currentWeapon: {fileID: 0}
-  currentWeaponProperties: {fileID: 0}
   currentMagazine: 0
+  reloadCooldown: 0
 --- !u!114 &3649614179621997196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,7 +375,7 @@ CapsuleCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3649614180497776286}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 72fc40aca62b9494b9f5214e15be0fe4, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 0.5
