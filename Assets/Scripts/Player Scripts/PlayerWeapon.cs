@@ -34,6 +34,7 @@ public class PlayerWeapon : MonoBehaviour {
     private float currentRecoil;
     private Vector3 currentPreviousRecoil;
     private bool currentlyReloading = false;
+    [SerializeField] private float reloadCooldown = 0f;
 
     private Ray fireRayCast;
     private bool isPrimaryEquip = true;
@@ -64,14 +65,12 @@ public class PlayerWeapon : MonoBehaviour {
 
         if (currentMagazine == 0 && !currentlyReloading) {
             currentlyReloading = true;
-            Invoke(nameof(ResetMagazine), currentWeaponProperties.reloadTime);
         }
 
         UpdateRecoil();
         if (Input.GetKeyDown(reloadKey) && currentMagazine < currentWeaponProperties.magazine && currentMagazine > 0) {
             currentlyReloading = true;
             currentMagazine = 0;
-            Invoke(nameof(ResetMagazine), currentWeaponProperties.reloadTime);
         }
 
         if (Input.GetKeyDown(primaryKey)) {
@@ -81,6 +80,16 @@ public class PlayerWeapon : MonoBehaviour {
         else if (Input.GetKeyDown(secondaryKey) && secondaryWeapon.tag.Equals("Weapon")) {
             isPrimaryEquip = false;
             UpdateCurrentWeapon();
+        }
+
+        if(reloadCooldown > currentWeaponProperties.reloadTime) {
+            currentMagazine = currentWeaponProperties.magazine;
+            currentlyReloading = false;
+            reloadCooldown = 0f;
+        }
+
+        if (currentlyReloading) {
+            reloadCooldown += Time.deltaTime;
         }
 	}
 
@@ -120,6 +129,7 @@ public class PlayerWeapon : MonoBehaviour {
 
     private void UpdateCurrentWeapon() {
         currentlyReloading = false;
+        reloadCooldown = 0f;
 
         if (isPrimaryEquip) {
             secondaryMagazine = currentMagazine;
