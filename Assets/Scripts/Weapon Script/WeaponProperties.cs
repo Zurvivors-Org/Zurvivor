@@ -16,4 +16,5 @@ public class WeaponProperties : MonoBehaviour{
     public float horiztontalRecoil;
     public float recoilMod;
     public float switchTime;
+    public string weaponName;
 }
