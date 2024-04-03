@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 public class EnemyProperties : MonoBehaviour{
     private float health;
     private float damage;

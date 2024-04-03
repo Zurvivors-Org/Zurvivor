@@ -4,12 +4,13 @@ using System;
 using UnityEngine;
 using UnityEngine.AI;
 using static EnemyProperties;
-using Random = UnityEngine.Random;
+using static BaseUtils;
 
 public class EnemyContainer : MonoBehaviour {
     public class SpecialtypeDict : SerializableDictionary<SpecialType, bool> { }
     public EnemyProperties enemyProperties;
     public NavMeshAgent agent;
+    [SerializeField] private bool isReady = false;
 
     [SerializeField] private readonly EnemyBuffs captainSelfMod = EnemyBuffs.Of(1.5f, 2, 2, 2);
     [SerializeField] private readonly EnemyBuffs captainOtherMod = EnemyBuffs.Of(1.5f, 1.5f, 2, 2);
@@ -40,21 +41,27 @@ public class EnemyContainer : MonoBehaviour {
 
 
         //while (!enemyProperties.propertiesDeclared) { }sa
+        Initialize();
+    }
 
+    public void Initialize()
+    {
         StartCoroutine(WaitUpdateProperties());
     }
 
-    public void setPlayer(GameObject player) { this.player = player; }
-    public GameObject getPlayer() { return player; }
+    public void SetPlayer(GameObject player) { this.player = player; }
+    public GameObject GetPlayer() { return player; }
 
     private void Update() 
     {
+        if (!isReady) return;
+
         if (specialTypes.Contains(SpecialType.TROJAN))
         {
             agent.SetDestination(player.transform.position - player.transform.forward * 3f);
             if (trojanChild != null)
             {
-                trojanChild.GetComponent<EnemyContainer>().setAgentDestination(player.transform.position + player.transform.forward * 3f);
+                trojanChild.GetComponent<EnemyContainer>().SetAgentDestination(player.transform.position + player.transform.forward * 3f);
             }
         }
         else
@@ -67,7 +74,7 @@ public class EnemyContainer : MonoBehaviour {
         
     }
 
-    public void setAgentDestination(Vector3 target)
+    public void SetAgentDestination(Vector3 target)
     {
         agent.SetDestination(target);
     }
@@ -112,19 +119,21 @@ public class EnemyContainer : MonoBehaviour {
         {
             WormSpawnManager wScript = gameObject.AddComponent<WormSpawnManager>();
             wScript.prefabsToChoose = wormPrefabs;
-            wScript.enableSpawn();
+            wScript.EnableSpawn();
             AddBuffsMult(EnemyBuffs.Of(1f, 1f, 1.5f, 3));
         }
         else if (specialTypes.Contains(SpecialType.TROJAN))
         {
-            Vector3 newPosition = new Vector3(transform.position.x + enforceRadius(1f, 6f), transform.position.y, transform.position.z + enforceRadius(1f, 6f));
+            Vector3 newPosition = new Vector3(transform.position.x + EnforceRadius(1f, 6f), transform.position.y, transform.position.z + EnforceRadius(1f, 6f));
             this.trojanChild = Instantiate(wormPrefabs[0], newPosition, Quaternion.identity);
-            trojanChild.GetComponent<EnemyContainer>().setPlayer(player);
+            trojanChild.GetComponent<EnemyContainer>().SetPlayer(player);
             trojanChild.GetComponent<EnemyContainer>().isTrojanChild = true;
             AddBuffsMult(EnemyBuffs.Of(1f, 3f, 1.5f, 3));
         }
 
         if (isTrojanChild) AddBuffsMult(EnemyBuffs.Of(1f, 2.5f, 1f, 0));
+
+        isReady = true;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -149,17 +158,6 @@ public class EnemyContainer : MonoBehaviour {
         {
             Destroy(trojanChild);
         }
-    }
-
-    private float enforceRadius(float min, float max)
-    {
-        float num = Random.Range(-max, max);
-        while (Mathf.Abs(num) <= min)
-        {
-            num = Random.Range(-max, max);
-        }
-
-        return num;
     }
 
     public void AddBuffs(EnemyBuffs buff)
