@@ -1,0 +1,67 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &12736341972433406
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 12736341972433407}
+  - component: {fileID: 12736341972433400}
+  m_Layer: 0
+  m_Name: Enemy Holder
+  m_TagString: EnemySpawn
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &12736341972433407
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12736341972433406}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 89.43765, y: 7.22, z: 44.1282}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &12736341972433400
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 12736341972433406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee19cd366de0cac43b9de2abb938f341, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentStage: 0
+  stageEnemies: 0
+  currentEnemies: 0
+  stageIncrement: 10
+  currentStageComplete: 1
+  isNextStageReady: 0
+  playerGO: {fileID: 0}
+  spawnPrefabs:
+  - {fileID: 5343409388804964625, guid: 2f9908736851d644f98e80c17a0ade02, type: 3}
+  - {fileID: 7946572933883385577, guid: 274c48e4933dfcd4f88033c25461bd99, type: 3}
+  - {fileID: 5334329198559844253, guid: 6ca11f65337ac184d953e2378a279be0, type: 3}
+  tankProb: 0.2
+  fastProb: 0.2
+  spawnAreas:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  captainProb: 0.2
+  wormProb: 0.2
+  trojanProb: 0.1
+  levelSpawnDelay: 1.5

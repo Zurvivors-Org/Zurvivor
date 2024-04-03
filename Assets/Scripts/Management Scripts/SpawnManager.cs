@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
+using UnityEngine.AI;
 using static BaseUtils;
 using static EnemyProperties;
 
@@ -52,13 +53,13 @@ public class SpawnManager : MonoBehaviour
                 currentEnemies = stageEnemies;
 
                 // Enemy Base Type Probability Increment
-                tankProb = MultiplyWithClamp(tankProb, baseTypeLevelMultiplier / Mathf.Round(currentStage / baseTypeIncrementLevels), 0, 0.5f);
-                fastProb = MultiplyWithClamp(fastProb, baseTypeLevelMultiplier / Mathf.Round(currentStage / baseTypeIncrementLevels), 0, 0.5f);
+                tankProb = MultiplyWithClamp(tankProb, baseTypeLevelMultiplier * (Mathf.Round(currentStage / baseTypeIncrementLevels) + 1), 0, 0.5f);
+                fastProb = MultiplyWithClamp(fastProb, baseTypeLevelMultiplier * (Mathf.Round(currentStage / baseTypeIncrementLevels) + 1), 0, 0.5f);
 
                 // Special Type Probability Increment
-                captainProb = MultiplyWithClamp(captainProb, specialTypeLevelMultiplier / Mathf.Round(currentStage / specialTypeIncrementLevels), 0, 1f);
-                wormProb = MultiplyWithClamp(wormProb, specialTypeLevelMultiplier / Mathf.Round(currentStage / specialTypeIncrementLevels), 0, 1f);
-                trojanProb = MultiplyWithClamp(trojanProb, specialTypeLevelMultiplier / Mathf.Round(currentStage / specialTypeIncrementLevels), 0, 1f);
+                captainProb = MultiplyWithClamp(captainProb, specialTypeLevelMultiplier * (Mathf.Round(currentStage / specialTypeIncrementLevels) + 1), 0, 1f);
+                wormProb = MultiplyWithClamp(wormProb, specialTypeLevelMultiplier * (Mathf.Round(currentStage / specialTypeIncrementLevels) + 1), 0, 1f);
+                trojanProb = MultiplyWithClamp(trojanProb, specialTypeLevelMultiplier * (Mathf.Round(currentStage / specialTypeIncrementLevels) + 1), 0, 1f);
 
                 isNextStageReady = true;
             })); ;
@@ -137,7 +138,19 @@ public class SpawnManager : MonoBehaviour
                             break;
                     }
 
-                    spawnedEnemy.transform.position = spawnPose;
+                    NavMeshHit closestHit;
+
+                    if (NavMesh.SamplePosition(spawnPose, out closestHit, 500, 1))
+                    {
+                        spawnPose = closestHit.position;
+                        spawnedEnemy.transform.position = spawnPose;
+                        NavMeshAgent agent = spawnedEnemy.AddComponent<NavMeshAgent>();
+                        agent.baseOffset = .85f;
+                    }
+                    else
+                    {
+                        Debug.LogWarning("COULD NOT ADD NAVMESH");
+                    }
 
                     spawnedEnemy.GetComponent<EnemyProperties>().specialTypes = specialTypes;
                     spawnedEnemy.GetComponent<EnemyContainer>().SetPlayer(playerGO);

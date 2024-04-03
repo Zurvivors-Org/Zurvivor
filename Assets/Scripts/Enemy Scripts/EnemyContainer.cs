@@ -134,6 +134,21 @@ public class EnemyContainer : MonoBehaviour {
         {
             Vector3 newPosition = new Vector3(transform.position.x + EnforceRadius(1f, 6f), transform.position.y, transform.position.z + EnforceRadius(1f, 6f));
             this.trojanChild = Instantiate(wormPrefabs[0], newPosition, Quaternion.identity);
+
+            NavMeshHit closestHit;
+
+            if (NavMesh.SamplePosition(newPosition, out closestHit, 500, 1))
+            {
+                newPosition = closestHit.position;
+                trojanChild.transform.position = newPosition;
+                NavMeshAgent agent = trojanChild.AddComponent<NavMeshAgent>();
+                agent.baseOffset = .85f;
+            }
+            else
+            {
+                Debug.LogWarning("COULD NOT ADD NAVMESH");
+            }
+            
             trojanChild.GetComponent<EnemyContainer>().SetPlayer(player);
             trojanChild.GetComponent<EnemyContainer>().isTrojanChild = true;
             AddBuffsMult(EnemyBuffs.Of(1f, 3f, 1.5f, 3));

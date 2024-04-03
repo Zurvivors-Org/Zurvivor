@@ -4,6 +4,7 @@ using System;
 using UnityEngine;
 using Random = UnityEngine.Random;
 using static BaseUtils;
+using UnityEngine.AI;
 
 public class WormSpawnManager : MonoBehaviour
 {
@@ -25,7 +26,21 @@ public class WormSpawnManager : MonoBehaviour
             int index = Random.Range(0, 3);
             Vector3 newPosition = new Vector3(transform.position.x + EnforceRadius(1f, 6f), transform.position.y, transform.position.z + EnforceRadius(1f,6f));
             GameObject childGO = Instantiate(prefabsToChoose[index]);
-            childGO.transform.position = newPosition;
+
+            NavMeshHit closestHit;
+
+            if (NavMesh.SamplePosition(newPosition, out closestHit, 500, 1))
+            {
+                newPosition = closestHit.position;
+                childGO.transform.position = newPosition;
+                NavMeshAgent agent = childGO.AddComponent<NavMeshAgent>();
+                agent.baseOffset = .85f;
+            }
+            else
+            {
+                Debug.LogWarning("COULD NOT ADD NAVMESH");
+            }
+
             childGO.GetComponent<EnemyContainer>().SetPlayer(GetComponent<EnemyContainer>().GetPlayer());
             children.Add(childGO);
             canSpawn = false;
