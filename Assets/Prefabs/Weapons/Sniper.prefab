@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 5905a424b7fdb3d4699b75db5a8e6fd4, type: 2}
+  - {fileID: 2100000, guid: 007b7a082499dbc4fa5796c9b377d8a7, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 7611605714999138921}
   - component: {fileID: 8274298717253738634}
   m_Layer: 0
-  m_Name: Shotgun
+  m_Name: Sniper
   m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,15 +143,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponSFX: {fileID: 8300000, guid: ae583988519a1bc418dd4162b2ca2c72, type: 3}
-  magazine: 2
-  damage: 20
-  fireRate: 0.2
-  automatic: 1
-  reloadTime: 1.5
-  spreadCount: 10
-  spreadRadius: 0.1
+  magazine: 6
+  damage: 70
+  fireRate: 1
+  automatic: 0
+  reloadTime: 1.3
+  spreadCount: 1
+  spreadRadius: 0
   verticalRecoil: 0.1
   horiztontalRecoil: 0.1
-  recoilMod: 0.5
-  switchTime: 0.7
-  weaponName: Shotgun
+  recoilMod: 1
+  switchTime: 0.5
+  weaponName: Sniper

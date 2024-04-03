@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7811105983604114611}
   m_Layer: 0
   m_Name: Dev Weapon
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -57,6 +57,7 @@ MonoBehaviour:
   horiztontalRecoil: 0.02
   recoilMod: 0.2
   switchTime: 1
+  weaponName: Dev Weapon
 --- !u!1 &8580327370362091087
 GameObject:
   m_ObjectHideFlags: 0

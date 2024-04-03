@@ -14,15 +14,16 @@ public class BuyWeapon : MonoBehaviour{
         if (other.transform.parent.tag.Equals("Player")) {
             playerPoints = other.transform.parent.GetComponent<PlayerPoint>();
             playerWeapon = other.transform.parent.GetComponent<PlayerWeapon>();
+            shopText.SetText("'F' to buy " + weapon.GetComponent<WeaponProperties>().weaponName + " - " + cost);
             shopText.gameObject.SetActive(true);
         }
     }
 
     private void OnTriggerStay(Collider other) {
         if (other.transform.parent.tag.Equals("Player")) {
-            if (Input.GetKeyDown(interactKey) && playerPoints != null && playerPoints.GetPoints() >= cost) {
+            if (Input.GetKeyDown(interactKey) && playerPoints != null && playerPoints.GetPoints() >= cost && !playerWeapon.ContainsWeapon(weapon.GetComponent<WeaponProperties>().name)) {
                 playerPoints.SubPoints(cost);
-                playerWeapon.changeWeapon(weapon);
+                playerWeapon.ChangeWeapon(weapon);
             }
         }
     }
