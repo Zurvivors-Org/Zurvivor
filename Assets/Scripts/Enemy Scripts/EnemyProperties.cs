@@ -18,21 +18,21 @@ public class EnemyProperties : MonoBehaviour{
         switch (type)
         {
             case EnemyType.NORMAL: 
-                health = 100;
+                health = 50;
                 damage = 10;
-                moveSpeed = 3;
+                moveSpeed = 2;
                 points = 5;
                 break;
             case EnemyType.FAST:
-                health = 75;
+                health = 37.5f;
                 damage = 10;
-                moveSpeed = 9;
+                moveSpeed = 4;
                 points = 10;
                 break;
             case EnemyType.TANK:
-                health = 150;
+                health = 75;
                 damage = 20;
-                moveSpeed = 1.5f;
+                moveSpeed = 1f;
                 points = 10;
                 break;
         }

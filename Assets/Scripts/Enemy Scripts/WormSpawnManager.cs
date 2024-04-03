@@ -44,13 +44,13 @@ public class WormSpawnManager : MonoBehaviour
             childGO.GetComponent<EnemyContainer>().SetPlayer(GetComponent<EnemyContainer>().GetPlayer());
             children.Add(childGO);
             canSpawn = false;
-            StartCoroutine(BaseUtils.WaitForSecondsThenAction(spawnDelay, () => { canSpawn = true; }));
+            StartCoroutine(WaitForSecondsThenAction(spawnDelay, () => { canSpawn = true; }));
         }
     }
 
     public void EnableSpawn()
     {
-        StartCoroutine(BaseUtils.WaitForSecondsThenAction(0.5f, () => { canSpawn = true; }));
+        StartCoroutine(WaitForSecondsThenAction(spawnDelay, () => { canSpawn = true; }));
     }
 
     private void OnDestroy()

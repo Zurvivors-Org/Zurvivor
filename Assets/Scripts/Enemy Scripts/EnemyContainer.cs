@@ -22,6 +22,8 @@ public class EnemyContainer : MonoBehaviour {
     [SerializeField] private float moveSpeed;
     public long points;
 
+    [SerializeField] private bool isCaptainBuffed = false;
+
     [SerializeField] private GameObject player;
 
     [SerializeField] private List<SpecialType> specialTypes = new List<SpecialType>();
@@ -41,7 +43,6 @@ public class EnemyContainer : MonoBehaviour {
 
 
         //while (!enemyProperties.propertiesDeclared) { }sa
-        Initialize();
     }
 
     public void Initialize()
@@ -101,6 +102,13 @@ public class EnemyContainer : MonoBehaviour {
     {
         return points;
     }
+
+    public void setCaptainBuffed(bool isBuffed)
+    {
+        isCaptainBuffed = isBuffed;
+    }
+
+    public bool getCaptainBuffed() { return isCaptainBuffed;  }
     
     private IEnumerator WaitUpdateProperties()
     {
@@ -163,7 +171,10 @@ public class EnemyContainer : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            AddBuffsMult(captainOtherMod);
+            if (!isCaptainBuffed) { 
+                AddBuffsMult(captainOtherMod);
+                isCaptainBuffed = true;
+            }
         }
     }
 
@@ -171,7 +182,11 @@ public class EnemyContainer : MonoBehaviour {
     {
         if (other.gameObject.CompareTag("Enemy"))
         {
-            RemoveBuffsMult(captainOtherMod);
+            if (isCaptainBuffed)
+            {
+                RemoveBuffsMult(captainOtherMod);
+                isCaptainBuffed = false;
+            }
         }
     }
 
