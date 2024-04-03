@@ -52,14 +52,17 @@ public class SpawnManager : MonoBehaviour
                 stageEnemies += stageIncrement;
                 currentEnemies = stageEnemies;
 
-                // Enemy Base Type Probability Increment
-                tankProb = MultiplyWithClamp(tankProb, baseTypeLevelMultiplier * (Mathf.Round(currentStage / baseTypeIncrementLevels) + 1), 0, 0.5f);
-                fastProb = MultiplyWithClamp(fastProb, baseTypeLevelMultiplier * (Mathf.Round(currentStage / baseTypeIncrementLevels) + 1), 0, 0.5f);
+                if (currentStage / 5 >= 1 && currentStage % 5 == 0)
+                {
+                    // Enemy Base Type Probability Increment
+                    tankProb = MultiplyWithClamp(tankProb, baseTypeLevelMultiplier * (Mathf.Round(currentStage / baseTypeIncrementLevels) + 1), 0, 0.5f);
+                    fastProb = MultiplyWithClamp(fastProb, baseTypeLevelMultiplier * (Mathf.Round(currentStage / baseTypeIncrementLevels) + 1), 0, 0.5f);
 
-                // Special Type Probability Increment
-                captainProb = MultiplyWithClamp(captainProb, specialTypeLevelMultiplier * (Mathf.Round(currentStage / specialTypeIncrementLevels) + 1), 0, 1f);
-                wormProb = MultiplyWithClamp(wormProb, specialTypeLevelMultiplier * (Mathf.Round(currentStage / specialTypeIncrementLevels) + 1), 0, 1f);
-                trojanProb = MultiplyWithClamp(trojanProb, specialTypeLevelMultiplier * (Mathf.Round(currentStage / specialTypeIncrementLevels) + 1), 0, 1f);
+                    // Special Type Probability Increment
+                    captainProb = MultiplyWithClamp(captainProb, specialTypeLevelMultiplier * (Mathf.Round(currentStage / specialTypeIncrementLevels) + 1), 0, 1f);
+                    wormProb = MultiplyWithClamp(wormProb, specialTypeLevelMultiplier * (Mathf.Round(currentStage / specialTypeIncrementLevels) + 1), 0, 1f);
+                    trojanProb = MultiplyWithClamp(trojanProb, specialTypeLevelMultiplier * (Mathf.Round(currentStage / specialTypeIncrementLevels) + 1), 0, 1f);
+                }
 
                 isNextStageReady = true;
             })); ;

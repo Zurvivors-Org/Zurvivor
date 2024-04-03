@@ -23535,7 +23535,7 @@ PrefabInstance:
     - target: {fileID: 3649614179621997196, guid: 5eb11d0772fea894da57cf419a82b8f7, type: 3}
       propertyPath: pointText
       value: 
-      objectReference: {fileID: 199326661}
+      objectReference: {fileID: 176898483}
     - target: {fileID: 3649614179621997233, guid: 5eb11d0772fea894da57cf419a82b8f7, type: 3}
       propertyPath: m_RootOrder
       value: 1
