@@ -62,7 +62,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9f7ad6cc4e5246a4684d8ba6f32130fe, type: 2}
+  - {fileID: 2100000, guid: 0889b53d9b6ce9f44a198077f02a787c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -185,6 +185,7 @@ MonoBehaviour:
   damage: 0
   moveSpeed: 0
   points: 0
+  isCaptainBuffed: 0
   player: {fileID: 0}
   specialTypes: 
   wormPrefabs:
