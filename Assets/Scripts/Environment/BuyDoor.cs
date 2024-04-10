@@ -7,6 +7,7 @@ public class BuyDoor : MonoBehaviour{
     public int cost;
     [SerializeField] private TextMeshProUGUI shopText;
     [SerializeField] private KeyCode interactKey;
+    [SerializeField] private GameObject[] spawnPoints;
     private PlayerPoint playerPoints;
     private PlayerWeapon playerWeapon;
     private void OnTriggerEnter(Collider other) {
@@ -24,6 +25,9 @@ public class BuyDoor : MonoBehaviour{
                 Destroy(transform.parent.gameObject);
                 shopText.gameObject.SetActive(false);
                 playerPoints.SubPoints(cost);
+                for(int i = 0; i < spawnPoints.Length; i++) {
+                    spawnPoints[i].SetActive(true);
+                }
             }
         }
     }
