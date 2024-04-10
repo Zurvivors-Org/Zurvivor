@@ -20,7 +20,7 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject[] spawnPrefabs = new GameObject[3];
     [SerializeField] private float tankProb = 0.2f;
     [SerializeField] private float fastProb = 0.2f;
-    [SerializeField] private Transform[] spawnAreas;
+    [SerializeField] private Transform[] spawnAreasRaw;
 
     [Header("Special Attribute Properties")]
     [SerializeField] private float captainProb = .2f;
@@ -72,7 +72,10 @@ public class SpawnManager : MonoBehaviour
 
         if (isNextStageReady)
         {
-            int[] countPerArea = new int[spawnAreas.Length];
+            List<Transform> spawnAreas = new List<Transform>();
+
+            
+            int[] countPerArea = new int[spawnAreas.Count];
             float tDist = 0;
 
             // Get Total Dist from Player
@@ -82,7 +85,7 @@ public class SpawnManager : MonoBehaviour
             }
 
             // Determine spawn proportions
-            for (int i = 0; i < spawnAreas.Length; i++)
+            for (int i = 0; i < spawnAreas.Count; i++)
             {
                 float areaProportion = Vector3.Distance(spawnAreas[i].position, playerGO.transform.position) / tDist;
                 countPerArea[i] = Mathf.RoundToInt(areaProportion * stageEnemies);

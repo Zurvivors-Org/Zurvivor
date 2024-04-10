@@ -9,6 +9,8 @@ public class BuyDoor : MonoBehaviour{
     [SerializeField] private KeyCode interactKey;
     private PlayerPoint playerPoints;
     private PlayerWeapon playerWeapon;
+
+    [SerializeField] private GameObject[] unlockables;
     private void OnTriggerEnter(Collider other) {
         if (other.transform.parent.tag.Equals("Player")) {
             playerPoints = other.transform.parent.GetComponent<PlayerPoint>();
@@ -24,6 +26,11 @@ public class BuyDoor : MonoBehaviour{
                 Destroy(transform.parent.gameObject);
                 shopText.gameObject.SetActive(false);
                 playerPoints.SubPoints(cost);
+
+                foreach (GameObject area in unlockables)
+                {
+                    area.GetComponent<AreaEnabler>().isEnabled = true;
+                }
             }
         }
     }

@@ -3380,6 +3380,7 @@ GameObject:
   m_Component:
   - component: {fileID: 201193205}
   - component: {fileID: 201193206}
+  - component: {fileID: 201193207}
   m_Layer: 0
   m_Name: Spawn 3
   m_TagString: Untagged
@@ -3415,6 +3416,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.49, y: 1, z: 6.02}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &201193207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 201193204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ee927630e77a084595bd2d77dc91a67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnabled: 0
 --- !u!1 &201333812
 GameObject:
   m_ObjectHideFlags: 0
@@ -11473,6 +11487,7 @@ MonoBehaviour:
   cost: 1250
   shopText: {fileID: 199326661}
   interactKey: 102
+  unlockables: []
 --- !u!65 &541554237
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11546,6 +11561,7 @@ GameObject:
   m_Component:
   - component: {fileID: 545117952}
   - component: {fileID: 545117953}
+  - component: {fileID: 545117954}
   m_Layer: 0
   m_Name: Spawn 2
   m_TagString: Untagged
@@ -11581,6 +11597,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.65, y: 1, z: 4.04}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &545117954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 545117951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ee927630e77a084595bd2d77dc91a67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnabled: 0
 --- !u!1 &548246232
 GameObject:
   m_ObjectHideFlags: 0
@@ -13697,7 +13726,7 @@ PrefabInstance:
       objectReference: {fileID: 196956473}
     - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
       propertyPath: spawnAreas.Array.size
-      value: 2
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
       propertyPath: spawnAreas.Array.data[0]
@@ -13710,7 +13739,27 @@ PrefabInstance:
     - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
       propertyPath: spawnAreas.Array.data[2]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 201193205}
+    - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
+      propertyPath: spawnAreas.Array.data[3]
+      value: 
+      objectReference: {fileID: 1888608552}
+    - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
+      propertyPath: spawnAreas.Array.data[4]
+      value: 
+      objectReference: {fileID: 872293743}
+    - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
+      propertyPath: spawnAreas.Array.data[5]
+      value: 
+      objectReference: {fileID: 1500608498}
+    - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
+      propertyPath: spawnAreas.Array.data[6]
+      value: 
+      objectReference: {fileID: 1353016928}
+    - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
+      propertyPath: spawnAreas.Array.data[7]
+      value: 
+      objectReference: {fileID: 920563289}
     - target: {fileID: 12736341972433406, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
       propertyPath: m_Name
       value: Enemy Holder
@@ -18269,6 +18318,7 @@ GameObject:
   m_Component:
   - component: {fileID: 872293743}
   - component: {fileID: 872293744}
+  - component: {fileID: 872293745}
   m_Layer: 0
   m_Name: Spawn 5
   m_TagString: Untagged
@@ -18304,6 +18354,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.49, y: 1, z: 6.02}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &872293745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 872293742}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ee927630e77a084595bd2d77dc91a67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnabled: 0
 --- !u!1 &875600783
 GameObject:
   m_ObjectHideFlags: 0
@@ -18808,6 +18871,7 @@ GameObject:
   m_Component:
   - component: {fileID: 920563289}
   - component: {fileID: 920563290}
+  - component: {fileID: 920563291}
   m_Layer: 0
   m_Name: Spawn 8
   m_TagString: Untagged
@@ -18843,6 +18907,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.49, y: 1, z: 6.02}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &920563291
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920563288}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ee927630e77a084595bd2d77dc91a67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnabled: 0
 --- !u!1 &922669158
 GameObject:
   m_ObjectHideFlags: 0
@@ -20924,7 +21001,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1023033549
 MonoBehaviour:
@@ -26337,6 +26414,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1353016928}
   - component: {fileID: 1353016929}
+  - component: {fileID: 1353016930}
   m_Layer: 0
   m_Name: Spawn 7
   m_TagString: Untagged
@@ -26372,6 +26450,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.67, y: 1, z: 6.02}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1353016930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1353016927}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ee927630e77a084595bd2d77dc91a67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnabled: 0
 --- !u!1 &1356975592
 GameObject:
   m_ObjectHideFlags: 0
@@ -27195,6 +27286,7 @@ MonoBehaviour:
   cost: 2500
   shopText: {fileID: 199326661}
   interactKey: 102
+  unlockables: []
 --- !u!65 &1390164174
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27470,6 +27562,7 @@ MonoBehaviour:
   cost: 750
   shopText: {fileID: 199326661}
   interactKey: 102
+  unlockables: []
 --- !u!1 &1395487117
 GameObject:
   m_ObjectHideFlags: 0
@@ -28970,6 +29063,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1500608498}
   - component: {fileID: 1500608499}
+  - component: {fileID: 1500608500}
   m_Layer: 0
   m_Name: Spawn 6
   m_TagString: Untagged
@@ -29005,6 +29099,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 3.67, y: 1, z: 6.02}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1500608500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1500608497}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ee927630e77a084595bd2d77dc91a67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnabled: 0
 --- !u!1 &1502876390
 GameObject:
   m_ObjectHideFlags: 0
@@ -30043,6 +30150,7 @@ MonoBehaviour:
   cost: 1500
   shopText: {fileID: 199326661}
   interactKey: 102
+  unlockables: []
 --- !u!65 &1546811699
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -36412,6 +36520,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1888608552}
   - component: {fileID: 1888608553}
+  - component: {fileID: 1888608554}
   m_Layer: 0
   m_Name: Spawn 4
   m_TagString: Untagged
@@ -36447,6 +36556,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.49, y: 1, z: 6.02}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1888608554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888608551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ee927630e77a084595bd2d77dc91a67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnabled: 0
 --- !u!1 &1901647669
 GameObject:
   m_ObjectHideFlags: 0
@@ -38545,6 +38667,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2015295616}
   - component: {fileID: 2015295617}
+  - component: {fileID: 2015295618}
   m_Layer: 0
   m_Name: Spawn 1
   m_TagString: Untagged
@@ -38580,6 +38703,19 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2015295618
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2015295615}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ee927630e77a084595bd2d77dc91a67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnabled: 0
 --- !u!1 &2015961040
 GameObject:
   m_ObjectHideFlags: 0
