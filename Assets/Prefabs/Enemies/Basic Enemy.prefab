@@ -62,7 +62,8 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 0889b53d9b6ce9f44a198077f02a787c, type: 2}
+  - {fileID: 2100000, guid: 9f7ad6cc4e5246a4684d8ba6f32130fe, type: 2}
+  - {fileID: 2100000, guid: a5c96b6c5f84d7e4b9036cfa17d78420, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -97,7 +98,7 @@ CapsuleCollider:
   m_Radius: 0.5
   m_Height: 2
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0.27}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5343409388804964625
 GameObject:
   m_ObjectHideFlags: 0
