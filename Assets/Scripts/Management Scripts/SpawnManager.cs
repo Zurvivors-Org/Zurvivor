@@ -74,6 +74,13 @@ public class SpawnManager : MonoBehaviour
         {
             List<Transform> spawnAreas = new List<Transform>();
 
+            foreach (Transform bob in spawnAreasRaw)
+            {
+                if (bob.gameObject.GetComponent<AreaEnabler>().isEnabled)
+                {
+                    spawnAreas.Add(bob);
+                }
+            }
             
             int[] countPerArea = new int[spawnAreas.Count];
             float tDist = 0;

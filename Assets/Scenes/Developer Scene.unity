@@ -11487,7 +11487,12 @@ MonoBehaviour:
   cost: 1250
   shopText: {fileID: 199326661}
   interactKey: 102
-  unlockables: []
+  unlockables:
+  - {fileID: 1888608551}
+  - {fileID: 872293742}
+  - {fileID: 1500608497}
+  - {fileID: 1353016927}
+  - {fileID: 920563288}
 --- !u!65 &541554237
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11609,7 +11614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ee927630e77a084595bd2d77dc91a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEnabled: 0
+  isEnabled: 1
 --- !u!1 &548246232
 GameObject:
   m_ObjectHideFlags: 0
@@ -27286,7 +27291,8 @@ MonoBehaviour:
   cost: 2500
   shopText: {fileID: 199326661}
   interactKey: 102
-  unlockables: []
+  unlockables:
+  - {fileID: 201193204}
 --- !u!65 &1390164174
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -27562,7 +27568,9 @@ MonoBehaviour:
   cost: 750
   shopText: {fileID: 199326661}
   interactKey: 102
-  unlockables: []
+  unlockables:
+  - {fileID: 872293742}
+  - {fileID: 920563288}
 --- !u!1 &1395487117
 GameObject:
   m_ObjectHideFlags: 0
@@ -30150,7 +30158,10 @@ MonoBehaviour:
   cost: 1500
   shopText: {fileID: 199326661}
   interactKey: 102
-  unlockables: []
+  unlockables:
+  - {fileID: 1888608551}
+  - {fileID: 1500608497}
+  - {fileID: 1353016927}
 --- !u!65 &1546811699
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -38715,7 +38726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ee927630e77a084595bd2d77dc91a67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isEnabled: 0
+  isEnabled: 1
 --- !u!1 &2015961040
 GameObject:
   m_ObjectHideFlags: 0
