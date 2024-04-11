@@ -3411,7 +3411,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 201193204}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 4.49, y: 1, z: 6.02}
@@ -11597,7 +11597,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 545117951}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 3.65, y: 1, z: 4.04}
@@ -13763,6 +13763,42 @@ PrefabInstance:
       objectReference: {fileID: 1353016928}
     - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
       propertyPath: spawnAreas.Array.data[7]
+      value: 
+      objectReference: {fileID: 920563289}
+    - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
+      propertyPath: spawnAreasRaw.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
+      propertyPath: spawnAreasRaw.Array.data[0]
+      value: 
+      objectReference: {fileID: 2015295616}
+    - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
+      propertyPath: spawnAreasRaw.Array.data[1]
+      value: 
+      objectReference: {fileID: 545117952}
+    - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
+      propertyPath: spawnAreasRaw.Array.data[2]
+      value: 
+      objectReference: {fileID: 201193205}
+    - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
+      propertyPath: spawnAreasRaw.Array.data[3]
+      value: 
+      objectReference: {fileID: 1888608552}
+    - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
+      propertyPath: spawnAreasRaw.Array.data[4]
+      value: 
+      objectReference: {fileID: 872293743}
+    - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
+      propertyPath: spawnAreasRaw.Array.data[5]
+      value: 
+      objectReference: {fileID: 1500608498}
+    - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
+      propertyPath: spawnAreasRaw.Array.data[6]
+      value: 
+      objectReference: {fileID: 1353016928}
+    - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
+      propertyPath: spawnAreasRaw.Array.data[7]
       value: 
       objectReference: {fileID: 920563289}
     - target: {fileID: 12736341972433406, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
@@ -18354,7 +18390,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 872293742}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 4.49, y: 1, z: 6.02}
@@ -18907,7 +18943,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 920563288}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 4.49, y: 1, z: 6.02}
@@ -26450,7 +26486,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1353016927}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 3.67, y: 1, z: 6.02}
@@ -29102,7 +29138,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1500608497}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 3.67, y: 1, z: 6.02}
@@ -36562,7 +36598,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1888608551}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 4.49, y: 1, z: 6.02}
@@ -38709,7 +38745,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2015295615}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
