@@ -52,7 +52,6 @@ public class PlayerWeapon : MonoBehaviour {
         ChangeWeapon(startingWeapon);
     }
     private void Update(){
-        Debug.DrawRay(transform.position, currentWeapon.transform.forward);
         if ((currentWeaponProperties.automatic && Input.GetKey(fireKey) || (!currentWeaponProperties.automatic && Input.GetKeyDown(fireKey))) && currentMagazine > 0 && readyToFire) {
             currentMagazine--;
             playerAudio.PlayOneShot(currentWeaponProperties.weaponSFX);
@@ -171,6 +170,7 @@ public class PlayerWeapon : MonoBehaviour {
         if (Physics.Raycast(fireRayCast, out hitData)) {
             EnemyContainer hitContainer;
             if (hitData.collider.transform.parent.CompareTag("Enemy") && hitData.collider.gameObject.transform.parent.gameObject.TryGetComponent<EnemyContainer>(out hitContainer)) {
+                Debug.DrawRay(transform.position, currentWeapon.transform.forward);
                 hitContainer.health -= currentWeaponProperties.damage;
                 if (hitContainer.health <= 0) {
                     playerPoints.AddPoints(hitContainer.points);

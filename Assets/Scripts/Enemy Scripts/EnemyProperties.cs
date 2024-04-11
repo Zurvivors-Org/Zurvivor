@@ -21,19 +21,19 @@ public class EnemyProperties : MonoBehaviour{
                 health = 50;
                 damage = 10;
                 moveSpeed = 2;
-                points = 5;
+                points = 15;
                 break;
             case EnemyType.FAST:
                 health = 37.5f;
                 damage = 10;
                 moveSpeed = 4;
-                points = 10;
+                points = 30;
                 break;
             case EnemyType.TANK:
                 health = 75;
                 damage = 20;
                 moveSpeed = 1f;
-                points = 10;
+                points = 30;
                 break;
         }
 
