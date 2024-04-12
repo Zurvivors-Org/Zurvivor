@@ -168,9 +168,10 @@ public class PlayerWeapon : MonoBehaviour {
         fireRayCast = new Ray(transform.position, fireDirection);
         RaycastHit hitData;
         if (Physics.Raycast(fireRayCast, out hitData)) {
+            Debug.DrawLine(transform.position, hitData.point, Color.red);
             EnemyContainer hitContainer;
             if (hitData.collider.transform.parent.CompareTag("Enemy") && hitData.collider.gameObject.transform.parent.gameObject.TryGetComponent<EnemyContainer>(out hitContainer)) {
-                Debug.DrawRay(transform.position, currentWeapon.transform.forward);
+                Debug.DrawLine(transform.position, hitData.point, Color.green, 10, false);
                 hitContainer.health -= currentWeaponProperties.damage;
                 if (hitContainer.health <= 0) {
                     playerPoints.AddPoints(hitContainer.points);
