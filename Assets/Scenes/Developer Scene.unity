@@ -1602,7 +1602,7 @@ GameObject:
   - component: {fileID: 123221769}
   - component: {fileID: 123221768}
   - component: {fileID: 123221767}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2812,7 +2812,7 @@ GameObject:
   - component: {fileID: 173965551}
   - component: {fileID: 173965550}
   - component: {fileID: 173965549}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (11)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3542,7 +3542,7 @@ GameObject:
   - component: {fileID: 201504070}
   - component: {fileID: 201504069}
   - component: {fileID: 201504068}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (21)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4011,7 +4011,7 @@ GameObject:
   - component: {fileID: 224853739}
   - component: {fileID: 224853738}
   - component: {fileID: 224853737}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (12)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6304,7 +6304,7 @@ GameObject:
   - component: {fileID: 301834408}
   - component: {fileID: 301834407}
   - component: {fileID: 301834406}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8928,7 +8928,7 @@ GameObject:
   - component: {fileID: 437427157}
   - component: {fileID: 437427156}
   - component: {fileID: 437427155}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (20)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9025,7 +9025,7 @@ GameObject:
   - component: {fileID: 464791422}
   - component: {fileID: 464791421}
   - component: {fileID: 464791420}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (17)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9734,7 +9734,7 @@ GameObject:
   - component: {fileID: 493080079}
   - component: {fileID: 493080078}
   - component: {fileID: 493080077}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -13233,7 +13233,7 @@ GameObject:
   - component: {fileID: 649071757}
   - component: {fileID: 649071756}
   - component: {fileID: 649071755}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (22)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18519,7 +18519,7 @@ GameObject:
   - component: {fileID: 882635648}
   - component: {fileID: 882635647}
   - component: {fileID: 882635646}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (7)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24445,7 +24445,7 @@ GameObject:
   - component: {fileID: 1282038063}
   - component: {fileID: 1282038062}
   - component: {fileID: 1282038061}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (10)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -24843,7 +24843,7 @@ GameObject:
   - component: {fileID: 1289476915}
   - component: {fileID: 1289476914}
   - component: {fileID: 1289476913}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -25138,7 +25138,7 @@ GameObject:
   - component: {fileID: 1294530478}
   - component: {fileID: 1294530477}
   - component: {fileID: 1294530476}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (18)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27963,7 +27963,7 @@ GameObject:
   - component: {fileID: 1398677234}
   - component: {fileID: 1398677233}
   - component: {fileID: 1398677232}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (13)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30443,7 +30443,7 @@ GameObject:
   - component: {fileID: 1556324056}
   - component: {fileID: 1556324055}
   - component: {fileID: 1556324054}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (9)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -30639,7 +30639,7 @@ GameObject:
   - component: {fileID: 1561779783}
   - component: {fileID: 1561779782}
   - component: {fileID: 1561779781}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (6)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -31447,7 +31447,7 @@ GameObject:
   - component: {fileID: 1596416893}
   - component: {fileID: 1596416892}
   - component: {fileID: 1596416891}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32141,7 +32141,7 @@ GameObject:
   - component: {fileID: 1638408956}
   - component: {fileID: 1638408955}
   - component: {fileID: 1638408954}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (8)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34461,7 +34461,7 @@ GameObject:
   - component: {fileID: 1775237438}
   - component: {fileID: 1775237437}
   - component: {fileID: 1775237436}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (24)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34558,7 +34558,7 @@ GameObject:
   - component: {fileID: 1777036130}
   - component: {fileID: 1777036129}
   - component: {fileID: 1777036128}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (14)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34655,7 +34655,7 @@ GameObject:
   - component: {fileID: 1793293144}
   - component: {fileID: 1793293143}
   - component: {fileID: 1793293142}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (23)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -35166,7 +35166,7 @@ GameObject:
   - component: {fileID: 1809480224}
   - component: {fileID: 1809480223}
   - component: {fileID: 1809480222}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (19)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37127,7 +37127,7 @@ GameObject:
   - component: {fileID: 1918962032}
   - component: {fileID: 1918962031}
   - component: {fileID: 1918962030}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (15)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -37820,7 +37820,7 @@ GameObject:
   - component: {fileID: 1963293810}
   - component: {fileID: 1963293809}
   - component: {fileID: 1963293808}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall (16)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -38322,7 +38322,7 @@ GameObject:
   - component: {fileID: 2002064190}
   - component: {fileID: 2002064189}
   - component: {fileID: 2002064188}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Invisible Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
