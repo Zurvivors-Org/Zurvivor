@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerMovement : MonoBehaviour{
     const string xAxis = "Horizontal";
     const string yAxis = "Vertical";
 
     [SerializeField] private Transform orientation;
+    [SerializeField] private TextMeshProUGUI dashText;
 
     [Header("Movement")]
     public float normalMoveSpeed = 1f;
@@ -74,6 +76,12 @@ public class PlayerMovement : MonoBehaviour{
         else {
             rb.drag = 0f;
         }
+
+        if (!readyToDash)
+        {
+            dashText.gameObject.SetActive(false);
+        }
+
     }
 
     public GameObject GetDirectionalTransform()
@@ -143,5 +151,6 @@ public class PlayerMovement : MonoBehaviour{
 
     private void ResetDash() {
         readyToDash = true;
+        dashText.gameObject.SetActive(true);
     }
 }

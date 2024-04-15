@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PlayerWeapon : MonoBehaviour {
     private Rigidbody playerRb;
@@ -8,7 +9,7 @@ public class PlayerWeapon : MonoBehaviour {
     private AudioSource playerAudio;
     [SerializeField] private GameObject weaponHolder;
     [SerializeField] private GameObject startingWeapon;
-
+    [SerializeField] private TextMeshProUGUI bulletText;
     [SerializeField] private CameraMovement cameraMovement;
 
     [Header("Key Binds")]
@@ -35,6 +36,9 @@ public class PlayerWeapon : MonoBehaviour {
     private Vector3 currentPreviousRecoil;
     private bool currentlyReloading = false;
     [SerializeField] private float reloadCooldown = 0f;
+
+    
+
 
     private Ray fireRayCast;
     private bool isPrimaryEquip = true;
@@ -90,7 +94,13 @@ public class PlayerWeapon : MonoBehaviour {
         if (currentlyReloading) {
             reloadCooldown += Time.deltaTime;
         }
-	}
+
+        bulletText.text = currentMagazine + " / " + currentWeaponProperties.magazine;
+        if (currentMagazine == 0)
+        {
+            bulletText.text = "Reloading...";
+        }
+    }
 
     public void ChangeWeapon(GameObject newWeapon) {
         if (!isPrimaryEquip || (primaryWeapon.tag.Equals("Weapon") && !secondaryWeapon.tag.Equals("Weapon"))) {
@@ -199,5 +209,14 @@ public class PlayerWeapon : MonoBehaviour {
     private void ResetMagazine() {
         currentMagazine = currentWeaponProperties.magazine;
         currentlyReloading = false;
+    }
+
+    public float getCurrentMagazine()
+    {
+        return currentMagazine;
+    }
+    public float getTotalMagazine()
+    {
+        return currentWeaponProperties.magazine;
     }
 }
