@@ -13730,6 +13730,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 196956473}
     - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
+      propertyPath: wormProb
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
+      propertyPath: stageIncrement
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 12736341972433400, guid: 08d529097ea635e4a92a36f0ef6b8253, type: 3}
       propertyPath: spawnAreas.Array.size
       value: 8
       objectReference: {fileID: 0}
