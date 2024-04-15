@@ -11,7 +11,7 @@ public class WormSpawnManager : MonoBehaviour
     public List<GameObject> prefabsToChoose = new List<GameObject>();
     [SerializeField] private bool canSpawn = false;
     [SerializeField] private List<GameObject> children = new List<GameObject>();
-    [SerializeField] private float spawnDelay = 5;
+    [SerializeField] private float spawnDelay = 10;
     // Start is called before the first frame update
     void Start()
     {
