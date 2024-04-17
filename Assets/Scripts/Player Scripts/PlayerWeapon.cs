@@ -168,15 +168,18 @@ public class PlayerWeapon : MonoBehaviour {
         fireRayCast = new Ray(transform.position, fireDirection);
         RaycastHit hitData;
         if (Physics.Raycast(fireRayCast, out hitData)) {
-            Debug.DrawLine(transform.position, hitData.point, Color.red);
+            Debug.Log(hitData.collider.gameObject.name);
             EnemyContainer hitContainer;
             if (hitData.collider.transform.parent.CompareTag("Enemy") && hitData.collider.gameObject.transform.parent.gameObject.TryGetComponent<EnemyContainer>(out hitContainer)) {
-                Debug.DrawLine(transform.position, hitData.point, Color.green, 10, false);
+                Debug.DrawLine(transform.position, hitData.point, Color.green);
                 hitContainer.health -= currentWeaponProperties.damage;
                 if (hitContainer.health <= 0) {
                     playerPoints.AddPoints(hitContainer.points);
                     Destroy(hitContainer.gameObject);
                 }
+            }
+            else {
+                Debug.DrawLine(transform.position, hitData.point, Color.red);
             }
         }
         currentRecoil = Mathf.Clamp(currentRecoil + currentWeaponProperties.recoilMod, 0f, 1f);

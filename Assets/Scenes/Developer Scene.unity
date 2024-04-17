@@ -30033,7 +30033,7 @@ PrefabInstance:
     - target: {fileID: 3649614179621997234, guid: 5eb11d0772fea894da57cf419a82b8f7, type: 3}
       propertyPath: startingWeapon
       value: 
-      objectReference: {fileID: 8580327368837348945, guid: d9ac87431b9c9b8459fe9edbaf2e9507, type: 3}
+      objectReference: {fileID: 7611605714999138920, guid: 35b5ea7def6851447a0513d08da2d0af, type: 3}
     - target: {fileID: 3649614179621997235, guid: 5eb11d0772fea894da57cf419a82b8f7, type: 3}
       propertyPath: normalMoveSpeed
       value: 5
