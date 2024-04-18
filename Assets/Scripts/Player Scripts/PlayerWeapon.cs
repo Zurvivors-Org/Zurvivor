@@ -37,8 +37,9 @@ public class PlayerWeapon : MonoBehaviour {
     private bool currentlyReloading = false;
     [SerializeField] private float reloadCooldown = 0f;
 
-    
-
+    [Header("Current Upgrades")]
+    [SerializeField] private float reloadUpgrade = 1f;
+    [SerializeField] private float fireRateUpgrade = 1f;
 
     private Ray fireRayCast;
     private bool isPrimaryEquip = true;
@@ -63,7 +64,7 @@ public class PlayerWeapon : MonoBehaviour {
                 ShootRay();
             }
             readyToFire = false;
-            Invoke(nameof(ResetFire), currentWeaponProperties.fireRate);
+            Invoke(nameof(ResetFire), currentWeaponProperties.fireRate / fireRateUpgrade);
         }
 
         if (currentMagazine == 0 && !currentlyReloading) {
@@ -92,7 +93,7 @@ public class PlayerWeapon : MonoBehaviour {
         }
 
         if (currentlyReloading) {
-            reloadCooldown += Time.deltaTime;
+            reloadCooldown += Time.deltaTime * reloadUpgrade;
         }
 
         bulletText.text = currentMagazine + " / " + currentWeaponProperties.magazine;
@@ -134,6 +135,10 @@ public class PlayerWeapon : MonoBehaviour {
 
     public bool ContainsWeapon(string weaponName) {
         return primaryWeaponProperties.name.Equals(weaponName) || (secondaryWeapon.tag.Equals("Weapon") && secondaryWeaponProperties.name.Equals(weaponName));
+    }
+
+    public void AddReloadUpgrade() {
+        reloadUpgrade += .2f;
     }
 
     private void UpdateCurrentWeapon() {
