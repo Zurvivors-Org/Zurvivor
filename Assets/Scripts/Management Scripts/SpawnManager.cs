@@ -91,89 +91,111 @@ public class SpawnManager : MonoBehaviour
                 tDist += Vector3.Distance(trans.position, playerGO.transform.position);
             }
 
-            // Determine spawn proportions
-            for (int i = 0; i < spawnAreas.Count; i++)
+            int totalPerStage = stageEnemies;
+            int inc = totalPerStage / 4;
+
+            SpawnStageSection(inc, spawnAreas, tDist);
+            totalPerStage -= inc;
+
+            WaitForSecondsThenAction(5, () =>
             {
-                float areaProportion = Vector3.Distance(spawnAreas[i].position, playerGO.transform.position) / tDist;
-                countPerArea[i] = Mathf.RoundToInt(areaProportion * stageEnemies);
-
-                Transform thisArea = spawnAreas[i];
-
-                for (int j = 0; j < countPerArea[i]; j++)
+                SpawnStageSection(inc, spawnAreas, tDist);
+                totalPerStage -= inc;
+                WaitForSecondsThenAction(5, () =>
                 {
-                    float typeDeterminant = Random.Range(0f, 1f);
-                    EnemyType baseType;
-
-                    if (typeDeterminant <= fastProb)
-                    {
-                        baseType = EnemyType.FAST;
-                    }
-                    else if (typeDeterminant <= fastProb + tankProb)
-                    {
-                        baseType = EnemyType.TANK;
-                    }
-                    else
-                    {
-                        baseType = EnemyType.NORMAL;
-                    }
-
-                    float captainDeterminant = Random.Range(0f, 1f);
-                    float wormDeterminant = Random.Range(0f, 1f);
-                    float trojanDeterminant = Random.Range(0f, 1f);
-
-                    List<SpecialType> specialTypes = new List<SpecialType>();
-
-                    if (captainDeterminant <= captainProb) specialTypes.Add(SpecialType.CAPTAIN);
-                    if (wormDeterminant <= wormProb) specialTypes.Add(SpecialType.WORM);
-                    if (trojanDeterminant <= trojanProb) specialTypes.Add(SpecialType.TROJAN);
-
-                    Vector3 spawnPose = new Vector3(thisArea.position.x + EnforceRadius(.1f, 6f), thisArea.position.y, thisArea.position.z + EnforceRadius(.1f, 6f));
-                    Debug.DrawRay(spawnPose, transform.up * 3f, Color.cyan);
-                    while (!thisArea.gameObject.GetComponent<BoxCollider>().bounds.Contains(spawnPose))
-                    {
-                        spawnPose = new Vector3(thisArea.position.x + EnforceRadius(.1f, 6f), thisArea.position.y, thisArea.position.z + EnforceRadius(.1f, 6f));
-                        Debug.DrawRay(spawnPose, transform.up * 3f, Color.cyan);
-                    }
-
-                    GameObject spawnedEnemy;
-
-                    switch (baseType)
-                    {
-                        case EnemyType.FAST:
-                            spawnedEnemy = Instantiate(spawnPrefabs[1], transform);
-                            break;
-                        case EnemyType.TANK:
-                            spawnedEnemy = Instantiate(spawnPrefabs[2], transform);
-                            break;
-                        case EnemyType.NORMAL:
-                        default:
-                            spawnedEnemy = Instantiate(spawnPrefabs[0], transform);
-                            break;
-                    }
-
-                    NavMeshHit closestHit;
-
-                    if (NavMesh.SamplePosition(spawnPose, out closestHit, 500, 1))
-                    {
-                        spawnPose = closestHit.position;
-                        spawnedEnemy.transform.position = spawnPose;
-                        NavMeshAgent agent = spawnedEnemy.AddComponent<NavMeshAgent>();
-                        agent.baseOffset = .85f;
-                    }
-                    else
-                    {
-                        Debug.LogWarning("COULD NOT ADD NAVMESH");
-                    }
-
-                    spawnedEnemy.GetComponent<EnemyProperties>().specialTypes = specialTypes;
-                    spawnedEnemy.GetComponent<EnemyContainer>().SetPlayer(playerGO);
-                    spawnedEnemy.GetComponent<EnemyContainer>().Initialize();
-                }
-            }
+                    SpawnStageSection(inc, spawnAreas, tDist);
+                    totalPerStage -= inc;
+                    WaitForSecondsThenAction(5, () => SpawnStageSection(totalPerStage, spawnAreas, tDist));
+                });
+            });
 
             isNextStageReady = false;
 
             Debug.Log(string.Join(", ", countPerArea));
+        }
+    }
+
+    public void SpawnStageSection(int numEnemies, List<Transform> spawnAreas, float tDist)
+    {
+        int[] countPerArea = new int[spawnAreas.Count];
+
+        for (int i = 0; i < spawnAreas.Count; i++)
+        {
+            float areaProportion = Vector3.Distance(spawnAreas[i].position, playerGO.transform.position) / tDist;
+            countPerArea[i] = Mathf.RoundToInt(areaProportion * numEnemies);
+
+            Transform thisArea = spawnAreas[i];
+
+            for (int j = 0; j < countPerArea[i]; j++)
+            {
+                float typeDeterminant = Random.Range(0f, 1f);
+                EnemyType baseType;
+
+                if (typeDeterminant <= fastProb)
+                {
+                    baseType = EnemyType.FAST;
+                }
+                else if (typeDeterminant <= fastProb + tankProb)
+                {
+                    baseType = EnemyType.TANK;
+                }
+                else
+                {
+                    baseType = EnemyType.NORMAL;
+                }
+
+                float captainDeterminant = Random.Range(0f, 1f);
+                float wormDeterminant = Random.Range(0f, 1f);
+                float trojanDeterminant = Random.Range(0f, 1f);
+
+                List<SpecialType> specialTypes = new List<SpecialType>();
+
+                if (captainDeterminant <= captainProb) specialTypes.Add(SpecialType.CAPTAIN);
+                if (wormDeterminant <= wormProb) specialTypes.Add(SpecialType.WORM);
+                if (trojanDeterminant <= trojanProb) specialTypes.Add(SpecialType.TROJAN);
+
+                Vector3 spawnPose = new Vector3(thisArea.position.x + EnforceRadius(.1f, 6f), thisArea.position.y, thisArea.position.z + EnforceRadius(.1f, 6f));
+                Debug.DrawRay(spawnPose, transform.up * 3f, Color.cyan);
+                while (!thisArea.gameObject.GetComponent<BoxCollider>().bounds.Contains(spawnPose))
+                {
+                    spawnPose = new Vector3(thisArea.position.x + EnforceRadius(.1f, 6f), thisArea.position.y, thisArea.position.z + EnforceRadius(.1f, 6f));
+                    Debug.DrawRay(spawnPose, transform.up * 3f, Color.cyan);
+                }
+
+                GameObject spawnedEnemy;
+
+                switch (baseType)
+                {
+                    case EnemyType.FAST:
+                        spawnedEnemy = Instantiate(spawnPrefabs[1], transform);
+                        break;
+                    case EnemyType.TANK:
+                        spawnedEnemy = Instantiate(spawnPrefabs[2], transform);
+                        break;
+                    case EnemyType.NORMAL:
+                    default:
+                        spawnedEnemy = Instantiate(spawnPrefabs[0], transform);
+                        break;
+                }
+
+                NavMeshHit closestHit;
+
+                if (NavMesh.SamplePosition(spawnPose, out closestHit, 500, 1))
+                {
+                    spawnPose = closestHit.position;
+                    spawnedEnemy.transform.position = spawnPose;
+                    NavMeshAgent agent = spawnedEnemy.AddComponent<NavMeshAgent>();
+                    agent.baseOffset = .95f;
+                }
+                else
+                {
+                    Debug.LogWarning("COULD NOT ADD NAVMESH");
+                }
+
+                spawnedEnemy.GetComponent<EnemyProperties>().specialTypes = specialTypes;
+                spawnedEnemy.GetComponent<EnemyContainer>().SetPlayer(playerGO);
+                spawnedEnemy.GetComponent<EnemyContainer>().Initialize();
+            }
         }
     }
 
