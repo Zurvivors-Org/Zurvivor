@@ -36,6 +36,7 @@ public class PlayerWeapon : MonoBehaviour {
     private Vector3 currentPreviousRecoil;
     private bool currentlyReloading = false;
     [SerializeField] private float reloadCooldown = 0f;
+    private Vector3 offset = new Vector3(0, .2f, 0);
 
     
 
@@ -175,13 +176,14 @@ public class PlayerWeapon : MonoBehaviour {
 
     private void ShootRay() {
         Vector3 fireDirection = CalculateRecoil();
-        fireRayCast = new Ray(transform.position, fireDirection);
+        Vector3 startPos = transform.position + offset;
+        fireRayCast = new Ray(startPos, fireDirection);
         RaycastHit hitData;
         if (Physics.Raycast(fireRayCast, out hitData)) {
             Debug.Log(hitData.collider.gameObject.name);
             EnemyContainer hitContainer;
             if (hitData.collider.transform.parent.CompareTag("Enemy") && hitData.collider.gameObject.transform.parent.gameObject.TryGetComponent<EnemyContainer>(out hitContainer)) {
-                Debug.DrawLine(transform.position, hitData.point, Color.green);
+                Debug.DrawLine(startPos, hitData.point, Color.green,5f);
                 hitContainer.health -= currentWeaponProperties.damage;
                 if (hitContainer.health <= 0) {
                     playerPoints.AddPoints(hitContainer.points);
@@ -189,11 +191,11 @@ public class PlayerWeapon : MonoBehaviour {
                 }
             }
             else {
-                Debug.DrawLine(transform.position, hitData.point, Color.red);
+                Debug.DrawLine(startPos, hitData.point, Color.red,2.5f);
             }
         }
         currentRecoil = Mathf.Clamp(currentRecoil + currentWeaponProperties.recoilMod, 0f, 1f);
-        Debug.DrawRay(transform.position, fireDirection * 50, Color.red, 10f);
+        // Debug.DrawRay(transform.position, fireDirection * 50, Color.red, 10f);
     }
 
     private Vector3 CalculateRecoil() {

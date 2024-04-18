@@ -29,6 +29,8 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField] private float levelSpawnDelay = 1.5f;
 
+    [SerializeField] private float levelEndTimeout = 15f;
+
     private float baseTypeLevelMultiplier = 1.25f;
     private int baseTypeIncrementLevels = 5;
 
@@ -50,7 +52,7 @@ public class SpawnManager : MonoBehaviour
             {
                 currentStage++;
                 stageEnemies += stageIncrement;
-                currentEnemies = stageEnemies;
+                currentEnemies += stageEnemies;
 
                 if (currentStage / 5 >= 1 && currentStage % 5 == 0)
                 {
@@ -96,27 +98,26 @@ public class SpawnManager : MonoBehaviour
 
             SpawnStageSection(inc, spawnAreas, tDist);
             totalPerStage -= inc;
-
-            WaitForSecondsThenAction(5, () =>
+            StartCoroutine(WaitForSecondsThenAction(5, () =>
             {
                 SpawnStageSection(inc, spawnAreas, tDist);
                 totalPerStage -= inc;
-                WaitForSecondsThenAction(5, () =>
+                StartCoroutine(WaitForSecondsThenAction(5, () =>
                 {
                     SpawnStageSection(inc, spawnAreas, tDist);
                     totalPerStage -= inc;
-                    WaitForSecondsThenAction(5, () => SpawnStageSection(totalPerStage, spawnAreas, tDist));
-                });
-            });
-
+                    StartCoroutine(WaitForSecondsThenAction(5, () => SpawnStageSection(totalPerStage, spawnAreas, tDist)));
+                }));
+            }));
             isNextStageReady = false;
 
-            Debug.Log(string.Join(", ", countPerArea));
+            
         }
     }
 
     public void SpawnStageSection(int numEnemies, List<Transform> spawnAreas, float tDist)
     {
+        Debug.LogWarning("SPAWN");
         int[] countPerArea = new int[spawnAreas.Count];
 
         for (int i = 0; i < spawnAreas.Count; i++)
@@ -197,6 +198,8 @@ public class SpawnManager : MonoBehaviour
                 spawnedEnemy.GetComponent<EnemyContainer>().Initialize();
             }
         }
+
+        Debug.Log(string.Join(", ", countPerArea));
     }
 
     public void DecrementEnemyCount()
@@ -206,6 +209,14 @@ public class SpawnManager : MonoBehaviour
         if (currentEnemies == 0)
         {
             currentStageComplete = true;
+        }
+
+        if (currentEnemies == 4)
+        {
+            StartCoroutine(WaitForSecondsThenAction(levelEndTimeout, () =>
+            {
+                currentStageComplete = true;
+            }));
         }
     }
 }
