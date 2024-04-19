@@ -74,6 +74,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3649614179621997233}
   - component: {fileID: 3649614179621997232}
+  - component: {fileID: 730516334725210090}
   - component: {fileID: 3649614179621997235}
   - component: {fileID: 3649614179621997234}
   - component: {fileID: 3649614179621997196}
@@ -119,6 +120,19 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &730516334725210090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3649614179621997238}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db8173b4439e9604e982caef527a109f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealth: 100
 --- !u!114 &3649614179621997235
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,6 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orientation: {fileID: 3649614180497776281}
+  dashText: {fileID: 0}
   normalMoveSpeed: 7
   sprintMoveSpeed: 10
   groundDrag: 5
@@ -147,7 +162,7 @@ MonoBehaviour:
   jumpForce: 8
   readyToJump: 0
   airMultiplier: 0.4
-  dashCooldown: 2
+  dashCooldown: 5
   dashForce: 400
   readyToDash: 0
   dashDirection: {x: 0, y: 0, z: 0}
@@ -166,7 +181,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponHolder: {fileID: 3637490955047474181}
-  startingWeapon: {fileID: 7611605714999138920, guid: 35b5ea7def6851447a0513d08da2d0af, type: 3}
+  startingWeapon: {fileID: 8580327368837348945, guid: d9ac87431b9c9b8459fe9edbaf2e9507, type: 3}
+  bulletText: {fileID: 0}
   cameraMovement: {fileID: 3649614181303134260}
   fireKey: 323
   reloadKey: 114
@@ -474,7 +490,7 @@ MonoBehaviour:
   xRotation: 0
   yRotation: 0
   playerOrientation: {fileID: 3649614180497776281}
-  weaponOrientation: {fileID: 0}
+  weaponOrientation: {fileID: 8425345203075592842}
   cameraSensitivity: 2
 --- !u!1 &3649614181633527705
 GameObject:

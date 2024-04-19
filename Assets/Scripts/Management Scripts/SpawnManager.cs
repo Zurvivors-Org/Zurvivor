@@ -22,6 +22,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float fastProb = 0.2f;
     [SerializeField] private Transform[] spawnAreasRaw;
 
+    [SerializeField] private bool devMode = false;
+
     [Header("Special Attribute Properties")]
     [SerializeField] private float captainProb = .2f;
     [SerializeField] private float wormProb = .2f;
@@ -46,6 +48,15 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (devMode)
+        {
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                GameObject spawnedEnemy = SpawnStageSectionDev(1, new List<Transform>() { spawnAreasRaw[0] }, spawnPrefabs[0]);
+            }
+            return;
+        }
+
         if (currentStageComplete)
         {
             StartCoroutine(WaitForSecondsThenAction(levelSpawnDelay, () =>
@@ -85,28 +96,21 @@ public class SpawnManager : MonoBehaviour
             }
             
             int[] countPerArea = new int[spawnAreas.Count];
-            float tDist = 0;
-
-            // Get Total Dist from Player
-            foreach (Transform trans in spawnAreas)
-            {
-                tDist += Vector3.Distance(trans.position, playerGO.transform.position);
-            }
 
             int totalPerStage = stageEnemies;
             int inc = totalPerStage / 4;
 
-            SpawnStageSection(inc, spawnAreas, tDist);
+            SpawnStageSection(inc, spawnAreas);
             totalPerStage -= inc;
             StartCoroutine(WaitForSecondsThenAction(5, () =>
             {
-                SpawnStageSection(inc, spawnAreas, tDist);
+                SpawnStageSection(inc, spawnAreas);
                 totalPerStage -= inc;
                 StartCoroutine(WaitForSecondsThenAction(5, () =>
                 {
-                    SpawnStageSection(inc, spawnAreas, tDist);
+                    SpawnStageSection(inc, spawnAreas);
                     totalPerStage -= inc;
-                    StartCoroutine(WaitForSecondsThenAction(5, () => SpawnStageSection(totalPerStage, spawnAreas, tDist)));
+                    StartCoroutine(WaitForSecondsThenAction(5, () => SpawnStageSection(totalPerStage, spawnAreas)));
                 }));
             }));
             isNextStageReady = false;
@@ -115,10 +119,97 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    public void SpawnStageSection(int numEnemies, List<Transform> spawnAreas, float tDist)
+    public GameObject SpawnStageSectionDev(List<Transform> spawnAreas, GameObject desiredPrefab)
+    {
+        int[] countPerArea = new int[spawnAreas.Count];
+        float tDist = 0;
+
+        // Get Total Dist from Player
+        foreach (Transform trans in spawnAreas)
+        {
+            tDist += Vector3.Distance(trans.position, playerGO.transform.position);
+        }
+
+        for (int i = 0; i < spawnAreas.Count; i++)
+        {
+            float areaProportion = Vector3.Distance(spawnAreas[i].position, playerGO.transform.position) / tDist;
+            countPerArea[i] = Mathf.RoundToInt(areaProportion * 1);
+
+            Transform thisArea = spawnAreas[i];
+            float typeDeterminant = Random.Range(0f, 1f);
+            EnemyType baseType;
+
+            if (typeDeterminant <= fastProb)
+            {
+                baseType = EnemyType.FAST;
+            }
+            else if (typeDeterminant <= fastProb + tankProb)
+            {
+                baseType = EnemyType.TANK;
+            }
+            else
+            {
+                baseType = EnemyType.NORMAL;
+            }
+
+            float captainDeterminant = Random.Range(0f, 1f);
+            float wormDeterminant = Random.Range(0f, 1f);
+            float trojanDeterminant = Random.Range(0f, 1f);
+
+            List<SpecialType> specialTypes = new List<SpecialType>();
+
+            //if (captainDeterminant <= captainProb) specialTypes.Add(SpecialType.CAPTAIN);
+            //if (wormDeterminant <= wormProb) specialTypes.Add(SpecialType.WORM);
+            //if (trojanDeterminant <= trojanProb) specialTypes.Add(SpecialType.TROJAN);
+
+            Vector3 spawnPose = new Vector3(thisArea.position.x + EnforceRadius(.1f, 6f), thisArea.position.y, thisArea.position.z + EnforceRadius(.1f, 6f));
+            Debug.DrawRay(spawnPose, transform.up * 3f, Color.cyan);
+            while (!thisArea.gameObject.GetComponent<BoxCollider>().bounds.Contains(spawnPose))
+            {
+                spawnPose = new Vector3(thisArea.position.x + EnforceRadius(.1f, 6f), thisArea.position.y, thisArea.position.z + EnforceRadius(.1f, 6f));
+                Debug.DrawRay(spawnPose, transform.up * 3f, Color.cyan);
+            }
+
+            GameObject spawnedEnemy;
+
+            spawnedEnemy = Instantiate(desiredPrefab, transform);
+
+
+            NavMeshHit closestHit;
+
+            if (NavMesh.SamplePosition(spawnPose, out closestHit, 500, 1))
+            {
+                spawnPose = closestHit.position;
+                spawnedEnemy.transform.position = spawnPose;
+                NavMeshAgent agent = spawnedEnemy.AddComponent<NavMeshAgent>();
+                agent.baseOffset = .95f;
+            }
+            else
+            {
+                Debug.LogWarning("COULD NOT ADD NAVMESH");
+            }
+
+            spawnedEnemy.GetComponent<EnemyProperties>().specialTypes = specialTypes;
+            spawnedEnemy.GetComponent<EnemyContainer>().SetPlayer(playerGO);
+            spawnedEnemy.GetComponent<EnemyContainer>().Initialize();
+
+            return spawnedEnemy;
+        }
+
+        return null;
+    }
+
+    public void SpawnStageSection(int numEnemies, List<Transform> spawnAreas)
     {
         Debug.LogWarning("SPAWN");
         int[] countPerArea = new int[spawnAreas.Count];
+        float tDist = 0;
+
+        // Get Total Dist from Player
+        foreach (Transform trans in spawnAreas)
+        {
+            tDist += Vector3.Distance(trans.position, playerGO.transform.position);
+        }
 
         for (int i = 0; i < spawnAreas.Count; i++)
         {

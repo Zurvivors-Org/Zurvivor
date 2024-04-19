@@ -22,7 +22,11 @@ public class EnemyContainer : MonoBehaviour {
     [SerializeField] private float moveSpeed;
     public long points;
 
+    [SerializeField] private float dmgCooldown;
+
     [SerializeField] private bool isCaptainBuffed = false;
+
+    [SerializeField] private bool canDamagePlayer = true;
 
     [SerializeField] private GameObject player;
 
@@ -81,6 +85,14 @@ public class EnemyContainer : MonoBehaviour {
             }
         }
         
+        if (canDamagePlayer && Vector3.Distance(transform.position, player.transform.position) <= 2.0)
+        {
+            canDamagePlayer = false;
+            player.GetComponent<PlayerHealth>().DecrementHealth(damage);
+            WaitForSecondsThenAction(dmgCooldown, () => canDamagePlayer = true);
+        }
+
+        if (health < 0) Destroy(gameObject);
     }
 
     public void SetAgentDestination(Vector3 target)
