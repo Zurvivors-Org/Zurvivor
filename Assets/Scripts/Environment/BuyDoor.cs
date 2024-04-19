@@ -27,8 +27,7 @@ public class BuyDoor : MonoBehaviour{
                 shopText.gameObject.SetActive(false);
                 playerPoints.SubPoints(cost);
 
-                foreach (GameObject area in unlockables)
-                {
+                foreach (GameObject area in unlockables){
                     area.GetComponent<AreaEnabler>().isEnabled = true;
                 }
             }

@@ -40,6 +40,7 @@ public class PlayerWeapon : MonoBehaviour {
     [Header("Current Upgrades")]
     [SerializeField] private float reloadUpgrade = 1f;
     [SerializeField] private float fireRateUpgrade = 1f;
+    [SerializeField] private float bulletUpgrade = 1f;
 
     private Ray fireRayCast;
     private bool isPrimaryEquip = true;
@@ -139,6 +140,10 @@ public class PlayerWeapon : MonoBehaviour {
 
     public void AddReloadUpgrade() {
         reloadUpgrade += .2f;
+    }
+
+    public void AddBulletUpgrade() {
+        bulletUpgrade += .2f;
     }
 
     private void UpdateCurrentWeapon() {

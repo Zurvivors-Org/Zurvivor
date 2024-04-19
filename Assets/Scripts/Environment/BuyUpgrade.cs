@@ -4,12 +4,17 @@ using UnityEngine;
 using TMPro;
 
 public class BuyUpgrade : MonoBehaviour{
+    private enum Upgrade {Reload, Bullet, Health, Speed};
+
     public int cost;
+    [SerializeField] private Upgrade upgrade;
     [SerializeField] private string upgradeName;
     [SerializeField] private TextMeshProUGUI shopText;
     [SerializeField] private KeyCode interactKey;
     private PlayerPoint playerPoints;
     private PlayerWeapon playerWeapon;
+    private bool lockOut = false;
+    private float lockOutTimer = .1f;
 
     [SerializeField] private GameObject[] unlockables;
     private void OnTriggerEnter(Collider other) {
@@ -23,12 +28,21 @@ public class BuyUpgrade : MonoBehaviour{
 
     private void OnTriggerStay(Collider other) {
         if (other.transform.parent.tag.Equals("Player")) {
-            if (Input.GetKeyDown(interactKey) && playerPoints != null && playerPoints.GetPoints() >= cost) {
+            if (Input.GetKeyDown(interactKey) && playerPoints != null && playerPoints.GetPoints() >= cost && !lockOut) {
                 Debug.Log("bought");
-                shopText.gameObject.SetActive(false);
                 playerPoints.SubPoints(cost);
-                playerWeapon.AddReloadUpgrade();
-                cost += cost / 2;
+                if(upgrade == Upgrade.Reload) {
+                    playerWeapon.AddReloadUpgrade();
+                    cost += cost / 2;
+                }
+                else if(upgrade == Upgrade.Bullet) {
+                    playerWeapon.AddBulletUpgrade();
+                    cost += cost + cost / 2;
+                }
+                lockOut = true;
+                Invoke(nameof(ResetLockOutTimer), lockOutTimer);
+
+                shopText.SetText("'F' to buy " + upgradeName + " - " + cost);
             }
         }
     }
@@ -37,5 +51,9 @@ public class BuyUpgrade : MonoBehaviour{
         if (other.transform.parent.tag.Equals("Player")) {
             shopText.gameObject.SetActive(false);
         }
+    }
+
+    private void ResetLockOutTimer() {
+        lockOut = false;
     }
 }
