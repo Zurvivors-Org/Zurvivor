@@ -8,13 +8,13 @@ public class BuyDoor : MonoBehaviour{
     [SerializeField] private TextMeshProUGUI shopText;
     [SerializeField] private KeyCode interactKey;
     private PlayerPoint playerPoints;
-    private PlayerWeapon playerWeapon;
+    private bool lockOut = false;
+    private float lockOutTimer = .1f;
 
     [SerializeField] private GameObject[] unlockables;
     private void OnTriggerEnter(Collider other) {
         if (other.transform.parent.tag.Equals("Player")) {
             playerPoints = other.transform.parent.GetComponent<PlayerPoint>();
-            playerWeapon = other.transform.parent.GetComponent<PlayerWeapon>();
             shopText.SetText("'F' to buy Obstacle - " + cost);
             shopText.gameObject.SetActive(true);
         }
@@ -22,7 +22,7 @@ public class BuyDoor : MonoBehaviour{
 
     private void OnTriggerStay(Collider other) {
         if (other.transform.parent.tag.Equals("Player")) {
-            if (Input.GetKeyDown(interactKey) && playerPoints != null && playerPoints.GetPoints() >= cost) {
+            if (Input.GetKey(interactKey) && playerPoints != null && playerPoints.GetPoints() >= cost) {
                 Destroy(transform.parent.gameObject);
                 shopText.gameObject.SetActive(false);
                 playerPoints.SubPoints(cost);
@@ -30,6 +30,9 @@ public class BuyDoor : MonoBehaviour{
                 foreach (GameObject area in unlockables){
                     area.GetComponent<AreaEnabler>().isEnabled = true;
                 }
+
+                lockOut = true;
+                Invoke(nameof(ResetLockOutTimer), lockOutTimer);
             }
         }
     }
@@ -38,5 +41,9 @@ public class BuyDoor : MonoBehaviour{
         if (other.transform.parent.tag.Equals("Player")) {
             shopText.gameObject.SetActive(false);
         }
+    }
+
+    private void ResetLockOutTimer() {
+        lockOut = false;
     }
 }

@@ -98,8 +98,7 @@ public class PlayerWeapon : MonoBehaviour {
         }
 
         bulletText.text = currentMagazine + " / " + currentWeaponProperties.magazine;
-        if (currentMagazine == 0)
-        {
+        if (currentMagazine == 0){
             bulletText.text = "Reloading...";
         }
     }
@@ -224,12 +223,10 @@ public class PlayerWeapon : MonoBehaviour {
         currentlyReloading = false;
     }
 
-    public float getCurrentMagazine()
-    {
+    public float getCurrentMagazine(){
         return currentMagazine;
     }
-    public float getTotalMagazine()
-    {
+    public float getTotalMagazine(){
         return currentWeaponProperties.magazine;
     }
 }

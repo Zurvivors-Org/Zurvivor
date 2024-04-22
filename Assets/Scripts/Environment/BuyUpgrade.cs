@@ -28,8 +28,7 @@ public class BuyUpgrade : MonoBehaviour{
 
     private void OnTriggerStay(Collider other) {
         if (other.transform.parent.tag.Equals("Player")) {
-            if (Input.GetKeyDown(interactKey) && playerPoints != null && playerPoints.GetPoints() >= cost && !lockOut) {
-                Debug.Log("bought");
+            if (Input.GetKey(interactKey) && playerPoints != null && playerPoints.GetPoints() >= cost && !lockOut) {
                 playerPoints.SubPoints(cost);
                 if(upgrade == Upgrade.Reload) {
                     playerWeapon.AddReloadUpgrade();

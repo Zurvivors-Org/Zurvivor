@@ -10,6 +10,8 @@ public class BuyWeapon : MonoBehaviour{
     [SerializeField] private KeyCode interactKey;
     private PlayerPoint playerPoints;
     private PlayerWeapon playerWeapon;
+    private bool lockOut = false;
+    private float lockOutTimer = .1f;
     private void OnTriggerEnter(Collider other) {
         if (other.transform.parent.tag.Equals("Player")) {
             playerPoints = other.transform.parent.GetComponent<PlayerPoint>();
@@ -21,9 +23,12 @@ public class BuyWeapon : MonoBehaviour{
 
     private void OnTriggerStay(Collider other) {
         if (other.transform.parent.tag.Equals("Player")) {
-            if (Input.GetKeyDown(interactKey) && playerPoints != null && playerPoints.GetPoints() >= cost && !playerWeapon.ContainsWeapon(weapon.GetComponent<WeaponProperties>().name)) {
+            if (Input.GetKey(interactKey) && playerPoints != null && playerPoints.GetPoints() >= cost && !playerWeapon.ContainsWeapon(weapon.GetComponent<WeaponProperties>().name)) {
                 playerPoints.SubPoints(cost);
                 playerWeapon.ChangeWeapon(weapon);
+
+                lockOut = true;
+                Invoke(nameof(ResetLockOutTimer), lockOutTimer);
             }
         }
     }
@@ -32,5 +37,9 @@ public class BuyWeapon : MonoBehaviour{
         if (other.transform.parent.tag.Equals("Player")) {
             shopText.gameObject.SetActive(false);
         }
+    }
+
+    private void ResetLockOutTimer() {
+        lockOut = false;
     }
 }
