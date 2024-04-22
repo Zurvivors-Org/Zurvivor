@@ -52,7 +52,7 @@ public class SpawnManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
-                GameObject spawnedEnemy = SpawnStageSectionDev(1, new List<Transform>() { spawnAreasRaw[0] }, spawnPrefabs[0]);
+                GameObject spawnedEnemy = SpawnStageSectionDev(new List<Transform>() { spawnAreasRaw[0] }, spawnPrefabs[0]);
             }
             return;
         }
@@ -130,7 +130,7 @@ public class SpawnManager : MonoBehaviour
             tDist += Vector3.Distance(trans.position, playerGO.transform.position);
         }
 
-        for (int i = 0; i < spawnAreas.Count; i++)
+        for (int i = 0; ;)
         {
             float areaProportion = Vector3.Distance(spawnAreas[i].position, playerGO.transform.position) / tDist;
             countPerArea[i] = Mathf.RoundToInt(areaProportion * 1);
@@ -195,8 +195,6 @@ public class SpawnManager : MonoBehaviour
 
             return spawnedEnemy;
         }
-
-        return null;
     }
 
     public void SpawnStageSection(int numEnemies, List<Transform> spawnAreas)
