@@ -436,6 +436,18 @@ PrefabInstance:
       propertyPath: shopText
       value: 
       objectReference: {fileID: 199326661}
+    - target: {fileID: 2119221170908902700, guid: 6de879d28013f7e44b7e1fb4a49bdc80, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 4.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2119221170908902700, guid: 6de879d28013f7e44b7e1fb4a49bdc80, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 9.94
+      objectReference: {fileID: 0}
+    - target: {fileID: 2119221170908902700, guid: 6de879d28013f7e44b7e1fb4a49bdc80, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -29.46
+      objectReference: {fileID: 0}
     - target: {fileID: 2119221171029087418, guid: 6de879d28013f7e44b7e1fb4a49bdc80, type: 3}
       propertyPath: m_LocalPosition.z
       value: 55.38
@@ -2198,7 +2210,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 50, y: 50}
+  m_AnchoredPosition: {x: 57, y: 50}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &176898483
