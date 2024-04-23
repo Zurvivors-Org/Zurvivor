@@ -65,4 +65,10 @@ public class EnemyProperties : MonoBehaviour{
         WORM,
         TROJAN
     }
+
+    public enum Modifier
+    {
+        NONE,
+        GRENADIER
+    }
 }

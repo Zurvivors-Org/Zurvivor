@@ -38,6 +38,10 @@ public class EnemyContainer : MonoBehaviour {
     [Header("Trojan Properties")]
     [SerializeField] private GameObject trojanChild = null;
     public Boolean isTrojanChild;
+
+    [Header("Modifiers")]
+    public Modifier mod = Modifier.NONE;
+    [SerializeField] private GameObject bombPrefab;
     
 
     void Start()
@@ -59,14 +63,6 @@ public class EnemyContainer : MonoBehaviour {
 
     private void Update() 
     {
-        if (!TryGetComponent<NavMeshAgent>(out NavMeshAgent agent))
-        {
-            Debug.Log("GAMEOBJECT: " + gameObject.name + " NO NAVMESH");
-            gameObject.AddComponent<NavMeshAgent>();
-            Initialize();
-            return;
-        }
-
         if (!isReady) return;
 
         if (specialTypes.Contains(SpecialType.TROJAN))
@@ -175,6 +171,17 @@ public class EnemyContainer : MonoBehaviour {
         }
 
         if (isTrojanChild) AddBuffsMult(EnemyBuffs.Of(1f, 2.5f, 1f, 0));
+
+        switch (mod)
+        {
+            case Modifier.GRENADIER:
+                GrenadierScript gS = gameObject.AddComponent<GrenadierScript>();
+                gS.SetPlayer(player);
+                gS.SetGrenade(bombPrefab);
+                break;
+            default:
+                break;
+        }
 
         isReady = true;
     }

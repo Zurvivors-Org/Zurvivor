@@ -170,7 +170,9 @@ MonoBehaviour:
   damage: 0
   moveSpeed: 0
   points: 0
+  dmgCooldown: 0
   isCaptainBuffed: 0
+  canDamagePlayer: 1
   player: {fileID: 0}
   specialTypes: 
   wormPrefabs:
@@ -179,6 +181,7 @@ MonoBehaviour:
   - {fileID: 2302713227231205682, guid: df1aae827a591e3439484838cf168a3e, type: 3}
   trojanChild: {fileID: 0}
   isTrojanChild: 0
+  bombPrefab: {fileID: 906060267982182391, guid: 5586d868e6b53ed4f8ccdadb8bd63561, type: 3}
 --- !u!135 &1195174202273548953
 SphereCollider:
   m_ObjectHideFlags: 0

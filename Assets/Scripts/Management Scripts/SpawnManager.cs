@@ -52,7 +52,7 @@ public class SpawnManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
-                GameObject spawnedEnemy = SpawnStageSectionDev(new List<Transform>() { spawnAreasRaw[0] }, spawnPrefabs[0]);
+                GameObject spawnedEnemy = SpawnStageSectionDev(new List<Transform>() { spawnAreasRaw[0] }, spawnPrefabs[0], Modifier.GRENADIER);
             }
             return;
         }
@@ -119,7 +119,7 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    public GameObject SpawnStageSectionDev(List<Transform> spawnAreas, GameObject desiredPrefab)
+    public GameObject SpawnStageSectionDev(List<Transform> spawnAreas, GameObject desiredPrefab, Modifier mod)
     {
         int[] countPerArea = new int[spawnAreas.Count];
         float tDist = 0;
@@ -190,6 +190,7 @@ public class SpawnManager : MonoBehaviour
             }
 
             spawnedEnemy.GetComponent<EnemyProperties>().specialTypes = specialTypes;
+            spawnedEnemy.GetComponent<EnemyContainer>().mod = mod;
             spawnedEnemy.GetComponent<EnemyContainer>().SetPlayer(playerGO);
             spawnedEnemy.GetComponent<EnemyContainer>().Initialize();
 
