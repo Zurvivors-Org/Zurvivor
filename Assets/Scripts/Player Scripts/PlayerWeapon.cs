@@ -32,6 +32,7 @@ public class PlayerWeapon : MonoBehaviour {
     private GameObject currentWeapon;
     private WeaponProperties currentWeaponProperties;
     [SerializeField] private float currentMagazine;
+    private float leftInMagazine;
     private float currentRecoil;
     private Vector3 currentPreviousRecoil;
     private bool currentlyReloading = false;
@@ -55,6 +56,8 @@ public class PlayerWeapon : MonoBehaviour {
         playerAudio = GetComponent<AudioSource>();
 
         ChangeWeapon(startingWeapon);
+
+        leftInMagazine = currentWeaponProperties.magazine;
     }
     private void Update(){
         if ((currentWeaponProperties.automatic && Input.GetKey(fireKey) || (!currentWeaponProperties.automatic && Input.GetKeyDown(fireKey))) && currentMagazine > 0 && readyToFire) {
@@ -94,13 +97,11 @@ public class PlayerWeapon : MonoBehaviour {
 
         if (currentlyReloading) {
             reloadCooldown += Time.deltaTime;
-        }
-
-        bulletText.text = currentMagazine + " / " + currentWeaponProperties.magazine;
-        if (currentMagazine == 0)
-        {
             bulletText.text = "Reloading...";
         }
+
+        bulletText.text = currentMagazine + " / " + leftInMagazine;
+
     }
 
     public void ChangeWeapon(GameObject newWeapon) {
@@ -214,6 +215,11 @@ public class PlayerWeapon : MonoBehaviour {
     private void ResetMagazine() {
         currentMagazine = currentWeaponProperties.magazine;
         currentlyReloading = false;
+    }
+
+    private void updateLeftInMagazine()
+    {
+
     }
 
     public float getCurrentMagazine()
