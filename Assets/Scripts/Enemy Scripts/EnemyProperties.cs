@@ -8,6 +8,7 @@ public class EnemyProperties : MonoBehaviour{
     private float moveSpeed;
     private long points;
     public List<SpecialType> specialTypes = new List<SpecialType>();
+    public Modifier modifier = Modifier.NONE;
 
     public EnemyType type = EnemyType.NORMAL;
     public bool propertiesDeclared = false;
@@ -69,6 +70,7 @@ public class EnemyProperties : MonoBehaviour{
     public enum Modifier
     {
         NONE,
-        GRENADIER
+        GRENADIER,
+        POISON
     }
 }

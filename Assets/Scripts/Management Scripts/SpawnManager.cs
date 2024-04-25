@@ -52,7 +52,7 @@ public class SpawnManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
-                GameObject spawnedEnemy = SpawnStageSectionDev(new List<Transform>() { spawnAreasRaw[0] }, spawnPrefabs[0], Modifier.GRENADIER);
+                GameObject spawnedEnemy = SpawnStageSectionDev(new List<Transform>() { spawnAreasRaw[0] }, spawnPrefabs[0], Modifier.POISON);
             }
             return;
         }
@@ -190,7 +190,7 @@ public class SpawnManager : MonoBehaviour
             }
 
             spawnedEnemy.GetComponent<EnemyProperties>().specialTypes = specialTypes;
-            spawnedEnemy.GetComponent<EnemyContainer>().mod = mod;
+            spawnedEnemy.GetComponent<EnemyProperties>().modifier = mod;
             spawnedEnemy.GetComponent<EnemyContainer>().SetPlayer(playerGO);
             spawnedEnemy.GetComponent<EnemyContainer>().Initialize();
 

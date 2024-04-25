@@ -187,7 +187,7 @@ public class PlayerWeapon : MonoBehaviour {
                 hitContainer.health -= currentWeaponProperties.damage;
                 if (hitContainer.health <= 0) {
                     playerPoints.AddPoints(hitContainer.points);
-                    Destroy(hitContainer.gameObject);
+                    hitContainer.gameObject.GetComponent<EnemyContainer>().DestroyEnemy();
                 }
             }
             else {

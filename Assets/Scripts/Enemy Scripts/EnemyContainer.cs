@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using static EnemyProperties;
 using static BaseUtils;
+using UnityEngine.VFX;
 
 public class EnemyContainer : MonoBehaviour {
     public class SpecialtypeDict : SerializableDictionary<SpecialType, bool> { }
@@ -42,6 +43,7 @@ public class EnemyContainer : MonoBehaviour {
     [Header("Modifiers")]
     public Modifier mod = Modifier.NONE;
     [SerializeField] private GameObject bombPrefab;
+    [SerializeField] private VisualEffect visualEffect;
     
 
     void Start()
@@ -129,6 +131,8 @@ public class EnemyContainer : MonoBehaviour {
 
         agent.speed = moveSpeed;
 
+        mod = enemyProperties.modifier;
+
         foreach (SpecialType sType in enemyProperties.GetSpecialTypes())
         {
             specialTypes.Add(sType);
@@ -179,6 +183,11 @@ public class EnemyContainer : MonoBehaviour {
                 gS.SetPlayer(player);
                 gS.SetGrenade(bombPrefab);
                 break;
+            case Modifier.POISON:
+                PoisonEffectManager pS = gameObject.AddComponent<PoisonEffectManager>();
+                pS.SetPlayer(player);
+                pS.SetVFX(visualEffect);
+                break;
             default:
                 break;
         }
@@ -209,8 +218,10 @@ public class EnemyContainer : MonoBehaviour {
         }
     }
 
-    private void OnDestroy()
+    public void DestroyEnemy()
     {
+        GetComponentInChildren<MeshRenderer>().enabled = false;
+        GetComponentInChildren<CapsuleCollider>().enabled = false;
         if (trojanChild != null)
         {
             Destroy(trojanChild);
@@ -222,6 +233,13 @@ public class EnemyContainer : MonoBehaviour {
         {
             transform.parent.gameObject.GetComponent<SpawnManager>().DecrementEnemyCount();
         }
+
+        GetComponentInChildren<PoisonEffectManager>().Activate();
+    }
+
+    private void OnDestroy()
+    {
+        
     }
 
     public void AddBuffs(EnemyBuffs buff)
