@@ -34,8 +34,6 @@ public class FlickeringLightEffect : MonoBehaviour{
                 objectSource.materials = temp;
             }
             timer = 0f;
-
-            Debug.Log(objectSource.materials[1].name);
         }
     }
 }
