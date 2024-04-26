@@ -28,6 +28,7 @@ public class EnemyContainer : MonoBehaviour {
     [SerializeField] private bool isCaptainBuffed = false;
 
     [SerializeField] private bool canDamagePlayer = true;
+    [SerializeField] private bool enemyDestroyed = false;
 
     [SerializeField] private GameObject player;
 
@@ -44,6 +45,7 @@ public class EnemyContainer : MonoBehaviour {
     public Modifier mod = Modifier.NONE;
     [SerializeField] private GameObject bombPrefab;
     [SerializeField] private VisualEffect visualEffect;
+    [SerializeField] private float poisonEffectLength = 15;
     
 
     void Start()
@@ -90,7 +92,7 @@ public class EnemyContainer : MonoBehaviour {
             WaitForSecondsThenAction(dmgCooldown, () => canDamagePlayer = true);
         }
 
-        if (health < 0) Destroy(gameObject);
+        if (health < 0 && !enemyDestroyed) DestroyEnemy();
     }
 
     public void SetAgentDestination(Vector3 target)
@@ -187,6 +189,7 @@ public class EnemyContainer : MonoBehaviour {
                 PoisonEffectManager pS = gameObject.AddComponent<PoisonEffectManager>();
                 pS.SetPlayer(player);
                 pS.SetVFX(visualEffect);
+                pS.smokeLength = poisonEffectLength;
                 break;
             default:
                 break;
@@ -222,6 +225,7 @@ public class EnemyContainer : MonoBehaviour {
     {
         GetComponentInChildren<MeshRenderer>().enabled = false;
         GetComponentInChildren<CapsuleCollider>().enabled = false;
+        enemyDestroyed = true;
         if (trojanChild != null)
         {
             Destroy(trojanChild);
@@ -234,7 +238,15 @@ public class EnemyContainer : MonoBehaviour {
             transform.parent.gameObject.GetComponent<SpawnManager>().DecrementEnemyCount();
         }
 
-        GetComponentInChildren<PoisonEffectManager>().Activate();
+        if (GetComponentInChildren<PoisonEffectManager>() != null)
+        {
+            GetComponentInChildren<PoisonEffectManager>().Activate();
+            Debug.Log("PEM");
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void OnDestroy()

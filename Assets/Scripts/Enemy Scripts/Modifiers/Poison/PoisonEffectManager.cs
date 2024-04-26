@@ -5,8 +5,9 @@ using UnityEngine.VFX;
 
 public class PoisonEffectManager : MonoBehaviour
 {
-    private VisualEffect smokeEffect;
+    [SerializeField] private VisualEffect smokeEffect;
     private GameObject playerGO;
+    public float smokeLength;
 
     // Start is called before the first frame update
     void Start()
@@ -22,7 +23,9 @@ public class PoisonEffectManager : MonoBehaviour
 
     public void Activate()
     {
-        smokeEffect.Play();
+        smokeEffect.SendEvent("StartSmokeEffect");
+        StartCoroutine(BaseUtils.WaitForSecondsThenAction(smokeLength, () => smokeEffect.SendEvent("StopEffect")));
+
     }
 
     public void SetVFX(VisualEffect vfx)

@@ -65,10 +65,22 @@ VisualEffect:
       - m_Value: 15
         m_Name: MaxLife
         m_Overridden: 1
+      - m_Value: 10
+        m_Name: Min Life
+        m_Overridden: 1
+      - m_Value: 15
+        m_Name: Max Life
+        m_Overridden: 1
     m_Vector2f:
       m_Array: []
     m_Vector3f:
-      m_Array: []
+      m_Array:
+      - m_Value: {x: 15, y: 5, z: 15}
+        m_Name: Effect Size
+        m_Overridden: 1
+      - m_Value: {x: 0, y: 2, z: 0}
+        m_Name: Effect Center
+        m_Overridden: 1
     m_Vector4f:
       m_Array:
       - m_Value: {x: 0, y: 1, z: 0, w: 1}
@@ -334,6 +346,7 @@ MonoBehaviour:
   dmgCooldown: 0
   isCaptainBuffed: 0
   canDamagePlayer: 1
+  enemyDestroyed: 0
   player: {fileID: 0}
   specialTypes: 
   wormPrefabs:
