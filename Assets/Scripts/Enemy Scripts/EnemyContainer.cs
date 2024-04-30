@@ -6,6 +6,7 @@ using UnityEngine.AI;
 using static EnemyProperties;
 using static BaseUtils;
 using UnityEngine.VFX;
+using UnityEngine.Rendering;
 
 public class EnemyContainer : MonoBehaviour {
     public class SpecialtypeDict : SerializableDictionary<SpecialType, bool> { }
@@ -31,6 +32,7 @@ public class EnemyContainer : MonoBehaviour {
     [SerializeField] private bool enemyDestroyed = false;
 
     [SerializeField] private GameObject player;
+    private Volume gVolume;
 
     [SerializeField] private List<SpecialType> specialTypes = new List<SpecialType>();
 
@@ -67,7 +69,7 @@ public class EnemyContainer : MonoBehaviour {
 
     private void Update() 
     {
-        if (!isReady) return;
+        if (!isReady || enemyDestroyed) return;
 
         if (specialTypes.Contains(SpecialType.TROJAN))
         {
@@ -113,6 +115,11 @@ public class EnemyContainer : MonoBehaviour {
     public long GetPoints()
     {
         return points;
+    }
+
+    public void SetVolume(Volume v)
+    {
+        gVolume = v;
     }
 
     public void setCaptainBuffed(bool isBuffed)
@@ -187,8 +194,7 @@ public class EnemyContainer : MonoBehaviour {
                 break;
             case Modifier.POISON:
                 PoisonEffectManager pS = gameObject.AddComponent<PoisonEffectManager>();
-                pS.SetPlayer(player);
-                pS.SetVFX(visualEffect);
+                pS.SetProperties(visualEffect, player, gVolume);
                 pS.smokeLength = poisonEffectLength;
                 break;
             default:
@@ -225,6 +231,7 @@ public class EnemyContainer : MonoBehaviour {
     {
         GetComponentInChildren<MeshRenderer>().enabled = false;
         GetComponentInChildren<CapsuleCollider>().enabled = false;
+        agent.enabled = false;
         enemyDestroyed = true;
         if (trojanChild != null)
         {
@@ -241,7 +248,7 @@ public class EnemyContainer : MonoBehaviour {
         if (GetComponentInChildren<PoisonEffectManager>() != null)
         {
             GetComponentInChildren<PoisonEffectManager>().Activate();
-            Debug.Log("PEM");
+            StartCoroutine(WaitForSecondsThenAction(15, () => Destroy(gameObject)));
         }
         else
         {
