@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.AI;
 using static EnemyProperties;
 using static BaseUtils;
+using UnityEngine.VFX;
+using UnityEngine.Rendering;
 
 public class EnemyContainer : MonoBehaviour {
     public class SpecialtypeDict : SerializableDictionary<SpecialType, bool> { }
@@ -27,8 +29,10 @@ public class EnemyContainer : MonoBehaviour {
     [SerializeField] private bool isCaptainBuffed = false;
 
     [SerializeField] private bool canDamagePlayer = true;
+    [SerializeField] private bool enemyDestroyed = false;
 
     [SerializeField] private GameObject player;
+    private Volume gVolume;
 
     [SerializeField] private List<SpecialType> specialTypes = new List<SpecialType>();
 
@@ -38,6 +42,12 @@ public class EnemyContainer : MonoBehaviour {
     [Header("Trojan Properties")]
     [SerializeField] private GameObject trojanChild = null;
     public Boolean isTrojanChild;
+
+    [Header("Modifiers")]
+    public Modifier mod = Modifier.NONE;
+    [SerializeField] private GameObject bombPrefab;
+    [SerializeField] private VisualEffect visualEffect;
+    [SerializeField] private float poisonEffectLength = 15;
     
 
     void Start()
@@ -59,15 +69,7 @@ public class EnemyContainer : MonoBehaviour {
 
     private void Update() 
     {
-        if (!TryGetComponent<NavMeshAgent>(out NavMeshAgent agent))
-        {
-            Debug.Log("GAMEOBJECT: " + gameObject.name + " NO NAVMESH");
-            gameObject.AddComponent<NavMeshAgent>();
-            Initialize();
-            return;
-        }
-
-        if (!isReady) return;
+        if (!isReady || enemyDestroyed) return;
 
         if (specialTypes.Contains(SpecialType.TROJAN))
         {
@@ -92,7 +94,7 @@ public class EnemyContainer : MonoBehaviour {
             WaitForSecondsThenAction(dmgCooldown, () => canDamagePlayer = true);
         }
 
-        if (health < 0) Destroy(gameObject);
+        if (health < 0 && !enemyDestroyed) DestroyEnemy();
     }
 
     public void SetAgentDestination(Vector3 target)
@@ -115,6 +117,11 @@ public class EnemyContainer : MonoBehaviour {
         return points;
     }
 
+    public void SetVolume(Volume v)
+    {
+        gVolume = v;
+    }
+
     public void setCaptainBuffed(bool isBuffed)
     {
         isCaptainBuffed = isBuffed;
@@ -132,6 +139,8 @@ public class EnemyContainer : MonoBehaviour {
         points = (long)temp[3];
 
         agent.speed = moveSpeed;
+
+        mod = enemyProperties.modifier;
 
         foreach (SpecialType sType in enemyProperties.GetSpecialTypes())
         {
@@ -176,6 +185,22 @@ public class EnemyContainer : MonoBehaviour {
 
         if (isTrojanChild) AddBuffsMult(EnemyBuffs.Of(1f, 2.5f, 1f, 0));
 
+        switch (mod)
+        {
+            case Modifier.GRENADIER:
+                GrenadierScript gS = gameObject.AddComponent<GrenadierScript>();
+                gS.SetPlayer(player);
+                gS.SetGrenade(bombPrefab);
+                break;
+            case Modifier.POISON:
+                PoisonEffectManager pS = gameObject.AddComponent<PoisonEffectManager>();
+                pS.SetProperties(visualEffect, player, gVolume);
+                pS.smokeLength = poisonEffectLength;
+                break;
+            default:
+                break;
+        }
+
         isReady = true;
     }
 
@@ -202,8 +227,12 @@ public class EnemyContainer : MonoBehaviour {
         }
     }
 
-    private void OnDestroy()
+    public void DestroyEnemy()
     {
+        GetComponentInChildren<MeshRenderer>().enabled = false;
+        GetComponentInChildren<CapsuleCollider>().enabled = false;
+        agent.enabled = false;
+        enemyDestroyed = true;
         if (trojanChild != null)
         {
             Destroy(trojanChild);
@@ -215,6 +244,21 @@ public class EnemyContainer : MonoBehaviour {
         {
             transform.parent.gameObject.GetComponent<SpawnManager>().DecrementEnemyCount();
         }
+
+        if (GetComponentInChildren<PoisonEffectManager>() != null)
+        {
+            GetComponentInChildren<PoisonEffectManager>().Activate();
+            StartCoroutine(WaitForSecondsThenAction(15, () => Destroy(gameObject)));
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    private void OnDestroy()
+    {
+        
     }
 
     public void AddBuffs(EnemyBuffs buff)

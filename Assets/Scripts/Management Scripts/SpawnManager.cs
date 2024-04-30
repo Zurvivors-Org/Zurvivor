@@ -5,6 +5,7 @@ using Random = UnityEngine.Random;
 using UnityEngine.AI;
 using static BaseUtils;
 using static EnemyProperties;
+using UnityEngine.Rendering;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -21,6 +22,11 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float tankProb = 0.2f;
     [SerializeField] private float fastProb = 0.2f;
     [SerializeField] private Transform[] spawnAreasRaw;
+    [SerializeField] private Volume globalVolume;
+
+    [SerializeField] private float levelSpawnDelay = 1.5f;
+
+    [SerializeField] private float levelEndTimeout = 15f;
 
     [SerializeField] private bool devMode = false;
 
@@ -29,10 +35,12 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float wormProb = .2f;
     [SerializeField] private float trojanProb = .1f;
 
-    [SerializeField] private float levelSpawnDelay = 1.5f;
+    [Header("Modifier Properties")]
+    [SerializeField] private float grenadeProb = 0.05f;
+    [SerializeField] private float poisonProb = 0.05f;
 
-    [SerializeField] private float levelEndTimeout = 15f;
 
+    [Header("Level Effect Multipliers")]
     private float baseTypeLevelMultiplier = 1.25f;
     private int baseTypeIncrementLevels = 5;
 
@@ -52,7 +60,7 @@ public class SpawnManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
-                GameObject spawnedEnemy = SpawnStageSectionDev(new List<Transform>() { spawnAreasRaw[0] }, spawnPrefabs[0]);
+                GameObject spawnedEnemy = SpawnStageSectionDev(new List<Transform>() { spawnAreasRaw[0] }, spawnPrefabs[0], Modifier.POISON);
             }
             return;
         }
@@ -119,7 +127,7 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
-    public GameObject SpawnStageSectionDev(List<Transform> spawnAreas, GameObject desiredPrefab)
+    public GameObject SpawnStageSectionDev(List<Transform> spawnAreas, GameObject desiredPrefab, Modifier mod)
     {
         int[] countPerArea = new int[spawnAreas.Count];
         float tDist = 0;
@@ -188,10 +196,13 @@ public class SpawnManager : MonoBehaviour
             {
                 Debug.LogWarning("COULD NOT ADD NAVMESH");
             }
-
-            spawnedEnemy.GetComponent<EnemyProperties>().specialTypes = specialTypes;
-            spawnedEnemy.GetComponent<EnemyContainer>().SetPlayer(playerGO);
-            spawnedEnemy.GetComponent<EnemyContainer>().Initialize();
+            EnemyProperties prop = spawnedEnemy.GetComponent<EnemyProperties>();
+            EnemyContainer cont = spawnedEnemy.GetComponent<EnemyContainer>();
+            prop.specialTypes = specialTypes;
+            prop.modifier = mod;
+            cont.SetPlayer(playerGO);
+            cont.SetVolume(globalVolume);
+            cont.Initialize();
 
             return spawnedEnemy;
         }
@@ -268,6 +279,21 @@ public class SpawnManager : MonoBehaviour
                         break;
                 }
 
+                float modifierDeterminant = Random.Range(0f, 1f);
+                Modifier mod;
+
+                if (modifierDeterminant <= grenadeProb)
+                {
+                    mod = Modifier.GRENADIER;
+                } else if (modifierDeterminant <= grenadeProb + poisonProb)
+                {
+                    mod = Modifier.POISON;
+                }
+                else
+                {
+                    mod = Modifier.NONE;
+                }
+
                 NavMeshHit closestHit;
 
                 if (NavMesh.SamplePosition(spawnPose, out closestHit, 500, 1))
@@ -282,9 +308,13 @@ public class SpawnManager : MonoBehaviour
                     Debug.LogWarning("COULD NOT ADD NAVMESH");
                 }
 
-                spawnedEnemy.GetComponent<EnemyProperties>().specialTypes = specialTypes;
-                spawnedEnemy.GetComponent<EnemyContainer>().SetPlayer(playerGO);
-                spawnedEnemy.GetComponent<EnemyContainer>().Initialize();
+                EnemyProperties prop = spawnedEnemy.GetComponent<EnemyProperties>();
+                EnemyContainer cont = spawnedEnemy.GetComponent<EnemyContainer>();
+                prop.specialTypes = specialTypes;
+                prop.modifier = mod;
+                cont.SetPlayer(playerGO);
+                cont.SetVolume(globalVolume);
+                cont.Initialize();
             }
         }
 
