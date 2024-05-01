@@ -32,7 +32,7 @@ public class PlayerWeapon : MonoBehaviour {
     private GameObject currentWeapon;
     private WeaponProperties currentWeaponProperties;
     [SerializeField] private float currentMagazine;
-    private float currentRecoil;
+    [SerializeField] private float currentRecoil;
     private Vector3 currentPreviousRecoil;
     private bool currentlyReloading = false;
     [SerializeField] private float reloadCooldown = 0f;
@@ -151,6 +151,7 @@ public class PlayerWeapon : MonoBehaviour {
         reloadCooldown = 0f;
 
         if (isPrimaryEquip) {
+            //Causes the swap bug
             secondaryMagazine = currentMagazine;
 
             currentWeapon = primaryWeapon;
@@ -161,6 +162,7 @@ public class PlayerWeapon : MonoBehaviour {
             secondaryWeapon.SetActive(false);
         }
         else {
+            //Causes the swap bug
             primaryMagazine = currentMagazine;
 
             currentWeapon = secondaryWeapon;
@@ -191,19 +193,15 @@ public class PlayerWeapon : MonoBehaviour {
         if (Physics.Raycast(fireRayCast, out hitData)) {
             EnemyContainer hitContainer;
             if (hitData.collider.transform.parent.CompareTag("Enemy") && hitData.collider.gameObject.transform.parent.gameObject.TryGetComponent<EnemyContainer>(out hitContainer)) {
-                Debug.DrawLine(startPos, hitData.point, Color.green,5f);
                 hitContainer.health -= currentWeaponProperties.damage;
                 if (hitContainer.health <= 0) {
                     playerPoints.AddPoints(hitContainer.points);
                     Destroy(hitContainer.gameObject);
                 }
             }
-            else {
-                Debug.DrawLine(startPos, hitData.point, Color.red,2.5f);
-            }
         }
         currentRecoil = Mathf.Clamp(currentRecoil + currentWeaponProperties.recoilMod, 0f, 1f);
-        // Debug.DrawRay(transform.position, fireDirection * 50, Color.red, 10f);
+
     }
 
     private Vector3 CalculateRecoil() {
@@ -227,6 +225,7 @@ public class PlayerWeapon : MonoBehaviour {
     public float getCurrentMagazine(){
         return currentMagazine;
     }
+
     public float getTotalMagazine(){
         return currentWeaponProperties.magazine;
     }
