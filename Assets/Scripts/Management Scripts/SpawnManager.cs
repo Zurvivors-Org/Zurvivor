@@ -60,7 +60,7 @@ public class SpawnManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
-                GameObject spawnedEnemy = SpawnStageSectionDev(new List<Transform>() { spawnAreasRaw[0] }, spawnPrefabs[0], Modifier.POISON);
+                SpawnStageSection(1, new List<Transform> { spawnAreasRaw[0].transform });
             }
             return;
         }

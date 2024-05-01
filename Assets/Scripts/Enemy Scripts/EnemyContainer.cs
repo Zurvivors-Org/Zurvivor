@@ -24,7 +24,7 @@ public class EnemyContainer : MonoBehaviour {
     [SerializeField] private float moveSpeed;
     public long points;
 
-    [SerializeField] private float dmgCooldown;
+    [SerializeField] private float dmgCooldown = 5;
 
     [SerializeField] private bool isCaptainBuffed = false;
 
@@ -48,6 +48,9 @@ public class EnemyContainer : MonoBehaviour {
     [SerializeField] private GameObject bombPrefab;
     [SerializeField] private VisualEffect visualEffect;
     [SerializeField] private float poisonEffectLength = 15;
+
+    [SerializeField] private GameObject poisonModel;
+    [SerializeField] private GameObject grenadierModel;
     
 
     void Start()
@@ -69,7 +72,8 @@ public class EnemyContainer : MonoBehaviour {
 
     private void Update() 
     {
-        if (!isReady || enemyDestroyed) return;
+        if (!isReady) return;
+        if (enemyDestroyed) return;
 
         if (specialTypes.Contains(SpecialType.TROJAN))
         {
@@ -90,8 +94,9 @@ public class EnemyContainer : MonoBehaviour {
         if (canDamagePlayer && Vector3.Distance(transform.position, player.transform.position) <= 2.0)
         {
             canDamagePlayer = false;
-            player.GetComponent<PlayerHealth>().DecrementHealth(damage);
-            WaitForSecondsThenAction(dmgCooldown, () => canDamagePlayer = true);
+            Debug.Log("Damaging Le Player");
+            player.transform.parent.gameObject.GetComponent<PlayerHealth>().DecrementHealth(damage);
+            StartCoroutine(WaitForSecondsThenAction(5, () => canDamagePlayer = true));
         }
 
         if (health < 0 && !enemyDestroyed) DestroyEnemy();
@@ -191,11 +196,13 @@ public class EnemyContainer : MonoBehaviour {
                 GrenadierScript gS = gameObject.AddComponent<GrenadierScript>();
                 gS.SetPlayer(player);
                 gS.SetGrenade(bombPrefab);
+                grenadierModel.SetActive(true);
                 break;
             case Modifier.POISON:
                 PoisonEffectManager pS = gameObject.AddComponent<PoisonEffectManager>();
                 pS.SetProperties(visualEffect, player, gVolume);
                 pS.smokeLength = poisonEffectLength;
+                poisonModel.SetActive(true);
                 break;
             default:
                 break;

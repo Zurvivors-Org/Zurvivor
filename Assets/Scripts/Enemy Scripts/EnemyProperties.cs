@@ -71,6 +71,7 @@ public class EnemyProperties : MonoBehaviour{
     {
         NONE,
         GRENADIER,
-        POISON
+        POISON,
+        ELECTRIC
     }
 }
