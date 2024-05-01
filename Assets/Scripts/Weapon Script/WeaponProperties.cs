@@ -6,6 +6,7 @@ public class WeaponProperties : MonoBehaviour{
     [Header("Stats")]
     public AudioClip weaponSFX;
     public float magazine;
+    public float totalBullets;
     public float damage;
     public float fireRate;
     public bool automatic;

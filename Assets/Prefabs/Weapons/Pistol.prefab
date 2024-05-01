@@ -144,6 +144,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponSFX: {fileID: 8300000, guid: ae583988519a1bc418dd4162b2ca2c72, type: 3}
   magazine: 8
+  totalBullets: 24
   damage: 50
   fireRate: 0.1
   automatic: 0

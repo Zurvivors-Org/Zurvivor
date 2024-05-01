@@ -22,11 +22,13 @@ public class PlayerWeapon : MonoBehaviour {
     private GameObject primaryWeapon;
     private WeaponProperties primaryWeaponProperties;
     private float primaryMagazine;
+    private float primaryTotalBullets;
 
     [Header("Secondary Weapon Properties")]
     private GameObject secondaryWeapon;
     private WeaponProperties secondaryWeaponProperties;
     private float secondaryMagazine;
+    private float secondaryTotalBullets;
 
     [Header("Current Weapon")]
     private GameObject currentWeapon;
@@ -47,6 +49,7 @@ public class PlayerWeapon : MonoBehaviour {
 
     private bool readyToFire = true;
 
+
     private void Start() {
         primaryWeapon = weaponHolder.transform.GetChild(0).gameObject;
         secondaryWeapon = weaponHolder.transform.GetChild(1).gameObject;
@@ -57,11 +60,12 @@ public class PlayerWeapon : MonoBehaviour {
 
         ChangeWeapon(startingWeapon);
 
-        leftInMagazine = currentWeaponProperties.magazine;
+        
     }
     private void Update(){
         if ((currentWeaponProperties.automatic && Input.GetKey(fireKey) || (!currentWeaponProperties.automatic && Input.GetKeyDown(fireKey))) && currentMagazine > 0 && readyToFire) {
             currentMagazine--;
+            
             playerAudio.PlayOneShot(currentWeaponProperties.weaponSFX);
             for (int i = 0; i < currentWeaponProperties.spreadCount; i++){
                 ShootRay();
@@ -90,6 +94,7 @@ public class PlayerWeapon : MonoBehaviour {
         }
 
         if(reloadCooldown > currentWeaponProperties.reloadTime) {
+            leftInMagazine -= (currentWeaponProperties.magazine - currentMagazine);
             currentMagazine = currentWeaponProperties.magazine;
             currentlyReloading = false;
             reloadCooldown = 0f;
@@ -114,6 +119,7 @@ public class PlayerWeapon : MonoBehaviour {
             secondaryWeapon = Instantiate(newWeapon, weaponHolder.transform);
             secondaryWeaponProperties = newWeapon.GetComponent<WeaponProperties>();
             secondaryMagazine = secondaryWeaponProperties.magazine;
+            secondaryTotalBullets = secondaryWeaponProperties.totalBullets;
 
             secondaryWeapon.transform.SetAsLastSibling();
         }
@@ -123,6 +129,7 @@ public class PlayerWeapon : MonoBehaviour {
             primaryWeapon = Instantiate(newWeapon, weaponHolder.transform);
             primaryWeaponProperties = newWeapon.GetComponent<WeaponProperties>();
             primaryMagazine = primaryWeaponProperties.magazine;
+            primaryTotalBullets = primaryWeaponProperties.totalBullets;
 
             primaryWeapon.transform.SetAsFirstSibling();
         }
@@ -148,6 +155,7 @@ public class PlayerWeapon : MonoBehaviour {
             currentWeapon = primaryWeapon;
             currentWeaponProperties = primaryWeaponProperties;
             currentMagazine = primaryMagazine;
+            leftInMagazine = primaryTotalBullets;
 
             primaryWeapon.SetActive(true);
             secondaryWeapon.SetActive(false);
@@ -158,6 +166,7 @@ public class PlayerWeapon : MonoBehaviour {
             currentWeapon = secondaryWeapon;
             currentWeaponProperties = secondaryWeaponProperties;
             currentMagazine = secondaryMagazine;
+            leftInMagazine = secondaryTotalBullets;
 
             secondaryWeapon.SetActive(true);
             primaryWeapon.SetActive(false);
