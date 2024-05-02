@@ -16,7 +16,7 @@ public class EnemyContainer : MonoBehaviour {
 
     [SerializeField] private readonly EnemyBuffs captainSelfMod = EnemyBuffs.Of(1.5f, 2, 2, 2);
     [SerializeField] private readonly EnemyBuffs captainOtherMod = EnemyBuffs.Of(1.5f, 1.5f, 2, 2);
-    
+    [SerializeField] Animator animator;
 
     [Header("Enemy Properties")]
     public float health;
@@ -57,7 +57,7 @@ public class EnemyContainer : MonoBehaviour {
     {
         enemyProperties = GetComponent<EnemyProperties>();
         agent = GetComponent<NavMeshAgent>();
-
+        animator = GetComponentInChildren<Animator>();
 
         //while (!enemyProperties.propertiesDeclared) { }sa
     }
@@ -80,21 +80,21 @@ public class EnemyContainer : MonoBehaviour {
             agent.SetDestination(player.transform.position - player.transform.forward * 3f);
             if (trojanChild != null)
             {
-                trojanChild.GetComponent<EnemyContainer>().SetAgentDestination(player.transform.position + player.transform.forward * 3f);
+                trojanChild.GetComponent<EnemyContainer>().SetAgentDestination(player.transform.position + player.transform.forward * 4f);
             }
         }
         else
         {
             if (!isTrojanChild)
             { 
-                agent.SetDestination(player.transform.position + (transform.position - player.transform.position).normalized * 2f); 
+                agent.SetDestination(player.transform.position + (transform.position - player.transform.position).normalized * 3f); 
             }
         }
         
-        if (canDamagePlayer && Vector3.Distance(transform.position, player.transform.position) <= 2.0)
+        if (canDamagePlayer && Vector3.Distance(transform.position, player.transform.position) <= 3.0)
         {
             canDamagePlayer = false;
-            Debug.Log("Damaging Le Player");
+            animator.SetTrigger("Attacking");
             player.transform.parent.gameObject.GetComponent<PlayerHealth>().DecrementHealth(damage);
             StartCoroutine(WaitForSecondsThenAction(5, () => canDamagePlayer = true));
         }
@@ -176,7 +176,7 @@ public class EnemyContainer : MonoBehaviour {
                 newPosition = closestHit.position;
                 trojanChild.transform.position = newPosition;
                 NavMeshAgent agent = trojanChild.AddComponent<NavMeshAgent>();
-                agent.baseOffset = .85f;
+                agent.baseOffset = 0;
             }
             else
             {

@@ -22,8 +22,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Basic Enemy
   m_Shader: {fileID: -6465566751694194690, guid: 63d608ed91d727d44bda8f2321ed20d5, type: 3}
-  m_ValidKeywords:
-  - BOOLEAN_CD1BE224_ON
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -100,15 +99,15 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - BOOLEAN_CD1BE224: 1
-    - Vector1_183F19E7: 0.5
+    - BOOLEAN_CD1BE224: 0
+    - Vector1_183F19E7: 6.53
     - Vector1_194DEE52: 0.404
     - Vector1_1C1EC2A5: 1
     - Vector1_1E7B9965: 2
-    - Vector1_272CFC50: 4.99
+    - Vector1_272CFC50: 8.43
     - Vector1_69FDC0E1: 1
     - Vector1_BAB0E9B1: 4.68
-    - Vector1_BD625488: 0
+    - Vector1_BD625488: 0.24
     - Vector1_E93EED2B: 1
     - _AlphaClip: 1
     - _Blend: 0

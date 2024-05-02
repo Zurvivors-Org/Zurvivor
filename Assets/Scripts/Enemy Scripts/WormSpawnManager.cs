@@ -34,7 +34,7 @@ public class WormSpawnManager : MonoBehaviour
                 newPosition = closestHit.position;
                 childGO.transform.position = newPosition;
                 NavMeshAgent agent = childGO.AddComponent<NavMeshAgent>();
-                agent.baseOffset = .85f;
+                agent.baseOffset = 0;
             }
             else
             {

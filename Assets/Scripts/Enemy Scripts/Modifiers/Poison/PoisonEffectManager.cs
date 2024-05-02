@@ -15,7 +15,7 @@ public class PoisonEffectManager : MonoBehaviour
     private int startID = Shader.PropertyToID("Start");
     private int stopID = Shader.PropertyToID("StopEffect");
 
-    private bool poisonActive = false;
+    [SerializeField] private bool poisonActive = false;
     private bool isUpdated = false;
 
     // Start is called before the first frame update
@@ -72,7 +72,7 @@ public class PoisonEffectManager : MonoBehaviour
     //"gain":{"m_OverrideState":true,"m_Value":{"x":0.7904065847396851,"y":1.0,"z":0.4705379009246826,"w":-0.17652252316474915}}}
     private void OnTriggerEnter(Collider other)
     {
-        if (poisonActive || other.transform.parent.gameObject.CompareTag("Player"))
+        if (poisonActive && other.transform.parent.gameObject.CompareTag("Player"))
         {
             LiftGammaGain blind;
             if (globalVolume.profile.TryGet(out blind))
@@ -84,7 +84,7 @@ public class PoisonEffectManager : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (poisonActive || other.transform.parent.gameObject.CompareTag("Player"))
+        if (poisonActive && other.transform.parent.gameObject.CompareTag("Player"))
         {
             LiftGammaGain blind;
             if (globalVolume.profile.TryGet<LiftGammaGain>(out blind))

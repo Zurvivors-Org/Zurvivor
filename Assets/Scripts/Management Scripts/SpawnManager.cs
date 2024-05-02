@@ -60,7 +60,7 @@ public class SpawnManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
-                SpawnStageSection(1, new List<Transform> { spawnAreasRaw[0].transform });
+                SpawnStageSectionDev(new List<Transform> { spawnAreasRaw[0].transform }, spawnPrefabs[0], Modifier.GRENADIER);
             }
             return;
         }
@@ -190,7 +190,7 @@ public class SpawnManager : MonoBehaviour
                 spawnPose = closestHit.position;
                 spawnedEnemy.transform.position = spawnPose;
                 NavMeshAgent agent = spawnedEnemy.AddComponent<NavMeshAgent>();
-                agent.baseOffset = .95f;
+                agent.baseOffset = 0;
             }
             else
             {
@@ -301,7 +301,7 @@ public class SpawnManager : MonoBehaviour
                     spawnPose = closestHit.position;
                     spawnedEnemy.transform.position = spawnPose;
                     NavMeshAgent agent = spawnedEnemy.AddComponent<NavMeshAgent>();
-                    agent.baseOffset = .95f;
+                    agent.baseOffset = 0;
                 }
                 else
                 {
