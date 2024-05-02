@@ -81,7 +81,6 @@ public class PlayerWeapon : MonoBehaviour {
         UpdateRecoil();
         if (Input.GetKeyDown(reloadKey) && currentMagazine < currentWeaponProperties.magazine && currentMagazine > 0) {
             currentlyReloading = true;
-            currentMagazine = 0;
         }
 
         if (Input.GetKeyDown(primaryKey)) {
@@ -95,17 +94,23 @@ public class PlayerWeapon : MonoBehaviour {
 
         if(reloadCooldown > currentWeaponProperties.reloadTime) {
             leftInMagazine -= (currentWeaponProperties.magazine - currentMagazine);
+            currentMagazine = 0;
             currentMagazine = currentWeaponProperties.magazine;
             currentlyReloading = false;
             reloadCooldown = 0f;
         }
 
         if (currentlyReloading) {
+            Debug.Log("ran");
             reloadCooldown += Time.deltaTime;
             bulletText.text = "Reloading...";
         }
 
-        bulletText.text = currentMagazine + " / " + leftInMagazine;
+        else
+        {
+            bulletText.text = currentMagazine + " / " + leftInMagazine;
+        }
+        
 
     }
 
