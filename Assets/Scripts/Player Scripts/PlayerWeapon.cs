@@ -22,31 +22,33 @@ public class PlayerWeapon : MonoBehaviour {
     private GameObject primaryWeapon;
     private WeaponProperties primaryWeaponProperties;
     private float primaryMagazine;
+    private float primaryTotalBullets;
 
     [Header("Secondary Weapon Properties")]
     private GameObject secondaryWeapon;
     private WeaponProperties secondaryWeaponProperties;
     private float secondaryMagazine;
+    private float secondaryTotalBullets;
 
     [Header("Current Weapon")]
     private GameObject currentWeapon;
     private WeaponProperties currentWeaponProperties;
     [SerializeField] private float currentMagazine;
+    private float leftInMagazine;
     private float currentRecoil;
     private Vector3 currentPreviousRecoil;
     private bool currentlyReloading = false;
     [SerializeField] private float reloadCooldown = 0f;
     private Vector3 offset = new Vector3(0, .2f, 0);
 
-    [Header("Current Upgrades")]
-    [SerializeField] private float reloadUpgrade = 1f;
-    [SerializeField] private float fireRateUpgrade = 1f;
-    [SerializeField] private float bulletUpgrade = 1f;
+    
+
 
     private Ray fireRayCast;
     private bool isPrimaryEquip = true;
 
     private bool readyToFire = true;
+
 
     private void Start() {
         primaryWeapon = weaponHolder.transform.GetChild(0).gameObject;
@@ -57,16 +59,19 @@ public class PlayerWeapon : MonoBehaviour {
         playerAudio = GetComponent<AudioSource>();
 
         ChangeWeapon(startingWeapon);
+
+        
     }
     private void Update(){
         if ((currentWeaponProperties.automatic && Input.GetKey(fireKey) || (!currentWeaponProperties.automatic && Input.GetKeyDown(fireKey))) && currentMagazine > 0 && readyToFire) {
             currentMagazine--;
+            
             playerAudio.PlayOneShot(currentWeaponProperties.weaponSFX);
             for (int i = 0; i < currentWeaponProperties.spreadCount; i++){
                 ShootRay();
             }
             readyToFire = false;
-            Invoke(nameof(ResetFire), currentWeaponProperties.fireRate / fireRateUpgrade);
+            Invoke(nameof(ResetFire), currentWeaponProperties.fireRate);
         }
 
         if (currentMagazine == 0 && !currentlyReloading) {
@@ -76,7 +81,6 @@ public class PlayerWeapon : MonoBehaviour {
         UpdateRecoil();
         if (Input.GetKeyDown(reloadKey) && currentMagazine < currentWeaponProperties.magazine && currentMagazine > 0) {
             currentlyReloading = true;
-            currentMagazine = 0;
         }
 
         if (Input.GetKeyDown(primaryKey)) {
@@ -89,19 +93,25 @@ public class PlayerWeapon : MonoBehaviour {
         }
 
         if(reloadCooldown > currentWeaponProperties.reloadTime) {
+            leftInMagazine -= (currentWeaponProperties.magazine - currentMagazine);
+            currentMagazine = 0;
             currentMagazine = currentWeaponProperties.magazine;
             currentlyReloading = false;
             reloadCooldown = 0f;
         }
 
         if (currentlyReloading) {
-            reloadCooldown += Time.deltaTime * reloadUpgrade;
-        }
-
-        bulletText.text = currentMagazine + " / " + currentWeaponProperties.magazine;
-        if (currentMagazine == 0){
+            Debug.Log("ran");
+            reloadCooldown += Time.deltaTime;
             bulletText.text = "Reloading...";
         }
+
+        else
+        {
+            bulletText.text = currentMagazine + " / " + leftInMagazine;
+        }
+        
+
     }
 
     public void ChangeWeapon(GameObject newWeapon) {
@@ -114,6 +124,7 @@ public class PlayerWeapon : MonoBehaviour {
             secondaryWeapon = Instantiate(newWeapon, weaponHolder.transform);
             secondaryWeaponProperties = newWeapon.GetComponent<WeaponProperties>();
             secondaryMagazine = secondaryWeaponProperties.magazine;
+            secondaryTotalBullets = secondaryWeaponProperties.totalBullets;
 
             secondaryWeapon.transform.SetAsLastSibling();
         }
@@ -123,6 +134,7 @@ public class PlayerWeapon : MonoBehaviour {
             primaryWeapon = Instantiate(newWeapon, weaponHolder.transform);
             primaryWeaponProperties = newWeapon.GetComponent<WeaponProperties>();
             primaryMagazine = primaryWeaponProperties.magazine;
+            primaryTotalBullets = primaryWeaponProperties.totalBullets;
 
             primaryWeapon.transform.SetAsFirstSibling();
         }
@@ -138,14 +150,6 @@ public class PlayerWeapon : MonoBehaviour {
         return primaryWeaponProperties.name.Equals(weaponName) || (secondaryWeapon.tag.Equals("Weapon") && secondaryWeaponProperties.name.Equals(weaponName));
     }
 
-    public void AddReloadUpgrade() {
-        reloadUpgrade += .2f;
-    }
-
-    public void AddBulletUpgrade() {
-        bulletUpgrade += .2f;
-    }
-
     private void UpdateCurrentWeapon() {
         currentlyReloading = false;
         reloadCooldown = 0f;
@@ -156,6 +160,7 @@ public class PlayerWeapon : MonoBehaviour {
             currentWeapon = primaryWeapon;
             currentWeaponProperties = primaryWeaponProperties;
             currentMagazine = primaryMagazine;
+            leftInMagazine = primaryTotalBullets;
 
             primaryWeapon.SetActive(true);
             secondaryWeapon.SetActive(false);
@@ -166,6 +171,7 @@ public class PlayerWeapon : MonoBehaviour {
             currentWeapon = secondaryWeapon;
             currentWeaponProperties = secondaryWeaponProperties;
             currentMagazine = secondaryMagazine;
+            leftInMagazine = secondaryTotalBullets;
 
             secondaryWeapon.SetActive(true);
             primaryWeapon.SetActive(false);
@@ -189,13 +195,14 @@ public class PlayerWeapon : MonoBehaviour {
         fireRayCast = new Ray(startPos, fireDirection);
         RaycastHit hitData;
         if (Physics.Raycast(fireRayCast, out hitData)) {
+            Debug.Log(hitData.collider.gameObject.name);
             EnemyContainer hitContainer;
             if (hitData.collider.transform.parent.CompareTag("Enemy") && hitData.collider.gameObject.transform.parent.gameObject.TryGetComponent<EnemyContainer>(out hitContainer)) {
                 Debug.DrawLine(startPos, hitData.point, Color.green,5f);
                 hitContainer.health -= currentWeaponProperties.damage;
                 if (hitContainer.health <= 0) {
                     playerPoints.AddPoints(hitContainer.points);
-                    hitContainer.gameObject.GetComponent<EnemyContainer>().DestroyEnemy();
+                    Destroy(hitContainer.gameObject);
                 }
             }
             else {
@@ -224,10 +231,17 @@ public class PlayerWeapon : MonoBehaviour {
         currentlyReloading = false;
     }
 
-    public float getCurrentMagazine(){
+    private void updateLeftInMagazine()
+    {
+
+    }
+
+    public float getCurrentMagazine()
+    {
         return currentMagazine;
     }
-    public float getTotalMagazine(){
+    public float getTotalMagazine()
+    {
         return currentWeaponProperties.magazine;
     }
 }
