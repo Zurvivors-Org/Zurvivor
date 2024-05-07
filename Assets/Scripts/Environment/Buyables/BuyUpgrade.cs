@@ -31,11 +31,11 @@ public class BuyUpgrade : MonoBehaviour{
             if (Input.GetKey(interactKey) && playerPoints != null && playerPoints.GetPoints() >= cost && !lockOut) {
                 playerPoints.SubPoints(cost);
                 if(upgrade == Upgrade.Reload) {
-                    playerWeapon.AddReloadUpgrade();
+                    //playerWeapon.AddReloadUpgrade();
                     cost += cost / 2;
                 }
                 else if(upgrade == Upgrade.Bullet) {
-                    playerWeapon.AddBulletUpgrade();
+                    //playerWeapon.AddBulletUpgrade();
                     cost += cost + cost / 2;
                 }
                 lockOut = true;

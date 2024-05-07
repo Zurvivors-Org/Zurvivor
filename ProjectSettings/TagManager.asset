@@ -8,6 +8,7 @@ TagManager:
   - Environment
   - EnemySpawn
   - Weapon
+  - Grenade
   layers:
   - Default
   - TransparentFX

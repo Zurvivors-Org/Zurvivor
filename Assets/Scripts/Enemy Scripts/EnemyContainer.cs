@@ -91,7 +91,7 @@ public class EnemyContainer : MonoBehaviour {
             }
         }
         
-        if (canDamagePlayer && Vector3.Distance(transform.position, player.transform.position) <= 3.0)
+        if (canDamagePlayer && Vector3.Distance(transform.position, player.transform.position) <= 5.0)
         {
             canDamagePlayer = false;
             animator.SetTrigger("Attacking");
@@ -249,6 +249,7 @@ public class EnemyContainer : MonoBehaviour {
 
         if (transform.parent.gameObject.CompareTag("EnemySpawn"))
         {
+            Debug.Log("Dec Enemy Count");
             transform.parent.gameObject.GetComponent<SpawnManager>().DecrementEnemyCount();
         }
 

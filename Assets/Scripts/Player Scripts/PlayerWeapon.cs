@@ -195,14 +195,22 @@ public class PlayerWeapon : MonoBehaviour {
         fireRayCast = new Ray(startPos, fireDirection);
         RaycastHit hitData;
         if (Physics.Raycast(fireRayCast, out hitData)) {
-            Debug.Log(hitData.collider.gameObject.name);
+            // Debug.Log(hitData.collider.gameObject.name);
             EnemyContainer hitContainer;
+            GrenadeManager grenadeMan;
+
+            if (hitData.collider.gameObject.CompareTag("Grenade") && hitData.collider.gameObject.TryGetComponent<GrenadeManager>(out grenadeMan))
+            {
+                grenadeMan.TriggerGrenade();
+                return;
+            }
+
             if (hitData.collider.transform.parent.CompareTag("Enemy") && hitData.collider.gameObject.transform.parent.gameObject.TryGetComponent<EnemyContainer>(out hitContainer)) {
                 Debug.DrawLine(startPos, hitData.point, Color.green,5f);
                 hitContainer.health -= currentWeaponProperties.damage;
                 if (hitContainer.health <= 0) {
                     playerPoints.AddPoints(hitContainer.points);
-                    Destroy(hitContainer.gameObject);
+                    hitContainer.DestroyEnemy();
                 }
             }
             else {

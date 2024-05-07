@@ -25,7 +25,7 @@ public class GrenadierScript : MonoBehaviour
         {
             canThrowGrenade = false;
             StartCoroutine(BaseUtils.WaitForSecondsThenAction(grenadeCooldown, () => canThrowGrenade = true));
-            Vector3 originPose = transform.position + transform.right * 2f;
+            Vector3 originPose = transform.position + transform.right * 1f + transform.up * 1f;
             GameObject grenade = Instantiate(grenadePrefab, originPose, Quaternion.identity);
             grenade.GetComponent<Rigidbody>().velocity = SolveVelocity(originPose);
         }

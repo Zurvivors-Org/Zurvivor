@@ -23,6 +23,11 @@ public class GrenadeManager : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        TriggerGrenade();
+    }
+
+    public void TriggerGrenade()
+    {
         explosionParticles.Play();
         GetComponent<MeshRenderer>().enabled = false;
         GetComponent<SphereCollider>().enabled = false;
@@ -34,7 +39,7 @@ public class GrenadeManager : MonoBehaviour
         foreach (Collider obj in objects)
         {
             if (obj.transform.parent == null) continue;
-            Debug.Log(obj.transform.parent.gameObject.tag);
+            // Debug.Log(obj.transform.parent.gameObject.tag);
             if (obj.transform.parent.gameObject.CompareTag("Player"))
             {
                 GameObject player = obj.transform.parent.gameObject;
@@ -49,6 +54,6 @@ public class GrenadeManager : MonoBehaviour
             }
         }
 
-       StartCoroutine(BaseUtils.WaitForSecondsThenAction(2, () => Destroy(gameObject)));
+        StartCoroutine(BaseUtils.WaitForSecondsThenAction(1, () => Destroy(gameObject)));
     }
 }
