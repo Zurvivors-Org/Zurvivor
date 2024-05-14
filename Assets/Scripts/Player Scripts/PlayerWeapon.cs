@@ -152,7 +152,7 @@ public class PlayerWeapon : MonoBehaviour {
 
         if (isPrimaryEquip) {
             //Causes the swap bug
-            secondaryMagazine = currentMagazine;
+            //secondaryMagazine = currentMagazine;
 
             currentWeapon = primaryWeapon;
             currentWeaponProperties = primaryWeaponProperties;
@@ -163,7 +163,7 @@ public class PlayerWeapon : MonoBehaviour {
         }
         else {
             //Causes the swap bug
-            primaryMagazine = currentMagazine;
+            //primaryMagazine = currentMagazine;
 
             currentWeapon = secondaryWeapon;
             currentWeaponProperties = secondaryWeaponProperties;
