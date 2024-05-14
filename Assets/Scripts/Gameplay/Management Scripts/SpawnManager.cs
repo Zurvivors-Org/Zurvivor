@@ -7,6 +7,7 @@ using static BaseUtils;
 using static EnemyProperties;
 using UnityEngine.Rendering;
 using TMPro;
+using UnityEngine.UI;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -19,6 +20,7 @@ public class SpawnManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI stageText;
     [SerializeField] TextMeshProUGUI enemyText;
+    [SerializeField] private Image enemyBar;
 
     [Header("Spawn Properties")]
     [SerializeField] private GameObject playerGO;
@@ -98,7 +100,8 @@ public class SpawnManager : MonoBehaviour
         if (isNextStageReady)
         {
             stageText.SetText(currentStage.ToString());
-			enemyText.SetText(currentEnemies + " / " + stageEnemies);
+            //enemyText.SetText(currentEnemies + " / " + stageEnemies);
+            enemyBar.fillAmount = currentEnemies / stageEnemies;
 			List<Transform> spawnAreas = new List<Transform>();
 
             foreach (Transform bob in spawnAreasRaw)
@@ -331,9 +334,10 @@ public class SpawnManager : MonoBehaviour
     {
         currentEnemies--;
 
-        enemyText.SetText(currentEnemies + " / " + stageEnemies);
+		//enemyText.SetText(currentEnemies + " / " + stageEnemies);
+		enemyBar.fillAmount = (float) currentEnemies / stageEnemies;
 
-        if (currentEnemies == 0)
+		if (currentEnemies == 0)
         {
             currentStageComplete = true;
         }
