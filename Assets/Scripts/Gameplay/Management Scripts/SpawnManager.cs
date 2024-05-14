@@ -6,6 +6,7 @@ using UnityEngine.AI;
 using static BaseUtils;
 using static EnemyProperties;
 using UnityEngine.Rendering;
+using TMPro;
 
 public class SpawnManager : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private int stageIncrement = 10;
     [SerializeField]private bool currentStageComplete = true;
     [SerializeField] private bool isNextStageReady = false;
+
+    [SerializeField] TextMeshProUGUI stageText;
+    [SerializeField] TextMeshProUGUI enemyText;
 
     [Header("Spawn Properties")]
     [SerializeField] private GameObject playerGO;
@@ -60,7 +64,7 @@ public class SpawnManager : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.L))
             {
-                SpawnStageSectionDev(new List<Transform> { spawnAreasRaw[0].transform }, spawnPrefabs[0], Modifier.GRENADIER);
+                SpawnStageSectionDev(new List<Transform> { spawnAreasRaw[0].transform }, spawnPrefabs[0], Modifier.POISON);
             }
             return;
         }
@@ -93,7 +97,9 @@ public class SpawnManager : MonoBehaviour
 
         if (isNextStageReady)
         {
-            List<Transform> spawnAreas = new List<Transform>();
+            stageText.SetText(currentStage.ToString());
+			enemyText.SetText(currentEnemies + " / " + stageEnemies);
+			List<Transform> spawnAreas = new List<Transform>();
 
             foreach (Transform bob in spawnAreasRaw)
             {
@@ -325,6 +331,8 @@ public class SpawnManager : MonoBehaviour
     {
         currentEnemies--;
 
+        enemyText.SetText(currentEnemies + " / " + stageEnemies);
+
         if (currentEnemies == 0)
         {
             currentStageComplete = true;
@@ -337,5 +345,10 @@ public class SpawnManager : MonoBehaviour
                 currentStageComplete = true;
             }));
         }
+    }
+
+    public int GetStage()
+    {
+        return currentStage;
     }
 }

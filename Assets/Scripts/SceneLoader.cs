@@ -22,7 +22,7 @@ public class SceneLoader : MonoBehaviour
 
     public void LoadGameScene()
     {
-        SceneManager.LoadScene("Developer Scene");
+        SceneManager.LoadScene("DevWithUI");
     }
 
     public void LoadEndScene()
