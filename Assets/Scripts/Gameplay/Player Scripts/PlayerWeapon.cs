@@ -36,6 +36,7 @@ public class PlayerWeapon : MonoBehaviour {
     [SerializeField] private float currentMagazine;
     private float leftInMagazine;
     private float currentRecoil;
+    [SerializeField] private float currentRecoil;
     private Vector3 currentPreviousRecoil;
     private bool currentlyReloading = false;
     [SerializeField] private float reloadCooldown = 0f;
@@ -155,7 +156,8 @@ public class PlayerWeapon : MonoBehaviour {
         reloadCooldown = 0f;
 
         if (isPrimaryEquip) {
-            secondaryMagazine = currentMagazine;
+            //Causes the swap bug
+            //secondaryMagazine = currentMagazine;
 
             currentWeapon = primaryWeapon;
             currentWeaponProperties = primaryWeaponProperties;
@@ -166,7 +168,8 @@ public class PlayerWeapon : MonoBehaviour {
             secondaryWeapon.SetActive(false);
         }
         else {
-            primaryMagazine = currentMagazine;
+            //Causes the swap bug
+            //primaryMagazine = currentMagazine;
 
             currentWeapon = secondaryWeapon;
             currentWeaponProperties = secondaryWeaponProperties;
@@ -206,19 +209,15 @@ public class PlayerWeapon : MonoBehaviour {
             }
 
             if (hitData.collider.transform.parent.CompareTag("Enemy") && hitData.collider.gameObject.transform.parent.gameObject.TryGetComponent<EnemyContainer>(out hitContainer)) {
-                Debug.DrawLine(startPos, hitData.point, Color.green,5f);
                 hitContainer.health -= currentWeaponProperties.damage;
                 if (hitContainer.health <= 0) {
                     playerPoints.AddPoints(hitContainer.points);
                     hitContainer.DestroyEnemy();
                 }
             }
-            else {
-                Debug.DrawLine(startPos, hitData.point, Color.red,2.5f);
-            }
         }
         currentRecoil = Mathf.Clamp(currentRecoil + currentWeaponProperties.recoilMod, 0f, 1f);
-        // Debug.DrawRay(transform.position, fireDirection * 50, Color.red, 10f);
+
     }
 
     private Vector3 CalculateRecoil() {
@@ -248,8 +247,8 @@ public class PlayerWeapon : MonoBehaviour {
     {
         return currentMagazine;
     }
-    public float getTotalMagazine()
-    {
+
+    public float getTotalMagazine(){
         return currentWeaponProperties.magazine;
     }
 }
