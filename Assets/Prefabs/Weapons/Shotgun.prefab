@@ -46,9 +46,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponSFX: {fileID: 8300000, guid: ae583988519a1bc418dd4162b2ca2c72, type: 3}
-  magazine: 2
+  magazine: 6
   damage: 20
-  fireRate: 0.2
+  fireRate: 0.5
   automatic: 1
   reloadTime: 1.5
   spreadCount: 10
