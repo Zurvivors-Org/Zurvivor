@@ -7,26 +7,36 @@ public class SceneLoader : MonoBehaviour
 {
     public void LoadStartScene()
     {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
         SceneManager.LoadScene("TitleScreen");
     }
 
     public void LoadSettingsScene()
     {
-        SceneManager.LoadScene("Settings");
+		Cursor.lockState = CursorLockMode.Confined;
+		Cursor.visible = true;
+		SceneManager.LoadScene("Settings");
     }
 
     public void LoadInstructionsScene()
     {
-        SceneManager.LoadScene("Instructions");
+		Cursor.lockState = CursorLockMode.Confined;
+		Cursor.visible = true;
+		SceneManager.LoadScene("Instructions");
     }
 
     public void LoadGameScene()
     {
-        SceneManager.LoadScene("DevWithUI");
+		Cursor.lockState = CursorLockMode.Locked;
+		Cursor.visible = false;
+		SceneManager.LoadScene("DevWithUI");
     }
 
     public void LoadEndScene()
     {
-        SceneManager.LoadScene("End");
+		Cursor.lockState = CursorLockMode.Confined;
+		Cursor.visible = true;
+		SceneManager.LoadScene("End");
     }
 }

@@ -20,4 +20,12 @@ public class PlayerPoint : MonoBehaviour{
     public long GetPoints() {
         return points;
     }
+
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.K)) 
+        {
+            points += 10000;
+        }
+	}
 }

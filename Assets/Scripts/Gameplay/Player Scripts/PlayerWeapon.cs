@@ -35,7 +35,6 @@ public class PlayerWeapon : MonoBehaviour {
     private WeaponProperties currentWeaponProperties;
     [SerializeField] private float currentMagazine;
     private float leftInMagazine;
-    private float currentRecoil;
     [SerializeField] private float currentRecoil;
     private Vector3 currentPreviousRecoil;
     private bool currentlyReloading = false;
